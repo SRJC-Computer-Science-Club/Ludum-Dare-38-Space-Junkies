@@ -49,7 +49,7 @@ public class PlanetaryPull : MonoBehaviour
 
             shipInFieldRb.AddRelativeForce(new Vector2(Mathf.Abs(fieldPos.x) * xPull, Mathf.Abs(fieldPos.y) * yPull));
         }
-        else if (crashed)
+        else if (crashed && shipInField)
         {
             shipInFieldRb.velocity = new Vector2(0.0f, 0.0f);
         }
