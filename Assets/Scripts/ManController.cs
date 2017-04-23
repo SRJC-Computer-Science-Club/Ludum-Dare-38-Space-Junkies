@@ -8,7 +8,7 @@ public class ManController : MonoBehaviour {
     
 
     void Update () {
-        if(PlayerControls.moveMan == true)
+        if (PlayerControls.moveMan == true)
         {
             this.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -16,6 +16,17 @@ public class ManController : MonoBehaviour {
             move.x = Input.GetAxis("Horizontal");
             move.y = Input.GetAxis("Vertical");
             transform.position += move * speed * Time.deltaTime;
+        }
+    }
+
+    public void OnTriggerStay2D(Collider2D trig)
+    {
+        if (Input.GetKey(KeyCode.E))
+        {
+            Destroy(this.gameObject);
+            PlayerControls.moveMan = false;
+            PlayerControls.playerStop = false;
+            PlayerControls.stopSpawn = false;
         }
     }
 }

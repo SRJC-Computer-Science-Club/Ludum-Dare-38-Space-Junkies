@@ -6,9 +6,9 @@ public class PlayerControls : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject playerActual;
-    private static bool playerStop;
+    public static bool playerStop;
     public static bool moveMan;
-    private static bool stopSpawn;
+    public static bool stopSpawn;
     private float rotationSpeed = 100;
     public float thrustForce;
 
