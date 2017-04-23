@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraControls : MonoBehaviour
 {
-
     public GameObject target;
 
     private Vector3 offset;
@@ -13,13 +12,11 @@ public class CameraControls : MonoBehaviour
     void Start()
     {
         offset = transform.position - target.transform.position;
-
     }
 
     // Update is called once per frame but the last in line compared to void Update()
     void LateUpdate()
     {
         transform.position = target.transform.position + offset;
-
     }
 }

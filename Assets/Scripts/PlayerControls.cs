@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
-    public static bool playerStop;
-    public float rotationSpeed;
+    public GameObject playerPrefab;
+    public GameObject playerActual;
+    private static bool playerStop;
+    public static bool moveMan;
+    private static bool stopSpawn;
+    private float rotationSpeed = 100;
     public float thrustForce;
 
+    
     private void Start()
     {
         playerStop = false;
+        moveMan = false;
+        stopSpawn = false;
     }
     void Update()
     {
-        if(!playerStop)
+        if (!playerStop)
         {
             // Rotate
             transform.Rotate(0, 0, -Input.GetAxis("Horizontal") *
@@ -29,7 +36,25 @@ public class PlayerControls : MonoBehaviour
         {
             Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
             rb.velocity = new Vector2(0.0f, 0.0f);
-            Debug.Log("This works, hurray!");
+            moveMan = true;
+            //Debug.Log("This works, hurray!");
         }
     }
-}
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "basicWorld")
+        {
+            Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
+            rb.velocity = new Vector2(0.0f, 0.0f);
+            this.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+            playerStop = true;
+
+            if(stopSpawn == false)
+            {
+                playerActual = Instantiate(playerPrefab, new Vector3(this.transform.position.x, this.transform.position.y - 0.50f, 0.0f), Quaternion.identity);
+                stopSpawn = true;
+            }
+        }
+    }
+} 
