@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlanetaryPull : MonoBehaviour
 {
-    private const float GRAV_PULL = 0.30f;
+    private const float GRAV_PULL = 0.60f;
     private GameObject shipInField;
     private Rigidbody2D shipInFieldRb;
     private float xPull;
@@ -24,7 +24,7 @@ public class PlanetaryPull : MonoBehaviour
 
 	void Update ()
     {
-		if (shipInField && !crashed)
+        if (shipInField && !crashed)
         {
             Vector2 fieldPos = shipInField.transform.localPosition;
             Debug.Log("This is the local position of ship: " + fieldPos.x + " " + fieldPos.y);
@@ -47,9 +47,9 @@ public class PlanetaryPull : MonoBehaviour
                 yPull = GRAV_PULL;
             }
 
-            shipInFieldRb.AddRelativeForce(new Vector2 (xPull * Mathf.Abs (fieldPos.x), yPull * Mathf.Abs (fieldPos.y)));
+            shipInFieldRb.AddRelativeForce(new Vector2(Mathf.Abs(fieldPos.x) * xPull, Mathf.Abs(fieldPos.y) * yPull));
         }
-        else
+        else if (crashed)
         {
             shipInFieldRb.velocity = new Vector2(0.0f, 0.0f);
         }
