@@ -4,21 +4,54 @@ using UnityEngine;
 
 public class GroundPlayerController : MonoBehaviour
 {
-    private HingeJoint2D worldConnector;
+    public float playerSpeed = 20;
+
+
     private RaycastHit2D castMaster;
+    private BoxCollider2D boxMaster;
+    private GameObject planet;
+    private HingeJoint2D worldConnector;
     private Ray2D rayMaster;
+    private int count;
     //private Rigidbody2D planet;
 
 	void Start ()
     {
+        boxMaster = this.GetComponent<BoxCollider2D>();
         worldConnector = this.gameObject.GetComponent<HingeJoint2D>();
+        count = 0;
     }
 	
 	
 	void Update ()
     {
-        characterMovement();
-        findAnchorPoint();
+        if (PlayerControls.moveMan == true)
+        {
+            planet = PlayerControls.landingSite;
+
+            if (count == 0)
+            {
+                float xPlanet = planet.transform.position.x;
+                float yPlanet = planet.transform.position.y;
+
+                float distance = Mathf.Sqrt(Mathf.Pow(xPlanet - this.transform.position.x, 2) + Mathf.Pow(yPlanet - this.transform.position.y, 2));
+                worldConnector.anchor = new Vector2(0.0f, -(distance));
+                count++;
+            }
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                Destroy(this.gameObject);
+                PlayerControls.moveMan = false;
+                PlayerControls.liftOff = 1;
+                PlayerControls.isLanded = false;
+                PlanetaryPull.crashed = false;
+                //PlayerControls.playerStop = false;
+                //PlayerControls.stopSpawn = false;
+            }
+
+            characterMovement();   
+        }
     }
 
 
@@ -29,68 +62,13 @@ public class GroundPlayerController : MonoBehaviour
 
         if (Input.GetKey (KeyCode.A))
         {
-            rb.AddRelativeForce (new Vector2(-5, 0));
+            rb.AddRelativeForce (new Vector2(-playerSpeed, 0));
             Debug.Log("Right");
         }
         else if (Input.GetKey (KeyCode.D))
         {
-            rb.AddRelativeForce(new Vector2(5, 0));
+            rb.AddRelativeForce(new Vector2(playerSpeed, 0));
             Debug.Log("Left");
-        }
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.AddRelativeForce(new Vector2(0, 10));
-            Debug.Log("Jump");
-
-            findAnchorPoint();
-        }
-    }
-
-
-
-    void findAnchorPoint ()
-    {
-        int counter = 1;
-
-        for (int pow = 1; /*worldConnector.anchor == new Vector2(0.0f, 0.0f)*/ worldConnector.connectedBody == null; pow++)
-        {
-            if (counter < 3)
-            {
-                Debug.Log("Checking Y-axis");
-                rayMaster.direction = new Vector2(0, Mathf.Pow(-5, pow));
-                //Debug.DrawRay(this.transform.position, new Vector2(0, Mathf.Pow(-5, pow)), new Color32 (200, 200, 200, 255), 1000);
-            }
-            else if (counter > 6)
-            {
-                counter = 1;
-            }
-            else
-            {
-                Debug.Log("Checking X-axis");
-                rayMaster.direction = new Vector2(Mathf.Pow(-5, pow), 0);
-               // Debug.DrawRay(this.transform.position, new Vector2(Mathf.Pow(-5, pow), 0), new Color32(200, 200, 200, 255), 1000);
-            }
-            
-
-            castMaster = Physics2D.Raycast(rayMaster.origin, rayMaster.direction);
-            GameObject planet = castMaster.transform.gameObject;
-
-            if (castMaster.transform)
-            {
-                Debug.Log("What did I hit " + castMaster.ToString () + " Cordo - " + planet.transform.position.x 
-                          + " " + planet.transform.position.y);
-                CircleCollider2D radiusFinder = planet.GetComponent <CircleCollider2D> ();
-                float radius = radiusFinder.radius;
-
-
-                worldConnector.anchor = new Vector2(worldConnector.connectedAnchor.x, -(radius));
-                worldConnector.connectedBody = planet.GetComponent<Rigidbody2D>();
-                this.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
-                this.transform.position = new Vector2(0.0f, radius + (this.gameObject.GetComponent <CapsuleCollider2D> ().size.y / 2));
-                worldConnector.anchor = new Vector2(worldConnector.connectedAnchor.x, -(this.transform.position.y));
-                //worldConnector.anchor = this.transform.position;
-            }
         }
     }
 }

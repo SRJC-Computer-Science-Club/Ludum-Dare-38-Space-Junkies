@@ -6,16 +6,25 @@ public class PlayerControls : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject playerActual;
-    private static bool isLanded;
+    public GameObject spawnPoint;
+    public static GameObject landingSite;
+    public static bool isLanded;
+    private bool spawn;
     public static bool moveMan;
     private float rotationSpeed = 100;
-    public float thrustForce;
+    public float thrustForce = 5.0f;
+    public static int liftOff;
 
 
     private void Start()
     {
         isLanded = false;
+        spawn = false;
         moveMan = false;
+        thrustForce = 5.0f;
+        liftOff = 0;
+
+        this.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
     }
     void Update()
     {
@@ -27,8 +36,15 @@ public class PlayerControls : MonoBehaviour
 
             // Thrust
             GetComponent<Rigidbody2D>().
-           AddForce(transform.up * thrustForce *
-               Input.GetAxis("Vertical"));
+           AddForce(Input.GetAxis ("Vertical") * transform.up * thrustForce);
+
+            
+
+            if (liftOff == 1)
+            {
+                this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 5);
+                liftOff = 0;
+            }
         }
         else
         {
@@ -36,6 +52,14 @@ public class PlayerControls : MonoBehaviour
             rb.velocity = new Vector2(0.0f, 0.0f);
             moveMan = true;
             //Debug.Log("This works, hurray!");
+        }
+
+        if (spawn)
+        {
+            playerActual = Instantiate(playerPrefab, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, -2.0f), this.transform.rotation);
+            playerActual.transform.SetParent(this.transform);
+
+            spawn = false;
         }
     }
 
@@ -60,9 +84,9 @@ public class PlayerControls : MonoBehaviour
 
             this.transform.Rotate(new Vector3(0f, 0f, landingAngle + 90));
 
-            playerActual = Instantiate(playerPrefab, new Vector3(this.transform.position.x, this.transform.position.y - 0.50f, 0.0f), Quaternion.identity);
-
+            landingSite = coll.gameObject;
             isLanded = true;
+            spawn = true;
         }
     }
 }

@@ -25,8 +25,8 @@ public class ManController : MonoBehaviour {
         {
             Destroy(this.gameObject);
             PlayerControls.moveMan = false;
-            PlayerControls.playerStop = false;
-            PlayerControls.stopSpawn = false;
+            //PlayerControls.playerStop = false;
+            //PlayerControls.stopSpawn = false;
         }
     }
 }

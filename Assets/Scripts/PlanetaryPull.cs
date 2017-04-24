@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlanetaryPull : MonoBehaviour
 {
-    private const float GRAV_PULL = 0.60f;
+    public bool homePlanet = false;
+
+    private const float GRAV_PULL = 10.0f;
     private GameObject shipInField;
     private Rigidbody2D shipInFieldRb;
     private float xPull;
@@ -12,7 +14,7 @@ public class PlanetaryPull : MonoBehaviour
     private float zPull;
 
 
-    public bool crashed;
+    public static bool crashed;
 
 
     void Start ()
@@ -33,21 +35,29 @@ public class PlanetaryPull : MonoBehaviour
             {
                 xPull = -GRAV_PULL;
             }
-            else
+            else if (shipInField.transform.position.x < 0)
             {
                 xPull = GRAV_PULL;
+            }
+            else if (shipInField.transform.position.x == 0)
+            {
+                xPull = 0.0f;
             }
 
             if (shipInField.transform.position.y > 0)
             {
                 yPull = -GRAV_PULL;
             }
-            else
+            else if (shipInField.transform.position.y < 0)
             {
                 yPull = GRAV_PULL;
             }
+            else if (shipInField.transform.position.y == 0)
+            {
+                yPull = 0.0f;
+            }
 
-            shipInFieldRb.AddRelativeForce(new Vector2(Mathf.Abs(fieldPos.x) * xPull, Mathf.Abs(fieldPos.y) * yPull));
+            shipInFieldRb.AddForce (new Vector2(xPull, yPull));
         }
         else if (crashed && shipInField)
         {
@@ -57,7 +67,7 @@ public class PlanetaryPull : MonoBehaviour
 
 
 
-    void OnTriggerEnter2D (Collider2D col)
+    public void OnTriggerEnter2D (Collider2D col)
     {
         Debug.Log("Something is in my field!");
         shipInField = col.gameObject;
@@ -68,17 +78,25 @@ public class PlanetaryPull : MonoBehaviour
 
 
 
-    void OnTriggerExit2D(Collider2D col)
+    public void OnTriggerExit2D(Collider2D col)
     {
-        Debug.Log("Something left my field");
-        shipInField.transform.parent = null;
-        shipInField = null;
+        if (shipInField != null)
+        {
+            Debug.Log("Something left my field");
+            shipInField.transform.parent = null;
+            shipInField = null;
+        }
     }
 
 
 
-    void OnCollisionEnter2D (Collision2D col)
+    public void OnCollisionEnter2D (Collision2D col)
     {
         crashed = true;
+
+        if (homePlanet)
+        {
+            Application.LoadLevel(2);
+        }
     }
 }
