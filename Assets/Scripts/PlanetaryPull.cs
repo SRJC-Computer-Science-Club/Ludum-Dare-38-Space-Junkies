@@ -9,6 +9,7 @@ public class PlanetaryPull : MonoBehaviour
     private const float GRAV_PULL = 10.0f;
     private GameObject shipInField;
     private Rigidbody2D shipInFieldRb;
+    private float radius;
     private float xPull;
     private float yPull;
     private float zPull;
@@ -31,31 +32,31 @@ public class PlanetaryPull : MonoBehaviour
             Vector2 fieldPos = shipInField.transform.localPosition;
             Debug.Log("This is the local position of ship: " + fieldPos.x + " " + fieldPos.y);
 
-            if (shipInField.transform.position.x > 0)
+            if (shipInField.transform.localPosition.x > 0)
             {
                 xPull = -GRAV_PULL;
             }
-            else if (shipInField.transform.position.x < 0)
+            else if (shipInField.transform.localPosition.x < 0)
             {
                 xPull = GRAV_PULL;
             }
-            else if (shipInField.transform.position.x == 0)
-            {
-                xPull = 0.0f;
-            }
+            //else if (shipinfield.transform.position.x == 0)
+            //{
+            //    xpull = 0.0f;
+            //}
 
-            if (shipInField.transform.position.y > 0)
+            if (shipInField.transform.localPosition.y > 0)
             {
                 yPull = -GRAV_PULL;
             }
-            else if (shipInField.transform.position.y < 0)
+            else if (shipInField.transform.localPosition.y < 0)
             {
                 yPull = GRAV_PULL;
             }
-            else if (shipInField.transform.position.y == 0)
-            {
-                yPull = 0.0f;
-            }
+            //else if (shipInField.transform.position.y == 0)
+            //{
+            //    yPull = 0.0f;
+            //}
 
             shipInFieldRb.AddForce (new Vector2(xPull, yPull));
         }

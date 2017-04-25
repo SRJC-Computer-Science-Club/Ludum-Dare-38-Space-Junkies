@@ -12,7 +12,7 @@ public class PlayerControls : MonoBehaviour
     private bool spawn;
     public static bool moveMan;
     private float rotationSpeed = 100;
-    public float thrustForce = 5.0f;
+    public float thrustForce = 2.0f;
     public static int liftOff;
 
 
@@ -42,7 +42,7 @@ public class PlayerControls : MonoBehaviour
 
             if (liftOff == 1)
             {
-                this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 5);
+                this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 10);
                 liftOff = 0;
             }
         }
