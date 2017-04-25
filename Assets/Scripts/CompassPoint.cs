@@ -39,6 +39,6 @@ public class CompassPoint : MonoBehaviour
         }
 
         this.transform.rotation = Quaternion.AngleAxis (rotation, Vector3.forward);
-        Debug.Log("Compass Rotation: " + rotation + " Distance: " + distance);
+        // Debug.Log("Compass Rotation: " + rotation + " Distance: " + distance);
 	}
 }

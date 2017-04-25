@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class SpinningUI : MonoBehaviour
 {
-    private float turnFun;
+    public int turnRate = 30;
+    public bool right = true;
 
-	// Use this for initialization
-	void Start ()
-    {
-        turnFun = 0;	
-	}
-	
-	// Update is called once per frame
-	void Update ()
+
+
+    // Update is called once per frame
+    void Update()
     {
         Transform imageMover = this.GetComponent<Transform>();
 
-        imageMover.Rotate (new Vector3(0.0f, 0.0f, 10.0f * Time.deltaTime));
-        turnFun += 1.0f;
-	}
+        if (right)
+        {
+            imageMover.Rotate(new Vector3(0.0f, 0.0f, turnRate * Time.deltaTime));
+        }
+        else
+        {
+            imageMover.Rotate(new Vector3(0.0f, 0.0f, -turnRate * Time.deltaTime));
+        }
+    }
 }

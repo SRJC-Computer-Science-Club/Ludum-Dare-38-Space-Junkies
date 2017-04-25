@@ -89,4 +89,17 @@ public class PlayerControls : MonoBehaviour
             spawn = true;
         }
     }
+
+
+
+    public void OnTriggerExit2D(Collider2D col)
+    {
+        Debug.Log("Hey! You are leaving the known world");
+
+        if (col.gameObject.tag == "Galaxy")
+        {
+            Debug.LogError("Die");
+            Application.LoadLevel(3);
+        }
+    }
 }
