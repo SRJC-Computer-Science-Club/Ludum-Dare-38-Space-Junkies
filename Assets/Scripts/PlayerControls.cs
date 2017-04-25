@@ -7,6 +7,7 @@ public class PlayerControls : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject playerActual;
     public GameObject spawnPoint;
+    private float timeStart;
     public static GameObject landingSite;
     public static bool isLanded;
     private bool spawn;
@@ -15,7 +16,7 @@ public class PlayerControls : MonoBehaviour
     public float thrustForce = 2.0f;
     public static int liftOff;
 
-    private float fuel = 90f;
+    public static float fuel = 100f;
     private float maxFuel = 100f;
 
     private void Start()
@@ -25,6 +26,7 @@ public class PlayerControls : MonoBehaviour
         moveMan = false;
         thrustForce = 5.0f;
         liftOff = 0;
+        timeStart = 0;
 
         this.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
 
@@ -58,6 +60,15 @@ public class PlayerControls : MonoBehaviour
                 this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 10);
                 liftOff = 0;
             }
+
+            if (fuel <= 0 && timeStart == 0)
+            {
+                timeStart = Time.time;
+            }
+            else if (Time.time - timeStart >= 10 && fuel <= 0)
+            {
+                Application.LoadLevel(3);
+            }
         }
         else
         {
@@ -73,6 +84,12 @@ public class PlayerControls : MonoBehaviour
             playerActual.transform.SetParent(this.transform);
 
             spawn = false;
+        }
+
+        if (Mathf.Sqrt (Mathf.Pow (0.0f - this.transform.position.x, 2) + Mathf.Pow (0.0f - this.transform.position.y, 2)) >= 80.0f)
+        {
+            Debug.LogError("Die");
+            Application.LoadLevel(3);
         }
     }
 
@@ -101,13 +118,13 @@ public class PlayerControls : MonoBehaviour
             isLanded = true;
             spawn = true;
         }
-        else if (coll.gameObject.tag == "collectable")
-        {
-            Destroy(coll.gameObject);
+        //else if (coll.gameObject.tag == "collectable")
+        //{
+        //    Destroy(coll.gameObject);
 
-            fuel += 10;
+        //    fuel += 10;
 
-        }
+        //}
     }
 
     public Texture2D bgImage;
@@ -115,7 +132,7 @@ public class PlayerControls : MonoBehaviour
 
     private void OnGUI()
     {
-        var healthBarLength = 164f;
+        var healthBarLength = 100f;
         // Create one Group to contain both images
         // Adjust the first 2 coordinates to place it somewhere else on-screen
         GUI.BeginGroup(new Rect(0, 0, healthBarLength, 32));
@@ -134,18 +151,5 @@ public class PlayerControls : MonoBehaviour
         GUI.EndGroup();
 
         GUI.EndGroup();
-    }
-
-
-
-    public void OnTriggerExit2D(Collider2D col)
-    {
-        Debug.Log("Hey! You are leaving the known world");
-
-        if (col.gameObject.tag == "Galaxy")
-        {
-            Debug.LogError("Die");
-            Application.LoadLevel(3);
-        }
     }
 }

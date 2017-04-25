@@ -6,7 +6,12 @@ public class GalaxyBounds : MonoBehaviour
 {
     public void OnTriggerExit2D(Collider2D col)
     {
-        Debug.LogError("Die");
-        Application.LoadLevel(3);
-    }	
+        Debug.Log("Hey! You are leaving the known world");
+
+        if (col.gameObject.tag == "Ship")
+        {
+            Debug.LogError("Die");
+            Application.LoadLevel(3);
+        }
+    }
 }
