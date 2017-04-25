@@ -15,6 +15,8 @@ public class PlayerControls : MonoBehaviour
     public float thrustForce = 2.0f;
     public static int liftOff;
 
+    private float fuel = 90f;
+    private float maxFuel = 100f;
 
     private void Start()
     {
@@ -25,20 +27,31 @@ public class PlayerControls : MonoBehaviour
         liftOff = 0;
 
         this.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
+
     }
     void Update()
     {
         if (isLanded == false)
         {
             // Rotate
-            transform.Rotate(0, 0, -Input.GetAxis("Horizontal") *
-                rotationSpeed * Time.deltaTime);
+            if (fuel > 0)
+                transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
 
             // Thrust
-            GetComponent<Rigidbody2D>().
-           AddForce(Input.GetAxis ("Vertical") * transform.up * thrustForce);
+            if (fuel > 0)
+                GetComponent<Rigidbody2D>().AddForce(Input.GetAxis ("Vertical") * transform.up * thrustForce);
 
-            
+            //Fuel
+            var travelConsumption = 0.125f;
+
+            if (Input.GetKey(KeyCode.W))
+                fuel -= travelConsumption;
+            if (Input.GetKey(KeyCode.S))
+                fuel -= travelConsumption;
+            if (Input.GetKey(KeyCode.A))
+                fuel -= travelConsumption;
+            if (Input.GetKey(KeyCode.D))
+                fuel -= travelConsumption;
 
             if (liftOff == 1)
             {
@@ -88,5 +101,38 @@ public class PlayerControls : MonoBehaviour
             isLanded = true;
             spawn = true;
         }
+        else if (coll.gameObject.tag == "collectable")
+        {
+            Destroy(coll.gameObject);
+
+            fuel += 10;
+
+        }
+    }
+
+    public Texture2D bgImage;
+    public Texture2D fgImage;
+
+    private void OnGUI()
+    {
+        var healthBarLength = 164f;
+        // Create one Group to contain both images
+        // Adjust the first 2 coordinates to place it somewhere else on-screen
+        GUI.BeginGroup(new Rect(0, 0, healthBarLength, 32));
+
+        // Draw the background image
+        GUI.Box(new Rect(0, 0, healthBarLength, 32), bgImage);
+
+        // Create a second Group which will be clipped
+        // We want to clip the image and not scale it, which is why we need the second Group
+        GUI.BeginGroup(new Rect(0, 0, fuel / maxFuel * healthBarLength, 32));
+
+        // Draw the foreground image
+        GUI.Box(new Rect(0, 0, healthBarLength, 32), fgImage);
+
+        // End both Groups
+        GUI.EndGroup();
+
+        GUI.EndGroup();
     }
 }
