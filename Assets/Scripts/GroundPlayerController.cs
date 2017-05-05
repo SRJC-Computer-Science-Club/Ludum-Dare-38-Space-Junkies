@@ -35,7 +35,14 @@ public class GroundPlayerController : MonoBehaviour
                 float yPlanet = planet.transform.position.y;
 
                 float distance = Mathf.Sqrt(Mathf.Pow(xPlanet - this.transform.position.x, 2) + Mathf.Pow(yPlanet - this.transform.position.y, 2));
-                worldConnector.anchor = new Vector2(0.0f, -(distance));
+
+                float angle = Mathf.Atan(this.transform.localPosition.y / this.transform.localPosition.x);
+                float xCorr = Mathf.Abs (distance * Mathf.Cos(angle));
+                float yCorr = Mathf.Abs (distance * Mathf.Sin(angle));
+
+                this.transform.Rotate(0.0f, 0.0f, 0.0f);
+                worldConnector.anchor = new Vector2(0.0f, -(yCorr));
+                // original = new Vector2 (0.0f, -(distance));
                 count++;
             }
 
@@ -46,6 +53,7 @@ public class GroundPlayerController : MonoBehaviour
                 PlayerControls.liftOff = 1;
                 PlayerControls.isLanded = false;
                 PlanetaryPull.crashed = false;
+                count = 0;
                 //PlayerControls.playerStop = false;
                 //PlayerControls.stopSpawn = false;
             }
