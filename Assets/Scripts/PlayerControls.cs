@@ -108,7 +108,7 @@ public class PlayerControls : MonoBehaviour
     {
         Debug.Log("This Object is a " + coll.tag);
 
-        if (isLanded == false && coll.gameObject.tag == "basicWorld")
+        if (isLanded == false && coll.gameObject.tag == "planet")
         {
             Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
             rb.velocity = new Vector2(0.0f, 0.0f);
