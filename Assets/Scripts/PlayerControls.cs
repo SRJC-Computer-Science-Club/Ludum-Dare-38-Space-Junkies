@@ -90,7 +90,6 @@ public class PlayerControls : MonoBehaviour
                 Quaternion newRotation = new Quaternion(0.0f, 0.0f, angle * 180 / Mathf.PI, 0.0f);
 
                 playerActual = Instantiate(playerPrefab, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, -2.0f), this.transform.rotation);
-                playerActual.transform.SetParent(this.transform);
                 moveMan = true;
             }
         }

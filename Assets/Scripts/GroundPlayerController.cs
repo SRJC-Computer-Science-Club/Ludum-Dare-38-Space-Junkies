@@ -66,31 +66,38 @@ public class GroundPlayerController : MonoBehaviour
     {
         Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
 
-        if (Input.GetKeyDown(KeyCode.W) && canJet && timeToJetPack - Time.time < 0.50f)
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown (KeyCode.UpArrow)) && canJet && timeToJetPack - Time.time < 0.50f)
         {
             grounded = false;
+            canJet = false;
             rb.drag = 0;
         }
-        else if (timeToJetPack - Time.time > 0.50f)
+
+        if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow))
         {
-            canJet = false;
+            //transform.Translate (Vector2.right * playerSpeed * Time.deltaTime);
+            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.right * 10);
+        }
+        else if (Input.GetKey (KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            //transform.Translate (-Vector2.right * playerSpeed * Time.deltaTime);
+            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.left * 10);
         }
 
-        if (Input.GetKey (KeyCode.D))
-        {
-            transform.Translate (Vector2.right * playerSpeed * Time.deltaTime);
-        }
-        else if (Input.GetKey (KeyCode.A))
-        {
-             transform.Translate (-Vector2.right * playerSpeed * Time.deltaTime);
-        }
-
-        if (Input.GetKeyDown (KeyCode.W) && !canJet)
+        /*
+        if ((Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.UpArrow)) && !canJet)
         {
             this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 200);
             timeToJetPack = Time.time;
             canJet = true;
         }
+        */
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        {
+            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 80);
+        }
+
+
     }
 
 
