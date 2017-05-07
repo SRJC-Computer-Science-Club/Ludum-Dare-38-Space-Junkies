@@ -10,7 +10,7 @@ public class PlayerControls : MonoBehaviour
     public static GameObject landingSite;
     public static bool isLanded;
     public static bool moveMan;
-    public float thrustForce = 2.0f;
+    public float thrustForce;
     public static int liftOff;
     public static float fuel = 100f;
     public float xSpawn;
@@ -27,7 +27,6 @@ public class PlayerControls : MonoBehaviour
     {
         isLanded = false;
         moveMan = false;
-        thrustForce = 5.0f;
         liftOff = 0;
         timeStart = 0;
         timeToSpawn = 0;
@@ -50,7 +49,7 @@ public class PlayerControls : MonoBehaviour
                 GetComponent<Rigidbody2D>().AddForce(Input.GetAxis ("Vertical") * transform.up * thrustForce);
 
             //Fuel
-            var travelConsumption = 0.125f;
+            var travelConsumption = 0;
 
             if (Input.GetKey(KeyCode.W))
                 fuel -= travelConsumption;
@@ -63,7 +62,7 @@ public class PlayerControls : MonoBehaviour
 
             if (liftOff == 1)
             {
-                this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 10);
+                this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 25);
                 liftOff = 0;
             }
 
@@ -85,7 +84,7 @@ public class PlayerControls : MonoBehaviour
             float timeFromLanding = Time.time;
             //Debug.Log("Time of Landing: " + timeToSpawn + " Time from Landing " + timeFromLanding);
 
-            if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 2.0f && !moveMan)
+            if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !moveMan)
             {
                 float angle = Mathf.Atan(ySpawn / xSpawn);
                 Quaternion newRotation = new Quaternion(0.0f, 0.0f, angle * 180 / Mathf.PI, 0.0f);
@@ -102,6 +101,8 @@ public class PlayerControls : MonoBehaviour
             Debug.LogError("Die");
             Application.LoadLevel(3);
         }
+
+        //Debug.Log("Ship velocity " + this.GetComponent<Rigidbody2D>().velocity);
     }
 
     void OnTriggerEnter2D(Collider2D coll)

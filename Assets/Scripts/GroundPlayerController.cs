@@ -4,21 +4,28 @@ using UnityEngine;
 
 public class GroundPlayerController : MonoBehaviour
 {
-    public float playerSpeed = 20;
+    public float playerSpeed = 20f;
+    public float thrustForce = 20f;
+    public float rotationSpeed = 100f;
+    public static bool grounded;
 
 
     private RaycastHit2D castMaster;
     private BoxCollider2D boxMaster;
     private GameObject planet;
-    private HingeJoint2D worldConnector;
+    private Rigidbody2D rb;
     private Ray2D rayMaster;
     private int count;
+    private float timeToJetPack;
+    private bool canJet;
     //private Rigidbody2D planet;
 
 	void Start ()
     {
         boxMaster = this.GetComponent<BoxCollider2D>();
-        worldConnector = this.gameObject.GetComponent<HingeJoint2D>();
+        rb = this.GetComponent<Rigidbody2D>();
+        canJet = false;
+        grounded = true;
         count = 0;
     }
 	
@@ -42,25 +49,66 @@ public class GroundPlayerController : MonoBehaviour
                 //PlayerControls.stopSpawn = false;
             }
 
-            characterMovement();   
+            if (grounded)
+            {
+                characterMovementGrounded();
+            }
+            else
+            {
+                characterMovementSpaced();
+            }   
         }
     }
 
 
 
-    void characterMovement ()
+    void characterMovementGrounded ()
     {
         Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
 
-        if (Input.GetKey (KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.W) && canJet && timeToJetPack - Time.time < 0.50f)
         {
-            rb.AddRelativeForce (new Vector2(-playerSpeed, 0));
-            Debug.Log("Right");
+            grounded = false;
+            rb.drag = 0;
         }
-        else if (Input.GetKey (KeyCode.D))
+        else if (timeToJetPack - Time.time > 0.50f)
         {
-            rb.AddRelativeForce(new Vector2(playerSpeed, 0));
-            Debug.Log("Left");
+            canJet = false;
+        }
+
+        if (Input.GetKey (KeyCode.D))
+        {
+            transform.Translate (Vector2.right * playerSpeed * Time.deltaTime);
+        }
+        else if (Input.GetKey (KeyCode.A))
+        {
+             transform.Translate (-Vector2.right * playerSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetKeyDown (KeyCode.W) && !canJet)
+        {
+            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 200);
+            timeToJetPack = Time.time;
+            canJet = true;
+        }
+    }
+
+
+
+    private void characterMovementSpaced ()
+    {
+        this.transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+        this.GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+    }
+
+
+
+    public void OnCollisionEnter2D (Collision2D col)
+    {
+        if (col.gameObject.tag == "planet" && !grounded)
+        {
+            rb.drag = 5;
+            grounded = true;
         }
     }
 }

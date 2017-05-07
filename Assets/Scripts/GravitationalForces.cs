@@ -7,13 +7,15 @@ public class GravitationalForces : MonoBehaviour
     private float mass;
     private Rigidbody2D thisRB;
 
-    public const float MAX_DISTANCE = 10;
+    public float gravConstant;
+    public const float MAX_DISTANCE = 80;
     public float planetMass;
 
     private GameObject[] planetsInGalaxy;
     private List<GameObject> planetsInRange;
     private Vector2 totalForce;
     private GameObject strongestPlanet;
+    private float strongestPlanetDistance;
     private float lastMag;
 
 
@@ -42,8 +44,7 @@ public class GravitationalForces : MonoBehaviour
 
     public void Update ()
     {
-        if (!PlayerControls.isLanded)
-        {
+        
             foreach (GameObject planets in planetsInGalaxy)
             {
                 float distance = Vector2.Distance(planets.transform.position, this.gameObject.transform.position);
@@ -53,14 +54,16 @@ public class GravitationalForces : MonoBehaviour
                     planetsInRange.Add(planets);
                     float radius = planets.GetComponent<CircleCollider2D>().radius + 1;
 
-                    if (distance <= radius)
+                    if (distance <= radius + 2.0f)
                     {
-                       
+                        strongestPlanet = planets;
+                        strongestPlanetDistance = radius + 2.0f;
                     }
                 }
                 else if (distance > MAX_DISTANCE && planetsInRange.Contains (planets))
                 {
                     planetsInRange.Remove(planets);
+                    Debug.Log("I have left the field");
                 }
             }
             
@@ -68,7 +71,7 @@ public class GravitationalForces : MonoBehaviour
             foreach (GameObject planets in planetsInRange)
             {
                 Vector2 force = planets.transform.position - this.transform.position;
-                float magnitude = Mathf.Abs(mass - planetMass / Mathf.Pow(force.magnitude, 2));
+                float magnitude = gravConstant * mass - planetMass / Mathf.Pow(force.magnitude, 2);
 
                 force.Normalize();
                 force *= magnitude;
@@ -77,15 +80,20 @@ public class GravitationalForces : MonoBehaviour
                 {
                     totalForce = force;
                 }
-                else
+                else if (planetsInRange.Count > 1)
                 {
                     totalForce += force;
                 }
             }
 
+            if (planetsInRange.Count < 1)
+            {
+                totalForce = Vector2.zero;
+            }
+
             thisRB.AddForce(totalForce);
 
-            if (strongestPlanet)
+            if (strongestPlanet && Vector2.Distance (strongestPlanet.transform.position, this.transform.position) < strongestPlanetDistance)
             {
                 this.transform.SetParent(strongestPlanet.transform);
 
@@ -93,9 +101,9 @@ public class GravitationalForces : MonoBehaviour
                 float angle = Mathf.Atan2(localPositions.y, localPositions.x) * Mathf.Rad2Deg;
                 this.transform.SetParent(null);
 
-                Debug.Log("x: " + localPositions.x + " y: " + localPositions.x + " angle: " + (angle - 90));
+                //Debug.Log("x: " + localPositions.x + " y: " + localPositions.x + " angle: " + (angle - 90));
                 this.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
             }
         }
-    }
+ 
 }

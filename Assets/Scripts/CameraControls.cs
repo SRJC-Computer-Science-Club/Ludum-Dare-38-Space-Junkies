@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     public GameObject target;
+    public GameObject dudeTarget;
 
     private Vector3 offset;
 
@@ -17,6 +18,18 @@ public class CameraControls : MonoBehaviour
     // Update is called once per frame but the last in line compared to void Update()
     void LateUpdate()
     {
-        transform.position = target.transform.position + offset;
+        if (!PlayerControls.moveMan)
+        {
+            transform.position = target.transform.position + offset;
+        }
+        else
+        {
+            if (dudeTarget)
+            {
+                dudeTarget = GameObject.FindGameObjectWithTag("Player");
+            }
+
+            transform.position = new Vector3 (dudeTarget.transform.position.x, dudeTarget.transform.position.y, -10.0f);
+        }
     }
 }
