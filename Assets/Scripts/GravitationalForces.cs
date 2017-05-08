@@ -8,7 +8,7 @@ public class GravitationalForces : MonoBehaviour
     private Rigidbody2D thisRB;
 
     public float gravConstant;
-    public const float MAX_DISTANCE = 80;
+    public const float MAX_DISTANCE = 20;
     public float planetMass;
 
     private GameObject[] planetsInGalaxy;

@@ -24,10 +24,7 @@ public class CameraControls : MonoBehaviour
         }
         else
         {
-            if (dudeTarget)
-            {
-                dudeTarget = GameObject.FindGameObjectWithTag("Player");
-            }
+            dudeTarget = GameObject.FindGameObjectWithTag("Player");
 
             transform.position = new Vector3 (dudeTarget.transform.position.x, dudeTarget.transform.position.y, -10.0f);
         }
