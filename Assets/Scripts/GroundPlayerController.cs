@@ -65,58 +65,51 @@ public class GroundPlayerController : MonoBehaviour
     void characterMovementGrounded ()
     {
         Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
-
-        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown (KeyCode.UpArrow)) && canJet && timeToJetPack - Time.time < 0.50f)
-        {
-            grounded = false;
-            canJet = false;
-            rb.drag = 0;
-        }
+        rb.drag = 5;
 
         if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow))
         {
-            //transform.Translate (Vector2.right * playerSpeed * Time.deltaTime);
-            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.right * 10);
+            transform.Translate (Vector2.right * playerSpeed * Time.deltaTime);
+            //this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.right * 10);
         }
         else if (Input.GetKey (KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            //transform.Translate (-Vector2.right * playerSpeed * Time.deltaTime);
-            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.left * 10);
+            transform.Translate (-Vector2.right * playerSpeed * Time.deltaTime);
+            //this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.left * 10);
         }
-
-        /*
-        if ((Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.UpArrow)) && !canJet)
+        
+        if ((Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) && grounded)
         {
-            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 200);
-            timeToJetPack = Time.time;
-            canJet = true;
+            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 170);
         }
-        */
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+
+        if (GravitationalForces.totalForceReferance.magnitude < 10.0f)
         {
-            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 80);
+            grounded = false;
         }
-
-
     }
 
 
 
     private void characterMovementSpaced ()
     {
+        Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
+        rb.drag = 0.2f;
+
         this.transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
         this.GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+
+        //if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
+        //{
+        //    this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 200);
+        //}
     }
 
 
 
     public void OnCollisionEnter2D (Collision2D col)
     {
-        if (col.gameObject.tag == "planet" && !grounded)
-        {
-            rb.drag = 5;
-            grounded = true;
-        }
+        grounded = true;
     }
 }
 

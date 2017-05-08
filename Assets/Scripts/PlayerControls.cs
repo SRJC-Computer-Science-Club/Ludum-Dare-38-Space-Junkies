@@ -62,7 +62,7 @@ public class PlayerControls : MonoBehaviour
 
             if (liftOff == 1)
             {
-                this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 25);
+                this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 75);
                 liftOff = 0;
             }
 
