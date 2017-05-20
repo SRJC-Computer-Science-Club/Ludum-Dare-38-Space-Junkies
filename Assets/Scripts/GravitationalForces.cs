@@ -60,7 +60,7 @@ public class GravitationalForces : MonoBehaviour
 
                 Vector2 force = planet.transform.position - this.transform.position;
                 float d = force.magnitude * 1;
-                float magnitude = 200.0f / (d * d);
+                float magnitude = gravConstant * (planetMass * thisRB.mass / (d * d));
                 //float magnitude = 200.0f / (d * d);
 
                 force.Normalize();
