@@ -6,7 +6,7 @@ public class GroundPlayerController : MonoBehaviour
 {
     public float playerSpeed = 20f;
     public float thrustForce = 20f;
-    public float rotationSpeed = 100f;
+    public float rotationSpeed = 125f;
     public static bool grounded;
 
 
@@ -18,6 +18,7 @@ public class GroundPlayerController : MonoBehaviour
     private int count;
     private float timeToJetPack;
     private bool canJet;
+    private bool spaced;
     //private Rigidbody2D planet;
 
 	void Start ()
@@ -26,6 +27,7 @@ public class GroundPlayerController : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
         canJet = false;
         grounded = true;
+        spaced = false;
         count = 0;
     }
 	
@@ -49,7 +51,7 @@ public class GroundPlayerController : MonoBehaviour
                 //PlayerControls.stopSpawn = false;
             }
 
-            if (grounded)
+            if (!spaced)
             {
                 characterMovementGrounded();
             }
@@ -65,7 +67,6 @@ public class GroundPlayerController : MonoBehaviour
     void characterMovementGrounded ()
     {
         Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
-        rb.drag = 5;
 
         if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow))
         {
@@ -78,14 +79,25 @@ public class GroundPlayerController : MonoBehaviour
             //this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.left * 10);
         }
         
-        if ((Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) && grounded)
+        if ((Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) && !spaced)
         {
-            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 170);
+            grounded = false;
+            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 130);
         }
 
         if (GravitationalForces.totalForceReferance.magnitude < 10.0f)
         {
-            grounded = false;
+            rb.velocity = new Vector2(rb.velocity.x / 3, rb.velocity.y / 3);
+            spaced = true;
+        }
+
+        if (grounded)
+        {
+            rb.drag = 50;
+        }
+        else
+        {
+            rb.drag = 0;
         }
     }
 
@@ -94,9 +106,14 @@ public class GroundPlayerController : MonoBehaviour
     private void characterMovementSpaced ()
     {
         Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
-        rb.drag = 0.2f;
+
+        if (GravitationalForces.totalForceReferance.magnitude > 10.0f)
+        {
+            spaced = false;
+        }
 
         this.transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+        
         this.GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
 
         //if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
