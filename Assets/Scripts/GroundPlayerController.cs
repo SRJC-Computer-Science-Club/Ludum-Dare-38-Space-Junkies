@@ -58,7 +58,9 @@ public class GroundPlayerController : MonoBehaviour
             else
             {
                 characterMovementSpaced();
-            }   
+            }
+
+            Debug.Log("Magnitude: " + GravitationalForces.totalForceReferance.magnitude);
         }
     }
 
