@@ -15,6 +15,8 @@ public class PlayerControls : MonoBehaviour
     public static float fuel = 100f;
     public float xSpawn;
     public float ySpawn;
+    public float forceX;
+    public float forceY;
 
 
     private float maxFuel = 100f;
@@ -42,11 +44,17 @@ public class PlayerControls : MonoBehaviour
         {
             // Rotate
             if (fuel > 0)
+            {
                 transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+            }
 
             // Thrust
             if (fuel > 0)
-                GetComponent<Rigidbody2D>().AddForce(Input.GetAxis ("Vertical") * transform.up * thrustForce);
+            {
+                GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+                forceX = GetComponent<Rigidbody2D>().velocity.x;
+                forceY = GetComponent<Rigidbody2D>().velocity.y;
+            }
 
             //Fuel
             var travelConsumption = 0;
