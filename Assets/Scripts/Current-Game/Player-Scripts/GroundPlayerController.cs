@@ -87,7 +87,7 @@ public class GroundPlayerController : MonoBehaviour
             this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 130);
         }
 
-        if (GravitationalForces.totalForceReferance.magnitude < 10.0f)
+        if (GravitationalForces.totalForceReferance.magnitude < 4.0f)
         {
             rb.velocity = new Vector2(rb.velocity.x / 3, rb.velocity.y / 3);
             spaced = true;
@@ -95,11 +95,11 @@ public class GroundPlayerController : MonoBehaviour
 
         if (grounded)
         {
-            rb.drag = 50;
+            rb.drag = 1;
         }
         else
         {
-            rb.drag = 0;
+            rb.drag = 1;
         }
     }
 
@@ -109,7 +109,7 @@ public class GroundPlayerController : MonoBehaviour
     {
         Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
 
-        if (GravitationalForces.totalForceReferance.magnitude > 10.0f)
+        if (GravitationalForces.totalForceReferance.magnitude > 4.0f)
         {
             spaced = false;
         }
