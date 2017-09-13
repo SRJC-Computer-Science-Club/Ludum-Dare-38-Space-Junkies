@@ -5,10 +5,24 @@ using UnityEngine;
 public class PlanetInfo : MonoBehaviour
 {
     public float mass;
+    public int atmosphere;
 
 
-    public float getMass ()
+    void Start ()
+    {
+        mass = (this.transform.lossyScale.x * 25);
+        atmosphere = (int)(20 / this.transform.lossyScale.x);
+    }
+
+
+    public float getMass()
     {
         return mass;
+    }
+
+
+    public float getAtmosphere ()
+    {
+        return atmosphere;
     }
 }
