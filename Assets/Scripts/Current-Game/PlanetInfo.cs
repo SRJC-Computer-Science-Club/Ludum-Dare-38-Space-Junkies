@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class PlanetInfo : MonoBehaviour
 {
-    private float gravitationalPull;
-    
-
-    public float getGravity ()
-    {
-        return gravitationalPull;
-    }
+    public float mass;
 
 
     public float getMass ()
     {
-        return GetComponent<Rigidbody2D>().mass;
+        return mass;
     }
 }
