@@ -84,13 +84,13 @@ public class GroundPlayerController : MonoBehaviour
         if ((Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) && !spaced)
         {
             grounded = false;
-            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 130);
+            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 100);
         }
 
         if (GravitationalForces.totalForceReferance.magnitude < 10.0f)
         {
-            rb.velocity = new Vector2(rb.velocity.x / 3, rb.velocity.y / 3);
-            spaced = true;
+            //rb.velocity = new Vector2(rb.velocity.x / 3, rb.velocity.y / 3);
+            //spaced = true;
         }
 
         if (grounded)
