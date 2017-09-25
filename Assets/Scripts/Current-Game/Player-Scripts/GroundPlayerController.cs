@@ -16,9 +16,9 @@ public class GroundPlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Ray2D rayMaster;
     private int count;
-    private float timeToJetPack;
     private bool canJet;
     private bool spaced;
+    private Quaternion setRotation;
     //private Rigidbody2D planet;
 
 	void Start ()
@@ -84,23 +84,23 @@ public class GroundPlayerController : MonoBehaviour
         if ((Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) && !spaced)
         {
             grounded = false;
-            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 130);
+
+            float liftOffSpeed = 130;//GravitationalForces.totalForceReferance.magnitude + (GravitationalForces.totalForceReferance.magnitude / 2);
+
+            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * liftOffSpeed);
         }
 
-        if (GravitationalForces.totalForceReferance.magnitude < 10.0f)
+        if (GravitationalForces.totalForceReferance.magnitude < 4.0f)
         {
-            rb.velocity = new Vector2(rb.velocity.x / 3, rb.velocity.y / 3);
+            //rb.velocity = new Vector2(rb.velocity.x / 3, rb.velocity.y / 3);
             spaced = true;
+            rb.velocity = new Vector3(0, 0, 0);
+            //transform.rotation = setRotation;
+            //Debug.Log("setRotation: " + setRotation + "\nRotation: " + transform.rotation);
+
         }
 
-        if (grounded)
-        {
-            rb.drag = 50;
-        }
-        else
-        {
-            rb.drag = 0;
-        }
+        setRotation = transform.rotation;
     }
 
 
@@ -109,25 +109,34 @@ public class GroundPlayerController : MonoBehaviour
     {
         Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
 
-        if (GravitationalForces.totalForceReferance.magnitude > 10.0f)
+        if (GravitationalForces.totalForceReferance.magnitude > 4.0f)
         {
             spaced = false;
         }
 
-        this.transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
-        
-        this.GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        {
+            this.transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            this.GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+        }
 
         //if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
         //{
         //    this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 200);
         //}
+        //Debug.Log("Rotation: " + transform.rotation);
+
     }
 
 
 
     public void OnCollisionEnter2D (Collision2D col)
     {
+        rb.velocity = new Vector3 (0, 0, 0);
         grounded = true;
     }
 }

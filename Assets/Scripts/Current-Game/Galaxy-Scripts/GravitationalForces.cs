@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class GravitationalForces : MonoBehaviour
 {
-    private float mass;
-    private Rigidbody2D thisRB;
-
     public float gravConstant;
     public const float MAX_DISTANCE = 20;
     public static Vector2 totalForceReferance;
     public static float angleReferance;
-    public float planetMass;
 
     private GameObject[] planetsInGalaxy;
     private string thisTag;
     private List<GameObject> planetsInRange;
     private float strongestPlanetDistance;
     private float lastMag;
+    private float mass;
+    private float massPlanet;
+    private Rigidbody2D thisRB;
 
     // private GameObject strongestPlanet;
 
@@ -57,10 +56,11 @@ public class GravitationalForces : MonoBehaviour
         {
             foreach (GameObject planet in GameObject.FindGameObjectsWithTag("planet"))
             {
-
+                PlanetInfo planetInfo = planet.GetComponent<PlanetInfo>();
                 Vector2 force = planet.transform.position - this.transform.position;
                 float d = force.magnitude * 1;
-                float magnitude = gravConstant * (planetMass * thisRB.mass / (d * d));
+                float magnitude = gravConstant * (planetInfo.getMass() * thisRB.mass / (d * d));
+
                 //float magnitude = 200.0f / (d * d);
 
                 force.Normalize();

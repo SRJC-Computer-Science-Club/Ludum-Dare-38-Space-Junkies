@@ -15,6 +15,8 @@ public class PlayerControls : MonoBehaviour
     public static float fuel = 100f;
     public float xSpawn;
     public float ySpawn;
+    public float forceX;
+    public float forceY;
 
 
     private float maxFuel = 100f;
@@ -22,6 +24,8 @@ public class PlayerControls : MonoBehaviour
     private float timeStart;
     private const float halfPlayer = 0.84f;
     private float timeToSpawn;
+    private Rigidbody2D rigidbody2D;
+    private float lastDirection;
 
     private void Start()
     {
@@ -33,20 +37,81 @@ public class PlayerControls : MonoBehaviour
         xSpawn = 0;
         ySpawn = 0;
 
-        this.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
+        rigidbody2D = this.GetComponent<Rigidbody2D>();
+        rigidbody2D.velocity = new Vector2(0.0f, 0.0f);
 
     }
     void Update()
     {
         if (isLanded == false)
         {
+            forceX = rigidbody2D.velocity.x;
+            forceY = rigidbody2D.velocity.y;
+
+            Debug.Log ("Force X = " + forceX + "\nForce Y = " + forceY);
+
             // Rotate
             if (fuel > 0)
+            {
                 transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+            }
 
             // Thrust
             if (fuel > 0)
-                GetComponent<Rigidbody2D>().AddForce(Input.GetAxis ("Vertical") * transform.up * thrustForce);
+            {
+                if (Input.GetKey(KeyCode.W))
+                {
+                    GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+                }
+                else if (Input.GetKey(KeyCode.S))
+                {
+                    GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+                }
+                //else
+                //{
+                //    if (forceX > 0)
+                //    {
+                //        forceX -= 1.0f * Time.deltaTime;
+
+                //        if (forceX < 0.25f)
+                //        {
+                //            forceX = 0;
+                //        }
+                //    }
+                //    else if (forceX < 0)
+                //    {
+                //        forceX += 1.0f * Time.deltaTime;
+
+                //        if (forceX > -1.0f)
+                //        {
+                //            forceX = 0;
+                //        }
+                //    }
+
+                //    if (forceY > 0)
+                //    {
+                //        forceY -= 1.0f * Time.deltaTime;
+
+                //        if (forceY < 1.0f)
+                //        {
+                //            forceY = 0;
+                //        }
+                //    }
+                //    else if (forceY < 0)
+                //    {
+                //        forceY += 1.0f * Time.deltaTime;
+
+                //        if (forceY > -1.0f)
+                //        {
+                //            forceY = 0;
+                //        }
+                //    }
+
+                //    rigidbody2D.velocity = new Vector2(forceX, forceY);
+                //}
+
+                //GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+            }
 
             //Fuel
             var travelConsumption = 0;
