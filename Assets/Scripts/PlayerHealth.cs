@@ -24,6 +24,7 @@ public class PlayerHealth : MonoBehaviour
 
         // Set the initial health of the player.
         currentHealth = startingHealth;
+        TakeDamage(50);
     }
 
 
