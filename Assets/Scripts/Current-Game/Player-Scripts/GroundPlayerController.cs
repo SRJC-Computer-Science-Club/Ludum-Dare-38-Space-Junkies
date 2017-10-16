@@ -8,6 +8,10 @@ public class GroundPlayerController : MonoBehaviour
     public float thrustForce = 20f;
     public float rotationSpeed = 125f;
     public static bool grounded;
+    public bool testingMan;
+    public GameObject armRotationPoint;
+    public GameObject projectilePrefab;
+    
 
 
     private RaycastHit2D castMaster;
@@ -18,6 +22,7 @@ public class GroundPlayerController : MonoBehaviour
     private int count;
     private bool canJet;
     private bool spaced;
+    private float armTheta;
     private Quaternion setRotation;
     //private Rigidbody2D planet;
 
@@ -34,7 +39,7 @@ public class GroundPlayerController : MonoBehaviour
 	
 	void Update ()
     {
-        if (PlayerControls.moveMan == true)
+        if (PlayerControls.moveMan || testingMan)
         {
             planet = PlayerControls.landingSite;
 
@@ -61,6 +66,8 @@ public class GroundPlayerController : MonoBehaviour
             }
 
             Debug.Log("Magnitude: " + GravitationalForces.totalForceReferance.magnitude);
+            armRotation();
+            fire();
         }
     }
 
@@ -129,7 +136,29 @@ public class GroundPlayerController : MonoBehaviour
         //    this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 200);
         //}
         //Debug.Log("Rotation: " + transform.rotation);
+    }
 
+
+    private void armRotation()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos = new Vector3(mousePos.x - transform.position.x, mousePos.y - transform.position.y, mousePos.z);
+        Debug.Log("MousePos: " + mousePos);
+
+        armTheta = (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90.0f;
+        Debug.Log("Theta = " + armTheta);
+
+        armRotationPoint.transform.rotation = Quaternion.Euler(0, 0, armTheta);
+    }
+
+
+    private void fire()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {   
+            GameObject projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+            projectile.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 10);
+        }
     }
 
 
