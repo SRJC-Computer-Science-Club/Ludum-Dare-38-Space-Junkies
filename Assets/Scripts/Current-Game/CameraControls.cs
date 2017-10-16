@@ -6,6 +6,7 @@ public class CameraControls : MonoBehaviour
 {
     public GameObject target;
     public GameObject dudeTarget;
+    public bool testMan;
 
     private Vector3 offset;
 
@@ -22,10 +23,9 @@ public class CameraControls : MonoBehaviour
         {
             transform.position = target.transform.position + offset;
         }
-        else
+        else if (testMan)
         {
             dudeTarget = GameObject.FindGameObjectWithTag("Player");
-
             transform.position = new Vector3 (dudeTarget.transform.position.x, dudeTarget.transform.position.y, -10.0f);
         }
     }
