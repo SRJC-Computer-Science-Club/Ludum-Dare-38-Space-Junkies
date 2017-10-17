@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GravitationalForces : MonoBehaviour
 {
-    public float gravConstant;
+    public const float GRAV_CONSTANT = 6.0f;
     public const float MAX_DISTANCE = 20;
     public static Vector2 totalForceReferance;
     public static float angleReferance;
@@ -17,6 +17,8 @@ public class GravitationalForces : MonoBehaviour
     private float mass;
     private float massPlanet;
     private Rigidbody2D thisRB;
+    private CameraControls cameraControls;
+    private bool testingMan;
 
     // private GameObject strongestPlanet;
 
@@ -59,7 +61,7 @@ public class GravitationalForces : MonoBehaviour
                 PlanetInfo planetInfo = planet.GetComponent<PlanetInfo>();
                 Vector2 force = planet.transform.position - this.transform.position;
                 float d = force.magnitude * 1;
-                float magnitude = gravConstant * (planetInfo.getMass() * thisRB.mass / (d * d));
+                float magnitude = GRAV_CONSTANT * (planetInfo.getMass() * thisRB.mass / (d * d));
 
                 //float magnitude = 200.0f / (d * d);
 
@@ -74,7 +76,7 @@ public class GravitationalForces : MonoBehaviour
             thisRB.AddForce(totalForce);
             totalForceReferance = totalForce;
 
-            //Debug.Log("Magnitude" + totalForce.magnitude);
+            Debug.Log("Magnitude: " + totalForce.magnitude);
             if (totalForce.magnitude > 10.0f && PlayerControls.moveMan)
             {
                 float angle = Mathf.Atan2(totalForce.y, totalForce.x) * Mathf.Rad2Deg;

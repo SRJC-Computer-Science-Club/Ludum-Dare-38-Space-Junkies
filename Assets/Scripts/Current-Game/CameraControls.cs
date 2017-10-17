@@ -6,42 +6,23 @@ public class CameraControls : MonoBehaviour
 {
     public GameObject target;
     public GameObject dudeTarget;
-    public bool testMan;
 
     private Vector3 offset;
 
     // Use this for initialization
     void Start()
     {
-        if (!testMan)
-        {
-            offset = transform.position - target.transform.position;
-        }
-        else
-        {
-            Debug.Log("player is cameras target player");
-
-            offset = transform.position - dudeTarget.transform.position;
-        }
+        offset = transform.position - target.transform.position;
     }
 
     // Update is called once per frame but the last in line compared to void Update()
     void LateUpdate()
     {
-        if (!PlayerControls.moveMan && !testMan)
+        if (!PlayerControls.moveMan)
         {
             transform.position = target.transform.position + offset;
         }
-        else if (testMan)
-<<<<<<< HEAD
-=======
-        {
-            Debug.Log("player is cameras target player");
-
-            transform.position = new Vector3 (dudeTarget.transform.position.x, dudeTarget.transform.position.y, -10.0f);
-        }
         else
->>>>>>> e3a1b4a73d00e7c76b69789ebe8f4b4d6ffd7982
         {
             Debug.Log("player is cameras target player");
             dudeTarget = GameObject.FindGameObjectWithTag("Player");

@@ -28,7 +28,7 @@ public class PlayerControls : MonoBehaviour
     private float lastDirection;
 
     private void Start()
-    {
+    { 
         isLanded = false;
         moveMan = false;
         liftOff = 0;
@@ -41,9 +41,11 @@ public class PlayerControls : MonoBehaviour
         rigidbody2D.velocity = new Vector2(0.0f, 0.0f);
 
     }
+
+
     void Update()
     {
-        if (isLanded == false)
+        if (!isLanded)
         {
             forceX = rigidbody2D.velocity.x;
             forceY = rigidbody2D.velocity.y;

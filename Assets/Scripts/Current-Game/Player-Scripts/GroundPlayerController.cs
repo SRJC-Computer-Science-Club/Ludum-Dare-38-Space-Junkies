@@ -39,7 +39,7 @@ public class GroundPlayerController : MonoBehaviour
 	
 	void Update ()
     {
-        if (PlayerControls.moveMan || testingMan)
+        if (PlayerControls.moveMan)
         {
             planet = PlayerControls.landingSite;
 
@@ -66,6 +66,7 @@ public class GroundPlayerController : MonoBehaviour
             }
 
             Debug.Log("Magnitude: " + GravitationalForces.totalForceReferance.magnitude);
+            Debug.Log("Spaced: " + spaced);
             armRotation();
             fire();
         }
