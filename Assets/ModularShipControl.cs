@@ -13,8 +13,24 @@ public class ModularShipControl : MonoBehaviour {
     [SerializeField]
     private GameObject Thruster;
 
+    public Sprite[] shipParts;
+
     private float rotationSpeed = 100;
     public float thrustForce;
+
+    public Sprite shipPeices
+    {
+        get
+        {
+            return shipPeices;
+        }
+
+        set
+        {
+            shipPeices = value;
+        }
+    }
+
     // Use this for initialization
     void Start () {
        
