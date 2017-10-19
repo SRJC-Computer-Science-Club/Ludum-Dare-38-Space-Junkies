@@ -8,9 +8,10 @@ public class GroundPlayerController : MonoBehaviour
     public float thrustForce = 20f;
     public float rotationSpeed = 125f;
     public static bool grounded;
-    public bool testingMan;
+    //public bool testingMan; //Work on later
     public GameObject armRotationPoint;
     public GameObject projectilePrefab;
+    public float projectileSpeed;
     
 
 
@@ -65,8 +66,8 @@ public class GroundPlayerController : MonoBehaviour
                 characterMovementSpaced();
             }
 
-            Debug.Log("Magnitude: " + GravitationalForces.totalForceReferance.magnitude);
-            Debug.Log("Spaced: " + spaced);
+            //Debug.Log("Magnitude: " + GravitationalForces.totalForceReferance.magnitude);
+            //Debug.Log("Spaced: " + spaced);
             armRotation();
             fire();
         }
@@ -144,10 +145,10 @@ public class GroundPlayerController : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos = new Vector3(mousePos.x - transform.position.x, mousePos.y - transform.position.y, mousePos.z);
-        Debug.Log("MousePos: " + mousePos);
+        //Debug.Log("MousePos: " + mousePos);
 
         armTheta = (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90.0f;
-        Debug.Log("Theta = " + armTheta);
+        //Debug.Log("Theta = " + armTheta);
 
         armRotationPoint.transform.rotation = Quaternion.Euler(0, 0, armTheta);
     }
@@ -156,9 +157,10 @@ public class GroundPlayerController : MonoBehaviour
     private void fire()
     {
         if (Input.GetMouseButtonDown(0))
-        {   
+        {
+            Debug.Log("Tom has fired his weapon!");
             GameObject projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
-            projectile.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 10);
+            projectile.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * projectileSpeed);
         }
     }
 

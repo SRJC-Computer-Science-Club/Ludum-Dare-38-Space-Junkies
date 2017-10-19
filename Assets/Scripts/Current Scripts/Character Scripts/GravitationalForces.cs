@@ -71,12 +71,12 @@ public class GravitationalForces : MonoBehaviour
                 totalForce += force;
             }
 
-            Debug.Log(totalForce);
+            ///Debug.Log(totalForce);
 
             thisRB.AddForce(totalForce);
             totalForceReferance = totalForce;
 
-            Debug.Log("Magnitude: " + totalForce.magnitude);
+            //Debug.Log("Magnitude: " + totalForce.magnitude);
             if (totalForce.magnitude > 10.0f && PlayerControls.moveMan)
             {
                 float angle = Mathf.Atan2(totalForce.y, totalForce.x) * Mathf.Rad2Deg;
