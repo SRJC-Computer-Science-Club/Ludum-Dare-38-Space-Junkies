@@ -1,6 +1,6 @@
 ﻿/*
  The Drag Handler handles the dragging and placement of an inventory item.
- This script should be placed on the image you wish to be dragged.
+ This script should be placed on the object you wish to be dragged.
  */
 using System;
 using System.Collections;
@@ -10,11 +10,12 @@ using UnityEngine.EventSystems;
 
 public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler{
 
-    private Vector3 startPosition;
+    public Vector3 startPosition;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         startPosition = transform.position;
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -26,15 +27,6 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.position = startPosition;
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
