@@ -10,12 +10,21 @@ using UnityEngine.EventSystems;
 
 public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler{
 
+    public enum SlotType { BODY, LEFTWING, RIGHTWING };
+    public SlotType itemType = SlotType.BODY;
+
     public Vector3 startPosition;
+
+    private Transform startParent;
+    private Transform canvas;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         startPosition = transform.position;
+        startParent = transform.parent;
         GetComponent<CanvasGroup>().blocksRaycasts = false;
+        canvas = GameObject.FindGameObjectWithTag("Canvas").transform;
+        transform.SetParent(canvas);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -26,7 +35,11 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        transform.position = startPosition;
         GetComponent<CanvasGroup>().blocksRaycasts = true;
+        transform.position = startPosition;
+        if (transform.parent == canvas)
+        {
+            transform.SetParent(startParent);
+        }
     }
 }
