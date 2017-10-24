@@ -21,10 +21,20 @@ public class DropHandler : MonoBehaviour, IDropHandler{
         DragHandler drag = eventData.pointerDrag.GetComponent<DragHandler>();
 
         
-        if(drag != null && drag.itemType == targetItemType)
+        if(drag != null && drag.itemType == targetItemType && transform.childCount == 0)
         {
             drag.startPosition = this.transform.position;
             drag.transform.SetParent(this.transform);
+        }
+        else if(drag != null && drag.itemType == targetItemType && transform.childCount > 0)
+        {
+            //Switches dragged item with item in slot.
+
+            transform.GetChild(0).position = drag.startPosition;
+            transform.GetChild(0).SetParent(drag.startParent);
+
+            drag.startPosition = transform.position;
+            drag.transform.SetParent(transform);
         }
     }
 }

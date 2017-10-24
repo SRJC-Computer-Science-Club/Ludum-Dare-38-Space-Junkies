@@ -15,7 +15,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public Vector3 startPosition;
 
-    private Transform startParent;
+    public Transform startParent;
     private Transform canvas;
 
     public void OnBeginDrag(PointerEventData eventData)
