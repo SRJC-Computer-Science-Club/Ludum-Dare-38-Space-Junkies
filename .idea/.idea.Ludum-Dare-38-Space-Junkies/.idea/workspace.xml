@@ -11,58 +11,39 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="GroundPlayerController.cs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Current-Game/Player-Scripts/GroundPlayerController.cs">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Current Scripts/Character Scripts/GroundPlayerController.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="633">
-              <caret line="157" column="9" lean-forward="false" selection-start-line="157" selection-start-column="9" selection-end-line="157" selection-end-column="9" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1507410996105" expanded="false" signature="6:78" ph="..." />
-                <marker date="1507410996105" expanded="true" signature="131:5164" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="741:948" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="968:1857" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="1024:1851" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="1126:1516" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="1414:1502" ph="/* PlayerControls.playerStop = false; ... */" />
-                <marker date="1507410996105" expanded="true" signature="1542:1615" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="1632:1703" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="1898:3349" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="2050:2245" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="2323:2518" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="2612:2912" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="2983:3300" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="3160:3289" ph="/* transform.rotation = setRotation; ... */" />
-                <marker date="1507410996105" expanded="true" signature="3396:4203" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="3543:3591" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="3656:3780" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="3818:3949" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="3959:4197" ph="/* if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))) ... */" />
-                <marker date="1507410996105" expanded="true" signature="4236:4692" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="4718:5024" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="4765:5018" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="5080:5162" ph="{...}" />
-                <marker date="1507410996105" expanded="true" signature="5172:5893" ph="/* Old parts ... */" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CameraControls.cs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Current-Game/CameraControls.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="31" column="9" lean-forward="false" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
-              <folding>
-                <marker date="1507407309136" expanded="false" signature="6:78" ph="..." />
-                <marker date="1507407309136" expanded="true" signature="123:1353" ph="{...}" />
-                <marker date="1507407309136" expanded="true" signature="296:584" ph="{...}" />
-                <marker date="1507407309136" expanded="true" signature="324:413" ph="{...}" />
-                <marker date="1507407309136" expanded="true" signature="426:578" ph="{...}" />
-                <marker date="1507407309136" expanded="true" signature="693:1351" ph="{...}" />
-                <marker date="1507407309136" expanded="true" signature="748:837" ph="{...}" />
-                <marker date="1507407309136" expanded="true" signature="863:1063" ph="{...}" />
-                <marker date="1507407309136" expanded="true" signature="1076:1345" ph="{...}" />
+                <marker date="1508798515699" expanded="false" signature="6:78" ph="..." />
+                <marker date="1508798515699" expanded="true" signature="131:5316" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="793:1000" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="1020:1943" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="1062:1937" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="1164:1554" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="1452:1540" ph="/* PlayerControls.playerStop = false; ... */" />
+                <marker date="1508798515699" expanded="true" signature="1580:1653" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="1670:1741" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="1755:1880" ph="/* Debug.Log(&quot;Magnitude: &quot; + GravitationalForces.totalForceReferance.magnitude); ... */" />
+                <marker date="1508798515699" expanded="true" signature="1984:3435" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="2136:2331" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="2409:2604" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="2698:2998" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="3069:3386" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="3246:3375" ph="/* transform.rotation = setRotation; ... */" />
+                <marker date="1508798515699" expanded="true" signature="3482:4289" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="3629:3677" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="3742:3866" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="3904:4035" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="4045:4283" ph="/* if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))) ... */" />
+                <marker date="1508798515699" expanded="true" signature="4322:4782" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="4808:5176" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="4855:5170" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="5232:5314" ph="{...}" />
+                <marker date="1508798515699" expanded="true" signature="5324:6045" ph="/* Old parts ... */" />
               </folding>
             </state>
           </provider>
@@ -74,8 +55,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Current-Game/Player-Scripts/GroundPlayerController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Current-Game/CameraControls.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Current Scripts/Character Scripts/GroundPlayerController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -94,8 +74,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1616" />
-    <option name="height" value="1176" />
+    <option name="width" value="1382" />
+    <option name="height" value="784" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -148,7 +128,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected=".NET Project.Default">
+  <component name="RunManager" selected="Unity Debug.Attach to Unity Editor">
     <configuration default="true" type="DotNetProject" factoryName=".NET Project">
       <option name="PROJECT_PATH" value="" />
       <option name="PROJECT_KIND" value="None" />
@@ -161,20 +141,14 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Default" type="DotNetProject" factoryName=".NET Project">
-      <option name="PROJECT_PATH" value="" />
-      <option name="PROJECT_KIND" value="None" />
-      <option name="PROJECT_TFM" value="" />
-      <option name="EXE_PATH" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="USE_MONO" value="0" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <envs />
+    <configuration default="true" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug">
+      <method />
+    </configuration>
+    <configuration default="false" name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug">
       <method />
     </configuration>
     <list size="1">
-      <item index="0" class="java.lang.String" itemvalue=".NET Project.Default" />
+      <item index="0" class="java.lang.String" itemvalue="Unity Debug.Attach to Unity Editor" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -188,11 +162,12 @@
       <option name="presentableId" value="Default" />
       <updated>1507405041076</updated>
       <workItem from="1507405055853" duration="6064000" />
+      <workItem from="1508858593975" duration="549000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6064000" />
+    <option name="totallyTimeSpent" value="6613000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -204,27 +179,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="1176" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292683" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -239,54 +214,39 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Current-Game/CameraControls.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Current-Game/CameraControls.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Current-Game/Player-Scripts/GroundPlayerController.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Current Scripts/Character Scripts/GroundPlayerController.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="31" column="9" lean-forward="false" selection-start-line="31" selection-start-column="9" selection-end-line="31" selection-end-column="9" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1507407309136" expanded="false" signature="6:78" ph="..." />
-            <marker date="1507407309136" expanded="true" signature="123:1353" ph="{...}" />
-            <marker date="1507407309136" expanded="true" signature="296:584" ph="{...}" />
-            <marker date="1507407309136" expanded="true" signature="324:413" ph="{...}" />
-            <marker date="1507407309136" expanded="true" signature="426:578" ph="{...}" />
-            <marker date="1507407309136" expanded="true" signature="693:1351" ph="{...}" />
-            <marker date="1507407309136" expanded="true" signature="748:837" ph="{...}" />
-            <marker date="1507407309136" expanded="true" signature="863:1063" ph="{...}" />
-            <marker date="1507407309136" expanded="true" signature="1076:1345" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Current-Game/Player-Scripts/GroundPlayerController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="633">
-          <caret line="157" column="9" lean-forward="false" selection-start-line="157" selection-start-column="9" selection-end-line="157" selection-end-column="9" />
-          <folding>
-            <marker date="1507410996105" expanded="false" signature="6:78" ph="..." />
-            <marker date="1507410996105" expanded="true" signature="131:5164" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="741:948" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="968:1857" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="1024:1851" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="1126:1516" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="1414:1502" ph="/* PlayerControls.playerStop = false; ... */" />
-            <marker date="1507410996105" expanded="true" signature="1542:1615" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="1632:1703" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="1898:3349" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="2050:2245" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="2323:2518" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="2612:2912" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="2983:3300" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="3160:3289" ph="/* transform.rotation = setRotation; ... */" />
-            <marker date="1507410996105" expanded="true" signature="3396:4203" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="3543:3591" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="3656:3780" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="3818:3949" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="3959:4197" ph="/* if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))) ... */" />
-            <marker date="1507410996105" expanded="true" signature="4236:4692" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="4718:5024" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="4765:5018" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="5080:5162" ph="{...}" />
-            <marker date="1507410996105" expanded="true" signature="5172:5893" ph="/* Old parts ... */" />
+            <marker date="1508798515699" expanded="false" signature="6:78" ph="..." />
+            <marker date="1508798515699" expanded="true" signature="131:5316" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="793:1000" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="1020:1943" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="1062:1937" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="1164:1554" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="1452:1540" ph="/* PlayerControls.playerStop = false; ... */" />
+            <marker date="1508798515699" expanded="true" signature="1580:1653" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="1670:1741" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="1755:1880" ph="/* Debug.Log(&quot;Magnitude: &quot; + GravitationalForces.totalForceReferance.magnitude); ... */" />
+            <marker date="1508798515699" expanded="true" signature="1984:3435" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="2136:2331" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="2409:2604" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="2698:2998" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="3069:3386" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="3246:3375" ph="/* transform.rotation = setRotation; ... */" />
+            <marker date="1508798515699" expanded="true" signature="3482:4289" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="3629:3677" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="3742:3866" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="3904:4035" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="4045:4283" ph="/* if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))) ... */" />
+            <marker date="1508798515699" expanded="true" signature="4322:4782" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="4808:5176" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="4855:5170" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="5232:5314" ph="{...}" />
+            <marker date="1508798515699" expanded="true" signature="5324:6045" ph="/* Old parts ... */" />
           </folding>
         </state>
       </provider>
