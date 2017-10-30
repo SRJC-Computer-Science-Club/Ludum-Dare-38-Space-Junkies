@@ -7,33 +7,29 @@ public class GroundPlayerController : MonoBehaviour
     public float playerSpeed = 20f;
     public float thrustForce = 20f;
     public float rotationSpeed = 125f;
-    public static bool grounded;
+    public static bool onGround;
     //public bool testingMan; //Work on later
     public GameObject armRotationPoint;
     public GameObject projectilePrefab;
-    public float projectileSpeed;
     
-
-
     private RaycastHit2D castMaster;
     private BoxCollider2D boxMaster;
     private GameObject planet;
-    private Rigidbody2D rb;
+    private Rigidbody2D tomRigidbody;
     private Ray2D rayMaster;
     private int count;
     private bool canJet;
-    private bool spaced;
+    private bool inSpace;
     private float armTheta;
     private Quaternion setRotation;
-    //private Rigidbody2D planet;
 
 	void Start ()
     {
         boxMaster = this.GetComponent<BoxCollider2D>();
-        rb = this.GetComponent<Rigidbody2D>();
+        tomRigidbody = this.GetComponent<Rigidbody2D>();
         canJet = false;
-        grounded = true;
-        spaced = false;
+        onGround = true;
+        inSpace = false;
         count = 0;
     }
 	
@@ -44,66 +40,70 @@ public class GroundPlayerController : MonoBehaviour
         {
             planet = PlayerControls.landingSite;
 
-
+            // Launch into space off planet
             if (Input.GetKey(KeyCode.E))
             {
-                Destroy(this.gameObject);
-                PlayerControls.moveMan = false;
-                PlayerControls.liftOff = 1;
-                PlayerControls.isLanded = false;
-                PlanetaryPull.crashed = false;
-                count = 0;
-                //PlayerControls.playerStop = false;
-                //PlayerControls.stopSpawn = false;
+                GetInShip();               
             }
 
-            if (!spaced)
+            // If movement keys pressed, move Tom either by ground or space.
+            if (!inSpace)
             {
-                characterMovementGrounded();
+                MovementOnGround();
             }
             else
             {
-                characterMovementSpaced();
+                MovementInSpace();
             }
 
-            //Debug.Log("Magnitude: " + GravitationalForces.totalForceReferance.magnitude);
-            //Debug.Log("Spaced: " + spaced);
-            armRotation();
-            fire();
+            ArmRotation();
+
+            // Fires weapon on mouse button push
+            if (Input.GetMouseButtonDown(0))
+            {
+                Fire();
+            }
         }
     }
 
-
-
-    void characterMovementGrounded ()
+    void GetInShip()
     {
-        Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
+        PlayerControls.moveMan = false;
+        PlayerControls.liftOff = 1;
+        PlayerControls.isLanded = false;
+        PlanetaryPull.crashed = false;
+        // PlayerControls.playerStop = false;
+        // PlayerControls.stopSpawn = false;
+        count = 0;
+        Destroy(this.gameObject);
+    }
 
+    void MovementOnGround ()
+    {
         if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow))
         {
             transform.Translate (Vector2.right * playerSpeed * Time.deltaTime);
-            //this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.right * 10);
         }
         else if (Input.GetKey (KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             transform.Translate (-Vector2.right * playerSpeed * Time.deltaTime);
-            //this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.left * 10);
         }
         
-        if ((Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) && !spaced)
+        if ((Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) && !inSpace)
         {
-            grounded = false;
+            onGround = false;
 
-            float liftOffSpeed = 130;//GravitationalForces.totalForceReferance.magnitude + (GravitationalForces.totalForceReferance.magnitude / 2);
+            // GravitationalForces.totalForceReferance.magnitude + (GravitationalForces.totalForceReferance.magnitude / 2);
+            float liftOffSpeed = 130;
 
-            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * liftOffSpeed);
+            tomRigidbody.AddRelativeForce(Vector2.up * liftOffSpeed);
         }
 
         if (GravitationalForces.totalForceReferance.magnitude < 4.0f)
         {
             //rb.velocity = new Vector2(rb.velocity.x / 3, rb.velocity.y / 3);
-            spaced = true;
-            rb.velocity = new Vector3(0, 0, 0);
+            inSpace = true;
+            tomRigidbody.velocity = new Vector3(0, 0, 0);
             //transform.rotation = setRotation;
             //Debug.Log("setRotation: " + setRotation + "\nRotation: " + transform.rotation);
 
@@ -114,34 +114,27 @@ public class GroundPlayerController : MonoBehaviour
 
 
 
-    private void characterMovementSpaced ()
+    private void MovementInSpace ()
     {
-        Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
-
         if (GravitationalForces.totalForceReferance.magnitude > 4.0f)
         {
-            spaced = false;
+            inSpace = false;
         }
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
-            this.transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+            tomRigidbody.transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.W))
         {
-            this.GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+            tomRigidbody.AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
         }
-
-        //if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
-        //{
-        //    this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 200);
-        //}
-        //Debug.Log("Rotation: " + transform.rotation);
     }
 
 
-    private void armRotation()
+
+    private void ArmRotation()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos = new Vector3(mousePos.x - transform.position.x, mousePos.y - transform.position.y, mousePos.z);
@@ -154,46 +147,18 @@ public class GroundPlayerController : MonoBehaviour
     }
 
 
-    private void fire()
+
+    private void Fire()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Tom has fired his weapon!");
-            GameObject projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
-            projectile.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * projectileSpeed);
-        }
+        Debug.Log("Tom has fired his weapon!");
+        GameObject projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
     }
 
 
 
     public void OnCollisionEnter2D (Collision2D col)
     {
-        rb.velocity = new Vector3 (0, 0, 0);
-        grounded = true;
+        tomRigidbody.velocity = new Vector3 (0, 0, 0);
+        onGround = true;
     }
 }
-
-
-
-
-
-
-
-// Old parts
-
-//if (count == 0)
-//            {
-//                float xPlanet = planet.transform.position.x;
-//float yPlanet = planet.transform.position.y;
-
-//float distance = Mathf.Sqrt(Mathf.Pow(xPlanet - this.transform.position.x, 2) + Mathf.Pow(yPlanet - this.transform.position.y, 2));
-
-//float angle = Mathf.Atan(this.transform.localPosition.y / this.transform.localPosition.x);
-//float xCorr = Mathf.Abs(distance * Mathf.Cos(angle));
-//float yCorr = Mathf.Abs(distance * Mathf.Sin(angle));
-
-//                this.transform.Rotate(0.0f, 0.0f, 0.0f);
-//worldConnector.anchor = new Vector2(0.0f, -(yCorr));
-//                // original = new Vector2 (0.0f, -(distance));
-//                count++;
-//            }

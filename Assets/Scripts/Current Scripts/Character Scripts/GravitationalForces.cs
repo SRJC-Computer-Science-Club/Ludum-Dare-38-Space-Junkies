@@ -16,7 +16,7 @@ public class GravitationalForces : MonoBehaviour
     private float lastMag;
     private float mass;
     private float massPlanet;
-    private Rigidbody2D thisRB;
+    private Rigidbody2D thisRigidbody;
     private CameraControls cameraControls;
     private bool testingMan;
 
@@ -26,7 +26,7 @@ public class GravitationalForces : MonoBehaviour
 
     public void Start ()
     {
-        thisRB = GetComponent<Rigidbody2D>();
+        thisRigidbody = GetComponent<Rigidbody2D>();
         thisTag = this.gameObject.tag;
         /*
         int planetCount = 1;
@@ -61,7 +61,7 @@ public class GravitationalForces : MonoBehaviour
                 PlanetInfo planetInfo = planet.GetComponent<PlanetInfo>();
                 Vector2 force = planet.transform.position - this.transform.position;
                 float d = force.magnitude * 1;
-                float magnitude = GRAV_CONSTANT * (planetInfo.getMass() * thisRB.mass / (d * d));
+                float magnitude = GRAV_CONSTANT * (planetInfo.getMass() * thisRigidbody.mass / (d * d));
 
                 //float magnitude = 200.0f / (d * d);
 
@@ -73,7 +73,7 @@ public class GravitationalForces : MonoBehaviour
 
             ///Debug.Log(totalForce);
 
-            thisRB.AddForce(totalForce);
+            thisRigidbody.AddForce(totalForce);
             totalForceReferance = totalForce;
 
             //Debug.Log("Magnitude: " + totalForce.magnitude);

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ResourceSpawn : MonoBehaviour
 {
-    private int resourceLimit = 1;
     public GameObject resource;
 
+    private int resourceLimit = 1;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         CircleCollider2D radiusFinder = this.GetComponent<CircleCollider2D>();
         float radius = radiusFinder.radius;

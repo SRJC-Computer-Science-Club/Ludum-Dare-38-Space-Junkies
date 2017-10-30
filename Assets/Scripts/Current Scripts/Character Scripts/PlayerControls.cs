@@ -4,29 +4,31 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
-    public GameObject playerPrefab;
-    public GameObject playerActual;
-    public GameObject spawnPoint;
+    
     public static GameObject landingSite;
     public static bool isLanded;
     public static bool moveMan;
-    public float thrustForce;
     public static int liftOff;
     public static float fuel = 100f;
+    public GameObject playerPrefab;
+    public GameObject playerActual;
+    public GameObject spawnPoint;
+    public float thrustForce;
     public float xSpawn;
     public float ySpawn;
     public float forceX;
     public float forceY;
+    public Texture2D bgImage;
+    public Texture2D fgImage;
 
-
+    private Rigidbody2D ShipRigidbody;
+    private const float halfPlayer = 0.84f;
     private float maxFuel = 100f;
     private float rotationSpeed = 100;
     private float timeStart;
-    private const float halfPlayer = 0.84f;
     private float timeToSpawn;
-    private Rigidbody2D rigidbody2D;
     private float lastDirection;
-
+    
     private void Start()
     { 
         isLanded = false;
@@ -37,8 +39,8 @@ public class PlayerControls : MonoBehaviour
         xSpawn = 0;
         ySpawn = 0;
 
-        rigidbody2D = this.GetComponent<Rigidbody2D>();
-        rigidbody2D.velocity = new Vector2(0.0f, 0.0f);
+        ShipRigidbody = this.GetComponent<Rigidbody2D>();
+        ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
 
     }
 
@@ -47,92 +49,16 @@ public class PlayerControls : MonoBehaviour
     {
         if (!isLanded)
         {
-            forceX = rigidbody2D.velocity.x;
-            forceY = rigidbody2D.velocity.y;
-
+            forceX = ShipRigidbody.velocity.x;
+            forceY = ShipRigidbody.velocity.y;
             Debug.Log ("Force X = " + forceX + "\nForce Y = " + forceY);
 
-            // Rotate
-            if (fuel > 0)
-            {
-                transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
-            }
+            Rotate();
+            Thrust();
+            Fuel();
+            LiftOff();
 
-            // Thrust
-            if (fuel > 0)
-            {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
-                }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
-                }
-                //else
-                //{
-                //    if (forceX > 0)
-                //    {
-                //        forceX -= 1.0f * Time.deltaTime;
-
-                //        if (forceX < 0.25f)
-                //        {
-                //            forceX = 0;
-                //        }
-                //    }
-                //    else if (forceX < 0)
-                //    {
-                //        forceX += 1.0f * Time.deltaTime;
-
-                //        if (forceX > -1.0f)
-                //        {
-                //            forceX = 0;
-                //        }
-                //    }
-
-                //    if (forceY > 0)
-                //    {
-                //        forceY -= 1.0f * Time.deltaTime;
-
-                //        if (forceY < 1.0f)
-                //        {
-                //            forceY = 0;
-                //        }
-                //    }
-                //    else if (forceY < 0)
-                //    {
-                //        forceY += 1.0f * Time.deltaTime;
-
-                //        if (forceY > -1.0f)
-                //        {
-                //            forceY = 0;
-                //        }
-                //    }
-
-                //    rigidbody2D.velocity = new Vector2(forceX, forceY);
-                //}
-
-                //GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
-            }
-
-            //Fuel
-            var travelConsumption = 0;
-
-            if (Input.GetKey(KeyCode.W))
-                fuel -= travelConsumption;
-            if (Input.GetKey(KeyCode.S))
-                fuel -= travelConsumption;
-            if (Input.GetKey(KeyCode.A))
-                fuel -= travelConsumption;
-            if (Input.GetKey(KeyCode.D))
-                fuel -= travelConsumption;
-
-            if (liftOff == 1)
-            {
-                this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 75);
-                liftOff = 0;
-            }
-
+            // Loss by lack of fuel
             if (fuel <= 0 && timeStart == 0)
             {
                 timeStart = Time.time;
@@ -144,21 +70,7 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
-            Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
-            rb.velocity = new Vector2(0.0f, 0.0f);
-            //Debug.Log("This works, hurray!");
-
-            float timeFromLanding = Time.time;
-            //Debug.Log("Time of Landing: " + timeToSpawn + " Time from Landing " + timeFromLanding);
-
-            if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !moveMan)
-            {
-                float angle = Mathf.Atan(ySpawn / xSpawn);
-                Quaternion newRotation = new Quaternion(0.0f, 0.0f, angle * 180 / Mathf.PI, 0.0f);
-
-                playerActual = Instantiate(playerPrefab, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, -2.0f), this.transform.rotation);
-                moveMan = true;
-            }
+            ShipLands();
         }
 
 
@@ -211,9 +123,6 @@ public class PlayerControls : MonoBehaviour
         //}
     }
 
-    public Texture2D bgImage;
-    public Texture2D fgImage;
-
     private void OnGUI()
     {
         var healthBarLength = 100f;
@@ -237,8 +146,6 @@ public class PlayerControls : MonoBehaviour
         GUI.EndGroup();
     }
 
-
-
     private float findXSpawnPoint (GameObject planet)
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
@@ -247,8 +154,6 @@ public class PlayerControls : MonoBehaviour
 
         return (radius * Mathf.Cos(angle) + planet.transform.position.x);
     }
-
-
 
     private float findYSpawnPoint(GameObject planet)
     {
@@ -259,7 +164,112 @@ public class PlayerControls : MonoBehaviour
         return Mathf.Abs(radius * Mathf.Sin(angle) + planet.transform.position.y);
     }
 
-
-
     //private float findAngle (GameObject
+
+    void Rotate()
+    {
+        if (fuel > 0)
+        {
+            transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+        }
+    }
+    void Thrust()
+    {
+        if (fuel > 0)
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+            }
+            //else
+            //{
+            //    if (forceX > 0)
+            //    {
+            //        forceX -= 1.0f * Time.deltaTime;
+
+            //        if (forceX < 0.25f)
+            //        {
+            //            forceX = 0;
+            //        }
+            //    }
+            //    else if (forceX < 0)
+            //    {
+            //        forceX += 1.0f * Time.deltaTime;
+
+            //        if (forceX > -1.0f)
+            //        {
+            //            forceX = 0;
+            //        }
+            //    }
+
+            //    if (forceY > 0)
+            //    {
+            //        forceY -= 1.0f * Time.deltaTime;
+
+            //        if (forceY < 1.0f)
+            //        {
+            //            forceY = 0;
+            //        }
+            //    }
+            //    else if (forceY < 0)
+            //    {
+            //        forceY += 1.0f * Time.deltaTime;
+
+            //        if (forceY > -1.0f)
+            //        {
+            //            forceY = 0;
+            //        }
+            //    }
+
+            //    rigidbody2D.velocity = new Vector2(forceX, forceY);
+            //}
+
+            //GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+        }
+    }
+
+    void Fuel()
+    {
+        var travelConsumption = 0;
+
+        if (Input.GetKey(KeyCode.W))
+            fuel -= travelConsumption;
+        if (Input.GetKey(KeyCode.S))
+            fuel -= travelConsumption;
+        if (Input.GetKey(KeyCode.A))
+            fuel -= travelConsumption;
+        if (Input.GetKey(KeyCode.D))
+            fuel -= travelConsumption;
+    }
+
+    void LiftOff()
+    {
+        if (liftOff == 1)
+        {
+            this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 75);
+            liftOff = 0;
+        }
+    }
+
+    void ShipLands()
+    {
+        float timeFromLanding = Time.time;
+
+        ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
+        //Debug.Log("This works, hurray!");
+        //Debug.Log("Time of Landing: " + timeToSpawn + " Time from Landing " + timeFromLanding);
+
+        if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !moveMan)
+        {
+            float angle = Mathf.Atan(ySpawn / xSpawn);
+            Quaternion newRotation = new Quaternion(0.0f, 0.0f, angle * 180 / Mathf.PI, 0.0f);
+
+            playerActual = Instantiate(playerPrefab, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, -2.0f), this.transform.rotation);
+            moveMan = true;
+        }
+    }
 }

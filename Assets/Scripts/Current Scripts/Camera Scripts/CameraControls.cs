@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class CameraControls : MonoBehaviour
 {
-    public GameObject target;
-    public GameObject dudeTarget;
+    public GameObject targetShip;
+    public GameObject targetTom;
 
     private Vector3 offset;
 
-    // Use this for initialization
+    // Sets camera position to player ship position at start of game
     void Start()
     {
-        transform.position = new Vector3(target.transform.position.x, target.transform.position.y, transform.position.z);
-        offset = transform.position - target.transform.position;
+        transform.position = new Vector3(targetShip.transform.position.x, targetShip.transform.position.y, transform.position.z);
+        offset = transform.position - targetShip.transform.position;
     }
 
-    // Update is called once per frame but the last in line compared to void Update()
+    // Sets camera to follow Tom or the Ship. Update is called once per frame but the last in line compared to void Update()
     void LateUpdate()
     {
         if (!PlayerControls.moveMan)
         {
-            transform.position = target.transform.position + offset;
+            transform.position = targetShip.transform.position + offset;
         }
         else
         {
             Debug.Log("player is cameras target player");
-            dudeTarget = GameObject.FindGameObjectWithTag("Player");
-            transform.position = new Vector3 (dudeTarget.transform.position.x, dudeTarget.transform.position.y, -10.0f);
+            targetTom = GameObject.FindGameObjectWithTag("Player");
+            transform.position = new Vector3 (targetTom.transform.position.x, targetTom.transform.position.y, -10.0f);
         }
     }
 }
