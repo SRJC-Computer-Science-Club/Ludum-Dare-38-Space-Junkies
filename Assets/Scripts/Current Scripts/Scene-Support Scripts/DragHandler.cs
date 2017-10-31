@@ -10,12 +10,14 @@ using UnityEngine.EventSystems;
 
 public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler{
 
-    public enum SlotType { BODY, LEFTWING, RIGHTWING };
+    public enum SlotType { BODY, LEFTWING, RIGHTWING, NONE };
     public SlotType itemType = SlotType.BODY;
 
     public Vector3 startPosition;
 
     public Transform startParent;
+
+    public GameObject isLinkedTo;
     private Transform canvas;
 
     public void OnBeginDrag(PointerEventData eventData)

@@ -11,9 +11,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DropHandler : MonoBehaviour, IDropHandler{
-
-    [SerializeField]
-    private DragHandler.SlotType targetItemType;
+    
+    //[SerializeField]
+    public DragHandler.SlotType targetItemType;
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -21,10 +21,10 @@ public class DropHandler : MonoBehaviour, IDropHandler{
         DragHandler drag = eventData.pointerDrag.GetComponent<DragHandler>();
 
         
-        if(drag != null && drag.itemType == targetItemType && transform.childCount == 0)
+        if(drag != null && (drag.itemType == targetItemType || targetItemType == DragHandler.SlotType.NONE) && transform.childCount == 0)
         {
-            drag.startPosition = this.transform.position;
-            drag.transform.SetParent(this.transform);
+            drag.startPosition = transform.position;
+            drag.transform.SetParent(transform);
         }
         else if(drag != null && drag.itemType == targetItemType && transform.childCount > 0)
         {
