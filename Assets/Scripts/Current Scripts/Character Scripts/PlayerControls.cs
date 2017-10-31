@@ -51,7 +51,6 @@ public class PlayerControls : MonoBehaviour
         {
             forceX = ShipRigidbody.velocity.x;
             forceY = ShipRigidbody.velocity.y;
-            Debug.Log ("Force X = " + forceX + "\nForce Y = " + forceY);
 
             Rotate();
             Thrust();
@@ -159,7 +158,6 @@ public class PlayerControls : MonoBehaviour
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan(this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
-        Debug.Log("angle " + (radius * Mathf.Sin (angle)));
 
         return Mathf.Abs(radius * Mathf.Sin(angle) + planet.transform.position.y);
     }
@@ -260,8 +258,6 @@ public class PlayerControls : MonoBehaviour
         float timeFromLanding = Time.time;
 
         ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
-        //Debug.Log("This works, hurray!");
-        //Debug.Log("Time of Landing: " + timeToSpawn + " Time from Landing " + timeFromLanding);
 
         if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !moveMan)
         {

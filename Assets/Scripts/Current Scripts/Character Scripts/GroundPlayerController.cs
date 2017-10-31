@@ -22,6 +22,7 @@ public class GroundPlayerController : MonoBehaviour
     private bool inSpace;
     private float armTheta;
     private Quaternion setRotation;
+    private int weaponMode;
 
 	void Start ()
     {
@@ -31,6 +32,7 @@ public class GroundPlayerController : MonoBehaviour
         onGround = true;
         inSpace = false;
         count = 0;
+        weaponMode = 1;
     }
 	
 	
@@ -57,6 +59,7 @@ public class GroundPlayerController : MonoBehaviour
             }
 
             ArmRotation();
+            ChangeWeapon();
 
             // Fires weapon on mouse button push
             if (Input.GetMouseButtonDown(0))
@@ -150,8 +153,43 @@ public class GroundPlayerController : MonoBehaviour
 
     private void Fire()
     {
+        GameObject projectile;
         Debug.Log("Tom has fired his weapon!");
-        GameObject projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+        
+        switch (weaponMode)
+        {
+            case 1:
+                projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                break;
+        }
+    }
+
+
+    private void ChangeWeapon()
+    {
+        Vector2 scrollWheeleDelta = Input.mouseScrollDelta;
+        Debug.Log("Scroll Wheele Delta: " + Input.mouseScrollDelta);
+
+        if (scrollWheeleDelta.y == -1.0f || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            weaponMode--;
+
+            if (weaponMode <= 0)
+            {
+                weaponMode = 3;
+            }
+        }
+        else if (scrollWheeleDelta.y == 1.0f || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            weaponMode++;
+
+            if (weaponMode >= 4)
+            {
+                weaponMode = 1;
+            }
+        }
+
+        Debug.Log("Weapon mode: " + weaponMode);
     }
 
 
