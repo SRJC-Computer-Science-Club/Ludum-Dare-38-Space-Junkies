@@ -13,7 +13,7 @@ public class ModularShipControl : MonoBehaviour {
     [SerializeField]
     private GameObject Thruster;
 
-    private float rotationSpeed = 100;
+	public float rotationSpeed = 100;
     public float thrustForce;
     // Use this for initialization
     void Start () {
@@ -22,7 +22,7 @@ public class ModularShipControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+		transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
         GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
     }
 }
