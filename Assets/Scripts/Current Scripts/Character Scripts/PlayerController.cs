@@ -23,12 +23,9 @@ public class PlayerController : MonoBehaviour
     private float armTheta;
     private Quaternion setRotation;
     private int weaponMode;
-    private ShipController shipController;
 
 	void Start ()
     {
-        shipController = GameObject.FindGameObjectWithTag("ship").GetComponent<ShipController>();
-
         boxMaster = this.GetComponent<BoxCollider2D>();
         tomRigidbody = this.GetComponent<Rigidbody2D>();
         canJet = false;
@@ -41,9 +38,9 @@ public class PlayerController : MonoBehaviour
 	
 	void Update ()
     {
-        if (shipController.getMoveMan())
+        if (ShipController.moveMan)
         {
-            planet = shipController.getLandingSite();
+            planet = ShipController.landingSite;
 
             // Launch into space off planet
             if (Input.GetKey(KeyCode.E))
@@ -74,9 +71,9 @@ public class PlayerController : MonoBehaviour
 
     void GetInShip()
     {
-        shipController.setMoveMan(false);
-        shipController.setLiftOff (1);
-        shipController.setIsLanded(false);
+        ShipController.moveMan = false;
+        ShipController.liftOff = 1;
+        ShipController.isLanded = false;
         PlanetaryPull.crashed = false;
         // PlayerControls.playerStop = false;
         // PlayerControls.stopSpawn = false;

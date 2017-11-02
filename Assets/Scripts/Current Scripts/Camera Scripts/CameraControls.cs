@@ -14,8 +14,6 @@ public class CameraControls : MonoBehaviour
     
     void Start()
     {
-        shipController = GameObject.FindGameObjectWithTag("ship").GetComponent<ShipController>();
-
         // Sets camera position to player ship position at start of game
         transform.position = new Vector3(targetShip.transform.position.x, targetShip.transform.position.y, transform.position.z);
         offset = transform.position - targetShip.transform.position;
@@ -25,7 +23,7 @@ public class CameraControls : MonoBehaviour
     void LateUpdate()
     {
         // Sets camera to follow Tom or the Ship. Update is called once per frame but the last in line compared to void Update()
-        if (!shipController.getMoveMan())
+        if (!ShipController.moveMan)
         {
             transform.position = targetShip.transform.position + offset;
         }

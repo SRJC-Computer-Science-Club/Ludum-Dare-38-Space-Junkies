@@ -20,11 +20,8 @@ public class ShipController : MonoBehaviour
     public float forceY;
     public Texture2D bgImage;
     public Texture2D fgImage;
+    
 
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of c2f1644... Code Shift
     private Rigidbody2D ShipRigidbody;
     private const float halfPlayer = 0.84f;
     private float maxFuel = 100f;
@@ -32,11 +29,6 @@ public class ShipController : MonoBehaviour
     private float timeStart;
     private float timeToSpawn;
     private float lastDirection;
-    private bool moveMan;
-    private GameObject landingSite;
-    private bool isLanded;
-    private int liftOff;
-    private float fuel = 100f;
 
 
     private void Start()
