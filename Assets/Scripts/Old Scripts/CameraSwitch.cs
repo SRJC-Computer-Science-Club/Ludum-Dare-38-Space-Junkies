@@ -5,9 +5,14 @@ using UnityEngine;
 public class CameraSwitch : MonoBehaviour {
     public Camera RocketCamera;
     public Camera SpaceManCamera;
+
+
+    private ShipController shipController;
+
 	
     public void Start ()
     {
+        shipController = GameObject.FindGameObjectWithTag("ship").GetComponent<ShipController>();
         RocketCamera.enabled = false;
         SpaceManCamera.enabled = false;
     }
@@ -15,12 +20,12 @@ public class CameraSwitch : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (ShipController.moveMan == false) 
+        if (shipController.getMoveMan() == false) 
         {
             RocketCamera.enabled = true;
             SpaceManCamera.enabled = false;
         }
-        if (ShipController.moveMan == true)
+        if (shipController.getMoveMan() == true)
         {
             RocketCamera.enabled = false;
             SpaceManCamera.enabled = true;

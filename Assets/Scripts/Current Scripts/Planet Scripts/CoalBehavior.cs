@@ -5,17 +5,24 @@ using UnityEngine;
 public class CoalBehavior : MonoBehaviour
 {
     private float fuelAmount = 20;
+    private ShipController shipController;
 
+
+    public void Start ()
+    {
+        shipController = GameObject.FindGameObjectWithTag("ship").GetComponent<ShipController>();
+    }
 
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("You got " + fuelAmount + " fuel. You now have: " + ShipController.fuel);
+        Debug.Log("You got " + fuelAmount + " fuel. You now have: " + shipController.getFuel());
 
-        if (ShipController.fuel + 5.0f <= 100)
+        if (shipController.getFuel() + 5.0f <= 100)
         {
-            ShipController.fuel += fuelAmount;
+            shipController.setFuel(shipController.getFuel() + fuelAmount);
         }
+
         Destroy (this.gameObject);
     }
 

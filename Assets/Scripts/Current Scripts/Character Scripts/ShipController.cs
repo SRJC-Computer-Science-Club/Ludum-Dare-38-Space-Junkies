@@ -16,12 +16,6 @@ public class ShipController : MonoBehaviour
     public Texture2D fgImage;
 
 
-    private static GameObject landingSite;
-    private static bool isLanded;
-    private static bool moveMan;
-    private static int liftOff;
-    private static float fuel = 100f;
-
     private Rigidbody2D ShipRigidbody;
     private const float halfPlayer = 0.84f;
     private float maxFuel = 100f;
@@ -29,7 +23,13 @@ public class ShipController : MonoBehaviour
     private float timeStart;
     private float timeToSpawn;
     private float lastDirection;
-    
+    private bool moveMan;
+    private GameObject landingSite;
+    private bool isLanded;
+    private int liftOff;
+    private float fuel = 100f;
+
+
     private void Start()
     { 
         isLanded = false;
@@ -223,5 +223,65 @@ public class ShipController : MonoBehaviour
             playerActual = Instantiate(playerPrefab, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, -2.0f), this.transform.rotation);
             moveMan = true;
         }
+    }
+
+
+    public bool getMoveMan ()
+    {
+        return moveMan;
+    }
+
+
+    public void setMoveMan (bool check)
+    {
+        moveMan = check;
+    }
+
+
+    public GameObject getLandingSite ()
+    {
+        return landingSite;
+    }
+
+
+    public void setLandingSite (GameObject newSite)
+    {
+        landingSite = newSite;
+    }
+
+
+    public bool getIsLanded ()
+    {
+        return isLanded;
+    }
+
+
+    public void setIsLanded (bool check)
+    {
+        isLanded = check;
+    }
+
+
+    public int getLiftOff ()
+    {
+        return liftOff;
+    }
+
+
+    public void setLiftOff (int check)
+    {
+        liftOff = check;
+    }
+
+
+    public float getFuel ()
+    {
+        return fuel;
+    }
+
+
+    public void setFuel (float reFuel)
+    {
+        fuel = reFuel;
     }
 }

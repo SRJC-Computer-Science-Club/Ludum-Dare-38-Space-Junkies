@@ -18,6 +18,7 @@ public class GravitationalForces : MonoBehaviour
     private float massPlanet;
     private Rigidbody2D thisRigidbody;
     private CameraControls cameraControls;
+    private ShipController shipController;
     private bool testingMan;
 
     // private GameObject strongestPlanet;
@@ -26,25 +27,10 @@ public class GravitationalForces : MonoBehaviour
 
     public void Start ()
     {
+        shipController = GameObject.FindGameObjectWithTag("ship").GetComponent<ShipController>();
+
         thisRigidbody = GetComponent<Rigidbody2D>();
         thisTag = this.gameObject.tag;
-        /*
-        int planetCount = 1;
-
-        mass = this.GetComponent<Rigidbody2D>().mass;
-        lastMag = 0;
-        thisRB = this.GetComponent<Rigidbody2D>();
-        planetsInGalaxy = GameObject.FindGameObjectsWithTag("planet");
-        planetsInRange = new List<GameObject>();
-
-        foreach (GameObject planets in planetsInGalaxy)
-        {
-            Debug.Log("This is the " + planetCount + " planet in this galaxy" +
-                      "\nI am located at (" + planets.transform.position.x + ", "
-                      + planets.transform.position.y + ")");
-            planetCount++;
-        }
-        */
     }
 
 
@@ -53,8 +39,8 @@ public class GravitationalForces : MonoBehaviour
     {
         Vector2 totalForce = new Vector2(0, 0);
 
-        if ((thisTag == "Ship" && !ShipController.moveMan) ||
-            (thisTag == "Player" && ShipController.moveMan))
+        if ((thisTag == "Ship" && !shipController.getMoveMan()) ||
+            (thisTag == "Player" && shipController.getMoveMan()))
         {
             foreach (GameObject planet in GameObject.FindGameObjectsWithTag("planet"))
             {
@@ -77,7 +63,7 @@ public class GravitationalForces : MonoBehaviour
             totalForceReferance = totalForce;
 
             //Debug.Log("Magnitude: " + totalForce.magnitude);
-            if (totalForce.magnitude > 10.0f && ShipController.moveMan)
+            if (totalForce.magnitude > 10.0f && shipController.getMoveMan())
             {
                 float angle = Mathf.Atan2(totalForce.y, totalForce.x) * Mathf.Rad2Deg;
                 this.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
