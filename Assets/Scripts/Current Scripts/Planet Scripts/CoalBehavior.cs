@@ -10,11 +10,11 @@ public class CoalBehavior : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("You got " + fuelAmount + " fuel. You now have: " + PlayerControls.fuel);
+        Debug.Log("You got " + fuelAmount + " fuel. You now have: " + ShipController.fuel);
 
-        if (PlayerControls.fuel + 5.0f <= 100)
+        if (ShipController.fuel + 5.0f <= 100)
         {
-            PlayerControls.fuel += fuelAmount;
+            ShipController.fuel += fuelAmount;
         }
         Destroy (this.gameObject);
     }

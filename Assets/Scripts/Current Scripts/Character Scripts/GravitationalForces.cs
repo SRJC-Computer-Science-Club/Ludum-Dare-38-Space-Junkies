@@ -53,8 +53,8 @@ public class GravitationalForces : MonoBehaviour
     {
         Vector2 totalForce = new Vector2(0, 0);
 
-        if ((thisTag == "Ship" && !PlayerControls.moveMan) ||
-            (thisTag == "Player" && PlayerControls.moveMan))
+        if ((thisTag == "Ship" && !ShipController.moveMan) ||
+            (thisTag == "Player" && ShipController.moveMan))
         {
             foreach (GameObject planet in GameObject.FindGameObjectsWithTag("planet"))
             {
@@ -77,7 +77,7 @@ public class GravitationalForces : MonoBehaviour
             totalForceReferance = totalForce;
 
             //Debug.Log("Magnitude: " + totalForce.magnitude);
-            if (totalForce.magnitude > 10.0f && PlayerControls.moveMan)
+            if (totalForce.magnitude > 10.0f && ShipController.moveMan)
             {
                 float angle = Mathf.Atan2(totalForce.y, totalForce.x) * Mathf.Rad2Deg;
                 this.transform.rotation = Quaternion.Euler(0, 0, angle + 90);

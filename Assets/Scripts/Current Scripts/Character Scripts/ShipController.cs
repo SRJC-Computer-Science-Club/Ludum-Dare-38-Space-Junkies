@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControls : MonoBehaviour
+public class ShipController : MonoBehaviour
 {
     
     public static GameObject landingSite;

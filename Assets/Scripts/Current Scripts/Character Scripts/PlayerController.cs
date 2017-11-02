@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundPlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float playerSpeed = 20f;
     public float thrustForce = 20f;
@@ -38,9 +38,9 @@ public class GroundPlayerController : MonoBehaviour
 	
 	void Update ()
     {
-        if (PlayerControls.moveMan)
+        if (ShipController.moveMan)
         {
-            planet = PlayerControls.landingSite;
+            planet = ShipController.landingSite;
 
             // Launch into space off planet
             if (Input.GetKey(KeyCode.E))
@@ -71,9 +71,9 @@ public class GroundPlayerController : MonoBehaviour
 
     void GetInShip()
     {
-        PlayerControls.moveMan = false;
-        PlayerControls.liftOff = 1;
-        PlayerControls.isLanded = false;
+        ShipController.moveMan = false;
+        ShipController.liftOff = 1;
+        ShipController.isLanded = false;
         PlanetaryPull.crashed = false;
         // PlayerControls.playerStop = false;
         // PlayerControls.stopSpawn = false;
