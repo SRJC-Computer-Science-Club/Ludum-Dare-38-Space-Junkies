@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
-    
-    public static GameObject landingSite;
-    public static bool isLanded;
-    public static bool moveMan;
-    public static int liftOff;
-    public static float fuel = 100f;
     public GameObject playerPrefab;
     public GameObject playerActual;
     public GameObject spawnPoint;
@@ -20,6 +14,13 @@ public class ShipController : MonoBehaviour
     public float forceY;
     public Texture2D bgImage;
     public Texture2D fgImage;
+
+
+    private static GameObject landingSite;
+    private static bool isLanded;
+    private static bool moveMan;
+    private static int liftOff;
+    private static float fuel = 100f;
 
     private Rigidbody2D ShipRigidbody;
     private const float halfPlayer = 0.84f;
@@ -95,7 +96,8 @@ public class ShipController : MonoBehaviour
             float yCorr = coll.transform.position.y - this.transform.position.y;
             float landingAngle = Mathf.Atan(yCorr / xCorr);
 
-            landingAngle *= 180f / Mathf.PI; //to degree
+            //to degree
+            landingAngle *= 180f / Mathf.PI;
 
             if (xCorr < 0)
                 landingAngle += 180;
@@ -162,8 +164,6 @@ public class ShipController : MonoBehaviour
         return Mathf.Abs(radius * Mathf.Sin(angle) + planet.transform.position.y);
     }
 
-    //private float findAngle (GameObject
-
     void Rotate()
     {
         if (fuel > 0)
@@ -183,50 +183,6 @@ public class ShipController : MonoBehaviour
             {
                 GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
             }
-            //else
-            //{
-            //    if (forceX > 0)
-            //    {
-            //        forceX -= 1.0f * Time.deltaTime;
-
-            //        if (forceX < 0.25f)
-            //        {
-            //            forceX = 0;
-            //        }
-            //    }
-            //    else if (forceX < 0)
-            //    {
-            //        forceX += 1.0f * Time.deltaTime;
-
-            //        if (forceX > -1.0f)
-            //        {
-            //            forceX = 0;
-            //        }
-            //    }
-
-            //    if (forceY > 0)
-            //    {
-            //        forceY -= 1.0f * Time.deltaTime;
-
-            //        if (forceY < 1.0f)
-            //        {
-            //            forceY = 0;
-            //        }
-            //    }
-            //    else if (forceY < 0)
-            //    {
-            //        forceY += 1.0f * Time.deltaTime;
-
-            //        if (forceY > -1.0f)
-            //        {
-            //            forceY = 0;
-            //        }
-            //    }
-
-            //    rigidbody2D.velocity = new Vector2(forceX, forceY);
-            //}
-
-            //GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
         }
     }
 
