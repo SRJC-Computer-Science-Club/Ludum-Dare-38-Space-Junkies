@@ -7,6 +7,9 @@ public class PlayerControls : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject playerActual;
     public GameObject spawnPoint;
+    public GameObject currentBody;
+    public GameObject currentLeftWing;
+    public GameObject currentRightWing;
     public static GameObject landingSite;
     public static bool isLanded;
     public static bool moveMan;
@@ -35,6 +38,9 @@ public class PlayerControls : MonoBehaviour
 
         this.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
 
+        Instantiate(currentBody, currentBody.transform.parent = this.transform);
+        Instantiate(currentLeftWing, currentLeftWing.transform.parent = this.transform);
+        Instantiate(currentRightWing, currentRightWing.transform.parent = this.transform);
     }
     void Update()
     {
@@ -195,4 +201,14 @@ public class PlayerControls : MonoBehaviour
 
 
     //private float findAngle (GameObject
+
+    public void changeShipPiece(GameObject newPiece)
+    {
+        if(newPiece.GetComponent<ShipPart>().typeOfPart == "Body")
+        {
+            currentBody.GetComponent<ShipPart>().destroyShipPart();
+            currentBody = newPiece;
+            Instantiate(currentBody, currentBody.transform.parent = this.transform);
+        }
+    }
 }

@@ -9,6 +9,11 @@ public class ShipPart : MonoBehaviour{
     public string typeOfPart = "";
     public int durability = 0;
 
+    public void destroyShipPart()
+    {
+        Destroy(this.gameObject);
+    }
+
     //This is something we might want to implement later, it's a more complex but effecent way of
     //doing what is above.
     /*
