@@ -13,9 +13,13 @@ public class ModularShipControl : MonoBehaviour {
     [SerializeField]
     private GameObject Thruster;
 
+<<<<<<< HEAD
+	public float rotationSpeed = 100;
+=======
     public Sprite[] shipParts;
 
     private float rotationSpeed = 100;
+>>>>>>> 62d1cb2ba1e26da9fde8de5bfb25c0d128dc284b
     public float thrustForce;
 
     public Sprite shipPeices
@@ -38,7 +42,7 @@ public class ModularShipControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+		transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
         GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
     }
 }
