@@ -29,7 +29,7 @@ public class CameraControls : MonoBehaviour
         }
         else
         {
-            Debug.Log("player is cameras target player");
+            //Debug.Log("player is cameras target player");
             targetTom = GameObject.FindGameObjectWithTag("Player");
             transform.position = new Vector3 (targetTom.transform.position.x, targetTom.transform.position.y, -10.0f);
         }

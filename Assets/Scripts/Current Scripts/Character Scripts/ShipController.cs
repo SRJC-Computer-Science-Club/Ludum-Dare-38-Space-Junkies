@@ -77,7 +77,7 @@ public class ShipController : MonoBehaviour
 
         if (Mathf.Sqrt (Mathf.Pow (0.0f - this.transform.position.x, 2) + Mathf.Pow (0.0f - this.transform.position.y, 2)) >= 80.0f)
         {
-            Debug.LogError("Die");
+            //Debug.LogError("Die");
             Application.LoadLevel(3);
         }
 
@@ -86,7 +86,7 @@ public class ShipController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("This Object is a " + coll.tag);
+        //Debug.Log("This Object is a " + coll.tag);
 
         if (isLanded == false && coll.gameObject.tag == "planet")
         {
