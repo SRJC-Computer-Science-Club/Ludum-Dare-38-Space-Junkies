@@ -7,9 +7,12 @@ public class PlayerControls : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject playerActual;
     public GameObject spawnPoint;
-    public GameObject currentBody;
-    public GameObject currentLeftWing;
-    public GameObject currentRightWing;
+    private GameObject currentBody;
+    public GameObject startingBody;
+    private GameObject currentLeftWing;
+    public GameObject startingLeftWing;
+    private GameObject currentRightWing;
+    public GameObject startingRightWing;
     public static GameObject landingSite;
     public static bool isLanded;
     public static bool moveMan;
@@ -38,10 +41,12 @@ public class PlayerControls : MonoBehaviour
 
         this.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
 
-        Instantiate(currentBody, currentBody.transform.parent = this.transform);
-        Instantiate(currentLeftWing, currentLeftWing.transform.parent = this.transform);
-        Instantiate(currentRightWing, currentRightWing.transform.parent = this.transform);
+        currentBody = Instantiate(startingBody, this.transform);
+        currentLeftWing = Instantiate(startingLeftWing, this.transform);
+        currentRightWing = Instantiate(startingRightWing, this.transform);
     }
+
+
     void Update()
     {
         if (isLanded == false)
@@ -207,8 +212,20 @@ public class PlayerControls : MonoBehaviour
         if(newPiece.GetComponent<ShipPart>().typeOfPart == "Body")
         {
             currentBody.GetComponent<ShipPart>().destroyShipPart();
-            currentBody = newPiece;
-            Instantiate(currentBody, currentBody.transform.parent = this.transform);
+            
+            currentBody = Instantiate(newPiece, this.transform);
+        }
+        else if(newPiece.GetComponent<ShipPart>().typeOfPart == "LeftWing")
+        {
+            currentLeftWing.GetComponent<ShipPart>().destroyShipPart();
+
+            currentLeftWing = Instantiate(newPiece, this.transform);
+        }
+        else if (newPiece.GetComponent<ShipPart>().typeOfPart == "RightWing")
+        {
+            currentRightWing.GetComponent<ShipPart>().destroyShipPart();
+
+            currentRightWing = Instantiate(newPiece, this.transform);
         }
     }
 }

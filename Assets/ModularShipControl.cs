@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class ModularShipControl : MonoBehaviour {
 
+    public float rotationSpeed = 100;
+
+    public Sprite[] shipParts;
+
+    public float thrustForce;
+
     [SerializeField]
     private GameObject Body;
     [SerializeField]
@@ -12,15 +18,6 @@ public class ModularShipControl : MonoBehaviour {
     private GameObject RightWing;
     [SerializeField]
     private GameObject Thruster;
-
-<<<<<<< HEAD
-	public float rotationSpeed = 100;
-=======
-    public Sprite[] shipParts;
-
-    private float rotationSpeed = 100;
->>>>>>> 62d1cb2ba1e26da9fde8de5bfb25c0d128dc284b
-    public float thrustForce;
 
     public Sprite shipPeices
     {

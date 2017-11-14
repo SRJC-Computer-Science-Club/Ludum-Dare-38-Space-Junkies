@@ -19,7 +19,7 @@ public class rwingHealth : MonoBehaviour {
 		{
 		rwingcurrentHealth = rwingstartingHealth;
 		rigi = GetComponent<Rigidbody2D> ();
-		gaykona = rigi.velocity.x;
+		//gaykona = rigi.velocity.x;
 		}
 
 		// Update is called once per frame

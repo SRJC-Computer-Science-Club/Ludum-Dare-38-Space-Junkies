@@ -11,7 +11,7 @@ public class ShipPart : MonoBehaviour{
 
     public void destroyShipPart()
     {
-        Destroy(this.gameObject);
+        Object.Destroy(gameObject);
     }
 
     //This is something we might want to implement later, it's a more complex but effecent way of
