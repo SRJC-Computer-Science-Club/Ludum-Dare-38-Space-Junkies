@@ -7,7 +7,8 @@ public class ShipPart : MonoBehaviour{
 
     public string nameOfPart = "";
     public string typeOfPart = "";
-    public int durability = 0;
+    public float durability = 0;
+    public float thrustForse = 0;
 
     public void destroyShipPart()
     {

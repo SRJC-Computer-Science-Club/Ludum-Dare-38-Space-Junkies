@@ -17,9 +17,9 @@ public class rwingHealth : MonoBehaviour {
 
 		void Awake()
 		{
-		rwingcurrentHealth = rwingstartingHealth;
-		rigi = GetComponent<Rigidbody2D> ();
-		//gaykona = rigi.velocity.x;
+		    rwingcurrentHealth = rwingstartingHealth;
+		    rigi = GetComponent<Rigidbody2D> ();
+		    //gaykona = rigi.velocity.x;
 		}
 
 		// Update is called once per frame
@@ -38,14 +38,15 @@ public class rwingHealth : MonoBehaviour {
 				Death();
 			}
 		}
-		void Death()
+	void Death()
 	{
 		isDead = true;
 		GameObject thePlayer = GameObject.Find ("DaMainShip");
 		ModularShipControl playerScript = thePlayer.GetComponent<ModularShipControl> ();
 		playerScript.rotationSpeed -= 49;
 	}
-	void OnCollisionEnter(Collision collision) {
+	void OnCollisionEnter(Collision collision)
+    {
 		TakeDamage (kkona);
 	}
 		

@@ -44,6 +44,8 @@ public class PlayerControls : MonoBehaviour
         currentBody = Instantiate(startingBody, this.transform);
         currentLeftWing = Instantiate(startingLeftWing, this.transform);
         currentRightWing = Instantiate(startingRightWing, this.transform);
+
+        thrustForce = currentBody.GetComponent<ShipPart>().thrustForse;
     }
 
 
@@ -212,19 +214,17 @@ public class PlayerControls : MonoBehaviour
         if(newPiece.GetComponent<ShipPart>().typeOfPart == "Body")
         {
             currentBody.GetComponent<ShipPart>().destroyShipPart();
-            
             currentBody = Instantiate(newPiece, this.transform);
+            thrustForce = currentBody.GetComponent<ShipPart>().thrustForse;
         }
         else if(newPiece.GetComponent<ShipPart>().typeOfPart == "LeftWing")
         {
             currentLeftWing.GetComponent<ShipPart>().destroyShipPart();
-
             currentLeftWing = Instantiate(newPiece, this.transform);
         }
         else if (newPiece.GetComponent<ShipPart>().typeOfPart == "RightWing")
         {
             currentRightWing.GetComponent<ShipPart>().destroyShipPart();
-
             currentRightWing = Instantiate(newPiece, this.transform);
         }
     }
