@@ -16,8 +16,8 @@ public class ItemLinker : MonoBehaviour {
 		if(this.transform.childCount > 0 && this.transform.GetChild(0) != currentChild)
         {
             ship.GetComponent<PlayerControls>().changeShipPiece(transform.GetChild(0).GetComponent<DragHandler>().isLinkedTo);
+            updateChild();
         }
-        updateChild();
 	}
 
 
