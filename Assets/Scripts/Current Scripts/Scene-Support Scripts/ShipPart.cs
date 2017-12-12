@@ -9,12 +9,20 @@ public class ShipPart : MonoBehaviour{
     public string typeOfPart = "";
     public float durability = 0;
     public float thrustForse = 0;
+    public bool hasCollided = false;
 
     public void destroyShipPart()
     {
         Object.Destroy(gameObject);
     }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.tag == "planet")
+        {
+            hasCollided = !hasCollided;
+        }
+    }
     //This is something we might want to implement later, it's a more complex but effecent way of
     //doing what is above.
     /*

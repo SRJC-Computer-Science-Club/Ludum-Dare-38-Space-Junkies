@@ -114,6 +114,15 @@ public class PlayerControls : MonoBehaviour
             Application.LoadLevel(3);
         }
 
+        //This thing is ugly, but it checks to see if any of the ship componets have collided with the planet.
+        if(currentBody.GetComponent<ShipPart>().hasCollided || currentLeftWing.GetComponent<ShipPart>().hasCollided
+            || currentRightWing.GetComponent<ShipPart>().hasCollided)
+        {
+            GetComponent<Rigidbody2D>().angularVelocity = 0f;
+            currentBody.GetComponent<ShipPart>().hasCollided = !currentBody.GetComponent<ShipPart>().hasCollided;
+            currentLeftWing.GetComponent<ShipPart>().hasCollided = !currentLeftWing.GetComponent<ShipPart>().hasCollided;
+            currentRightWing.GetComponent<ShipPart>().hasCollided = !currentRightWing.GetComponent<ShipPart>().hasCollided;
+        }
         //Debug.Log("Ship velocity " + this.GetComponent<Rigidbody2D>().velocity);
     }
 
