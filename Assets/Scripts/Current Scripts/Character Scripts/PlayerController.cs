@@ -177,12 +177,12 @@ public class PlayerController : MonoBehaviour
                 projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
                 break;
             case 2:
-                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta + 25.0f));
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta + 5.0f));
                 projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
-                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta - 25.0f));
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta - 5.0f));
                 break;
             case 3:
-               laserBeamInitiated = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                laserBeamInitiated = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
                 break; 
         }
     }
@@ -222,6 +222,7 @@ public class PlayerController : MonoBehaviour
 
 
         laserBeamInitiated.transform.rotation = Quaternion.Euler(0, 0, armTheta);
+        laserBeamInitiated.transform.position = transform.position;
         Debug.Log("Hey This laser beam is long");
     }
 
