@@ -6,6 +6,7 @@ public class GravitationalForces : MonoBehaviour
 {
     public const float GRAV_CONSTANT = 6.0f;
     public const float MAX_DISTANCE = 20;
+
     public static Vector2 totalForceReferance;
     public static float angleReferance;
 

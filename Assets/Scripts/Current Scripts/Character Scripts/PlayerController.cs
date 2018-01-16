@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     public static bool onGround;
     //public bool testingMan; //Work on later
     public GameObject armRotationPoint;
-    public GameObject projectilePrefab;
+    public GameObject laserBlastPrefab;
+    public GameObject laserBeamPrefab;
+
     
     private RaycastHit2D castMaster;
     private BoxCollider2D boxMaster;
@@ -23,6 +25,9 @@ public class PlayerController : MonoBehaviour
     private float armTheta;
     private Quaternion setRotation;
     private int weaponMode;
+    private bool laserStarted;
+    private GameObject laserBeamInitiated;
+
 
 	void Start ()
     {
@@ -31,6 +36,7 @@ public class PlayerController : MonoBehaviour
         canJet = false;
         onGround = true;
         inSpace = false;
+        laserStarted = false;
         count = 0;
         weaponMode = 1;
     }
@@ -65,6 +71,15 @@ public class PlayerController : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 Fire();
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                Destroy(laserBeamInitiated);
+                laserBeamInitiated = null;
+            }
+            else if (laserBeamInitiated)
+            {
+                laserBeamUpdate();
             }
         }
     }
@@ -153,18 +168,21 @@ public class PlayerController : MonoBehaviour
 
     private void Fire()
     {
-        GameObject projectile;
+        GameObject projectile = null;
         Debug.Log("Tom has fired his weapon!");
         
         switch (weaponMode)
         {
             case 1:
-                projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
                 break;
             case 2:
-                projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta + 25.0f));
-                projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
-                projectile = Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta - 25.0f));
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta + 25.0f));
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta - 25.0f));
+                break;
+            case 3:
+               laserBeamInitiated = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
                 break; 
         }
     }
@@ -195,6 +213,16 @@ public class PlayerController : MonoBehaviour
         }
 
         Debug.Log("Weapon mode: " + weaponMode);
+    }
+
+
+    private void laserBeamUpdate ()
+    {
+        float scaleY = laserBeamInitiated.transform.localScale.y;
+
+
+        laserBeamInitiated.transform.rotation = Quaternion.Euler(0, 0, armTheta);
+        Debug.Log("Hey This laser beam is long");
     }
 
 
