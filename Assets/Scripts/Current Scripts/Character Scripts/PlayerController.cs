@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -26,7 +27,8 @@ public class PlayerController : MonoBehaviour
     private Quaternion setRotation;
     private int weaponMode;
     private bool laserStarted;
-    private GameObject laserBeamInitiated;
+    private GameObject laserBeam;
+    private GameObject laserBeamSegment;
 
 
 	void Start ()
@@ -74,10 +76,10 @@ public class PlayerController : MonoBehaviour
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                Destroy(laserBeamInitiated);
-                laserBeamInitiated = null;
+                Destroy(laserBeam);
+                laserBeam = null;
             }
-            else if (laserBeamInitiated)
+            else if (laserBeam)
             {
                 laserBeamUpdate();
             }
@@ -165,7 +167,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
     private void Fire()
     {
         GameObject projectile = null;
@@ -173,6 +174,7 @@ public class PlayerController : MonoBehaviour
         
         switch (weaponMode)
         {
+
             case 1:
                 projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
                 break;
@@ -182,7 +184,7 @@ public class PlayerController : MonoBehaviour
                 projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta - 25.0f));
                 break;
             case 3:
-               laserBeamInitiated = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+               laserBeam = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
                 break; 
         }
     }
@@ -218,11 +220,17 @@ public class PlayerController : MonoBehaviour
 
     private void laserBeamUpdate ()
     {
-        float scaleY = laserBeamInitiated.transform.localScale.y;
+        //laserBeamSegment = Instantiate()
 
-
-        laserBeamInitiated.transform.rotation = Quaternion.Euler(0, 0, armTheta);
+        laserBeam.transform.rotation = Quaternion.Euler(0, 0, armTheta);
+        laserBeam.transform.position = armRotationPoint.transform.position;
         Debug.Log("Hey This laser beam is long");
+    }
+
+
+    private void findMousePosition ()
+    {
+
     }
 
 
