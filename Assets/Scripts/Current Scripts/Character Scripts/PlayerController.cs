@@ -28,7 +28,9 @@ public class PlayerController : MonoBehaviour
     private int weaponMode;
     private bool laserStarted;
     private GameObject laserBeam;
+    private GameObject laserBeamInitiated;
     private GameObject laserBeamSegment;
+    private float blasterHeatLevel;
 
 
 	void Start ()
@@ -70,7 +72,7 @@ public class PlayerController : MonoBehaviour
             ChangeWeapon();
 
             // Fires weapon on mouse button push
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && blasterHeatLevel < 100.0f)
             {
                 Fire();
             }
@@ -83,6 +85,12 @@ public class PlayerController : MonoBehaviour
             {
                 laserBeamUpdate();
             }
+            else
+            {
+                blasterHeatLevel -= 5.0f;
+            }
+
+            Debug.Log("Blaster Heat Level: " + blasterHeatLevel);
         }
     }
 
@@ -177,18 +185,17 @@ public class PlayerController : MonoBehaviour
 
             case 1:
                 projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                blasterHeatLevel += 10.0f;
                 break;
             case 2:
                 projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta + 5.0f));
                 projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
                 projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta - 5.0f));
+                blasterHeatLevel += 20.0f;
                 break;
             case 3:
-<<<<<<< HEAD
-               laserBeam = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
-=======
+                laserBeam = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
                 laserBeamInitiated = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
->>>>>>> 45a8f0c5a40bfbaf25175efc1716a6ea9f259607
                 break; 
         }
     }
@@ -225,15 +232,9 @@ public class PlayerController : MonoBehaviour
     private void laserBeamUpdate ()
     {
         //laserBeamSegment = Instantiate()
-
-<<<<<<< HEAD
         laserBeam.transform.rotation = Quaternion.Euler(0, 0, armTheta);
         laserBeam.transform.position = armRotationPoint.transform.position;
-=======
-
-        laserBeamInitiated.transform.rotation = Quaternion.Euler(0, 0, armTheta);
-        laserBeamInitiated.transform.position = transform.position;
->>>>>>> 45a8f0c5a40bfbaf25175efc1716a6ea9f259607
+        blasterHeatLevel += 3.0f * Time.deltaTime;
         Debug.Log("Hey This laser beam is long");
     }
 

@@ -43,7 +43,6 @@ public class ShipController : MonoBehaviour
 
         ShipRigidbody = this.GetComponent<Rigidbody2D>();
         ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
-
     }
 
 
