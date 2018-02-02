@@ -35,6 +35,7 @@ public class ShipController : MonoBehaviour
     { 
         isLanded = false;
         playerLeavesShip = false;
+        moveMan = false;
         liftOff = 0;
         timeStart = 0;
         timeToSpawn = 0;
@@ -199,6 +200,7 @@ public class ShipController : MonoBehaviour
         {
             this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 75);
             liftOff = 0;
+            moveMan = false;
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject enemy in enemies)
             {
@@ -213,6 +215,7 @@ public class ShipController : MonoBehaviour
     {
         float spawnPoint = 0.16f;
         float timeFromLanding = Time.time;
+        moveMan = true;
 
         ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
 
