@@ -128,7 +128,7 @@ public class PlayerControls : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("This Object is a " + coll.tag);
+        //Debug.Log("This Object is a " + coll.tag);
 
         if (isLanded == false && coll.gameObject.tag == "planet")
         {
@@ -194,7 +194,7 @@ public class PlayerControls : MonoBehaviour
 
 
 
-    private float findXSpawnPoint (GameObject planet)
+    public float findXSpawnPoint (GameObject planet)
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan (this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
@@ -205,7 +205,7 @@ public class PlayerControls : MonoBehaviour
 
 
 
-    private float findYSpawnPoint(GameObject planet)
+    public float findYSpawnPoint(GameObject planet)
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan(this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
@@ -236,5 +236,11 @@ public class PlayerControls : MonoBehaviour
             currentRightWing.GetComponent<ShipPart>().destroyShipPart();
             currentRightWing = Instantiate(newPiece, this.transform);
         }
+    }
+
+
+    public void setTimeToSpawn(float newTimeToSpawn)
+    {
+        timeToSpawn = newTimeToSpawn;
     }
 }

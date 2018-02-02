@@ -23,6 +23,8 @@ public class ShipPart : MonoBehaviour{
             hasCollided = !hasCollided;
         }
     }
+
+}
     //This is something we might want to implement later, it's a more complex but effecent way of
     //doing what is above.
     /*
@@ -41,4 +43,4 @@ public class ShipPart : MonoBehaviour{
         durability = _Durability;
     }
     */
-}
+
