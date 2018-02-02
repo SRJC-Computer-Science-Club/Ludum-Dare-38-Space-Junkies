@@ -78,8 +78,6 @@ public class PlayerController : MonoBehaviour
             ArmRotation();
             ChangeWeapon();
 
-            if (Input.GetMouseButtonDown(0))
-            { 
             // Fires weapon on mouse button push
             if (Input.GetMouseButtonDown(0) && blasterHeatLevel < 100.0f)
             {
