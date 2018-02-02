@@ -6,7 +6,7 @@ public class LevelManager : MonoBehaviour
 {
     public void loadLevel (int level)
     {
-        Application.LoadLevel(level);
+        //Application.LoadLevel(level);
     }
 
 

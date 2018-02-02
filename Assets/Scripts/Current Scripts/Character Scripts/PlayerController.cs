@@ -5,25 +5,31 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    GravitationalForces gravForces;
     public float playerSpeed = 20f;
     public float thrustForce = 20f;
     public float rotationSpeed = 125f;
+    public float thrust;
     public static bool onGround;
     //public bool testingMan; //Work on later
     public GameObject armRotationPoint;
+    public GameObject projectilePrefab;
+    public GameObject tomShip;
+    public GameObject planet;
     public GameObject laserBlastPrefab;
     public GameObject laserBeamPrefab;
 
     
     private RaycastHit2D castMaster;
     private BoxCollider2D boxMaster;
-    private GameObject planet;
     private Rigidbody2D tomRigidbody;
     private Ray2D rayMaster;
     private int count;
     private bool canJet;
     private bool inSpace;
     private float armTheta;
+    private float landingX;
+    private float landingY;
     private Quaternion setRotation;
     private int weaponMode;
     private bool laserStarted;
@@ -33,8 +39,9 @@ public class PlayerController : MonoBehaviour
     private float blasterHeatLevel;
 
 
-	void Start ()
+    void Start()
     {
+        gravForces = GetComponent<GravitationalForces>();
         boxMaster = this.GetComponent<BoxCollider2D>();
         tomRigidbody = this.GetComponent<Rigidbody2D>();
         canJet = false;
@@ -42,23 +49,23 @@ public class PlayerController : MonoBehaviour
         inSpace = false;
         laserStarted = false;
         count = 0;
+        landingX = tomRigidbody.transform.position.x;
+        landingY = tomRigidbody.transform.position.y;
         weaponMode = 1;
     }
-	
-	
-	void Update ()
+
+
+    void Update()
     {
         if (ShipController.moveMan)
         {
             planet = ShipController.landingSite;
 
-            // Launch into space off planet
             if (Input.GetKey(KeyCode.E))
             {
-                GetInShip();               
+                GetInShip();
             }
 
-            // If movement keys pressed, move Tom either by ground or space.
             if (!inSpace)
             {
                 MovementOnGround();
@@ -71,6 +78,8 @@ public class PlayerController : MonoBehaviour
             ArmRotation();
             ChangeWeapon();
 
+            if (Input.GetMouseButtonDown(0))
+            { 
             // Fires weapon on mouse button push
             if (Input.GetMouseButtonDown(0) && blasterHeatLevel < 100.0f)
             {
@@ -96,6 +105,31 @@ public class PlayerController : MonoBehaviour
 
     void GetInShip()
     {
+        float properDistance = 0.5f;
+        float checkX;
+        float checkY;
+        bool xToShip = false;
+        bool yToShip = false;
+        bool nearToShip = false;
+
+        checkX = tomRigidbody.transform.position.x - landingX;
+        checkY = tomRigidbody.transform.position.y - landingY;
+        xToShip = ((checkX < properDistance) & (checkX > -properDistance));
+        yToShip = ((checkY < properDistance) & (checkY > -properDistance));
+        nearToShip = ((xToShip) & (yToShip));
+
+        if (nearToShip)
+        {
+            PlayerControls.playerLeavesShip = false;
+            PlayerControls.liftOff = 1;
+            PlayerControls.isLanded = false;
+            PlanetaryPull.crashed = false;
+            // PlayerControls.playerStop = false;
+            // PlayerControls.stopSpawn = false;
+            count = 0;
+            Destroy(this.gameObject);
+        }
+
         ShipController.moveMan = false;
         ShipController.liftOff = 1;
         ShipController.isLanded = false;
@@ -106,18 +140,18 @@ public class PlayerController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    void MovementOnGround ()
+    void MovementOnGround()
     {
-        if (Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Translate (Vector2.right * playerSpeed * Time.deltaTime);
+            transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
         }
-        else if (Input.GetKey (KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Translate (-Vector2.right * playerSpeed * Time.deltaTime);
+            transform.Translate(-Vector2.right * playerSpeed * Time.deltaTime);
         }
-        
-        if ((Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) && !inSpace)
+
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && !inSpace)
         {
             onGround = false;
 
@@ -142,7 +176,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private void MovementInSpace ()
+    private void MovementInSpace()
     {
         if (GravitationalForces.totalForceReferance.magnitude > 4.0f)
         {
@@ -177,6 +211,8 @@ public class PlayerController : MonoBehaviour
 
     private void Fire()
     {
+        Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+
         GameObject projectile = null;
         Debug.Log("Tom has fired his weapon!");
         
@@ -246,9 +282,15 @@ public class PlayerController : MonoBehaviour
 
 
 
-    public void OnCollisionEnter2D (Collision2D col)
+    public void OnCollisionEnter2D(Collision2D col)
     {
-        tomRigidbody.velocity = new Vector3 (0, 0, 0);
+        tomRigidbody.velocity = new Vector3(0, 0, 0);
         onGround = true;
+    }
+
+    public void Knockback(GameObject damagingObject)
+    {
+        Vector2 direction = (this.transform.position - damagingObject.transform.position).normalized;
+        tomRigidbody.AddForce(direction * thrust);
     }
 }

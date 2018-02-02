@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
-    
     public static GameObject landingSite;
     public static bool isLanded;
-    public static bool moveMan;
+    public static bool playerLeavesShip;
     public static int liftOff;
     public static float fuel = 100f;
     public GameObject playerPrefab;
     public GameObject playerActual;
-    public GameObject spawnPoint;
     public float thrustForce;
     public float xSpawn;
     public float ySpawn;
@@ -20,7 +18,8 @@ public class ShipController : MonoBehaviour
     public float forceY;
     public Texture2D bgImage;
     public Texture2D fgImage;
-    
+    public Vector3 playerPosition;
+
 
     private Rigidbody2D ShipRigidbody;
     private const float halfPlayer = 0.84f;
@@ -34,7 +33,7 @@ public class ShipController : MonoBehaviour
     private void Start()
     { 
         isLanded = false;
-        moveMan = false;
+        playerLeavesShip = false;
         liftOff = 0;
         timeStart = 0;
         timeToSpawn = 0;
@@ -57,16 +56,7 @@ public class ShipController : MonoBehaviour
             Thrust();
             Fuel();
             LiftOff();
-
-            // Loss by lack of fuel
-            if (fuel <= 0 && timeStart == 0)
-            {
-                timeStart = Time.time;
-            }
-            else if (Time.time - timeStart >= 10 && fuel <= 0)
-            {
-                Application.LoadLevel(3);
-            }
+            OutOfFuel();
         }
         else
         {
@@ -150,7 +140,7 @@ public class ShipController : MonoBehaviour
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan (this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
-        Debug.Log("angle " + (radius * Mathf.Cos(angle)));
+        //Debug.Log("angle " + (radius * Mathf.Cos(angle)));
 
         return (radius * Mathf.Cos(angle) + planet.transform.position.x);
     }
@@ -208,26 +198,61 @@ public class ShipController : MonoBehaviour
         {
             this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 75);
             liftOff = 0;
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                EnemyAttack enemyAttack;
+                enemyAttack = enemy.GetComponent<EnemyAttack>();
+                enemyAttack.tomExists = false;
+            }
         }
     }
 
     void ShipLands()
     {
+        float spawnPoint = 0.16f;
         float timeFromLanding = Time.time;
 
         ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
 
-        if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !moveMan)
+        if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !playerLeavesShip)
         {
             float angle = Mathf.Atan(ySpawn / xSpawn);
             Quaternion newRotation = new Quaternion(0.0f, 0.0f, angle * 180 / Mathf.PI, 0.0f);
 
-            playerActual = Instantiate(playerPrefab, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, -2.0f), this.transform.rotation);
-            moveMan = true;
+            playerPosition = new Vector3(this.transform.position.x, this.transform.position.y - spawnPoint, this.transform.position.z);
+
+            //playerActual = Instantiate(playerPrefab, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, -2.0f), this.transform.rotation);
+            //playerActual = Instantiate(playerPrefab, new Vector3(this.transform.position.x, this.transform.position.y - spawnPoint, this.transform.position.z), this.transform.rotation);
+            playerActual = Instantiate(playerPrefab, new Vector3(playerPosition.x, playerPosition.y, playerPosition.z), this.transform.rotation);
+            playerLeavesShip = true;
+
+
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                EnemyAttack enemyAttack;
+                enemyAttack = enemy.GetComponent<EnemyAttack>();
+                enemyAttack.TomExists();
+            }
         }
     }
 
 
+    // Loss by lack of fuel
+    void OutOfFuel()
+    {
+        if (fuel <= 0 && timeStart == 0)
+        {
+            timeStart = Time.time;
+        }
+        else if (Time.time - timeStart >= 10 && fuel <= 0)
+        {
+            //Application.LoadLevel(3);
+        }
+    }
+        
     public bool getMoveMan ()
     {
         return moveMan;

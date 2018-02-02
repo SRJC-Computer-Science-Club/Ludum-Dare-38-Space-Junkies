@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManController : MonoBehaviour
-{
+public class ManController : MonoBehaviour {
 
     public float speed = 1;
-
-
-    private ShipController shipController;
     
 
-    void Update ()
-    {
-        if (shipController.getMoveMan() == true)
+    void Update () {
+        if (PlayerControls.playerLeavesShip == true)
         {
             this.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -29,7 +24,7 @@ public class ManController : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             Destroy(this.gameObject);
-            shipController.setMoveMan(false);
+            PlayerControls.playerLeavesShip = false;
             //PlayerControls.playerStop = false;
             //PlayerControls.stopSpawn = false;
         }
