@@ -20,14 +20,14 @@ public class CameraSwitch : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (PlayerControls.playerLeavesShip == false)
+        if (ShipController.playerLeavesShip == false)
         {
             if (shipController.getMoveMan() == false)
             {
                 RocketCamera.enabled = true;
                 SpaceManCamera.enabled = false;
             }
-            if (PlayerControls.playerLeavesShip == true)
+            if (ShipController.playerLeavesShip == true)
             {
                 if (shipController.getMoveMan() == true)
                 {

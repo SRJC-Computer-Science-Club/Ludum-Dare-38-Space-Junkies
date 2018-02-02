@@ -10,6 +10,7 @@ public class CameraControls : MonoBehaviour
 
     private Vector3 offset;
     private ShipController shipController;
+    private PlayerController playerController;
 
     
     void Start()
@@ -22,7 +23,7 @@ public class CameraControls : MonoBehaviour
    
     void LateUpdate()
     {
-        if (!PlayerControls.playerLeavesShip)
+        if (!ShipController.playerLeavesShip)
         {
             // Sets camera to follow Tom or the Ship. Update is called once per frame but the last in line compared to void Update()
             if (!ShipController.moveMan)

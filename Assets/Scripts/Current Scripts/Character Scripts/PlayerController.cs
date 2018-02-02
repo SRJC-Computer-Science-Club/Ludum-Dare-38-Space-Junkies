@@ -118,9 +118,9 @@ public class PlayerController : MonoBehaviour
 
         if (nearToShip)
         {
-            PlayerControls.playerLeavesShip = false;
-            PlayerControls.liftOff = 1;
-            PlayerControls.isLanded = false;
+            ShipController.playerLeavesShip = false;
+            ShipController.liftOff = 1;
+            ShipController.isLanded = false;
             PlanetaryPull.crashed = false;
             // PlayerControls.playerStop = false;
             // PlayerControls.stopSpawn = false;

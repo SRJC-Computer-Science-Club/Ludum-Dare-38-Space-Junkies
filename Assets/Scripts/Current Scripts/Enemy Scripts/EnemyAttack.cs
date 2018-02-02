@@ -13,7 +13,7 @@ public class EnemyAttack : MonoBehaviour
     GameObject player;
     PlayerHealth playerHealth;
     EnemyHealth enemyHealth;
-    GroundPlayerController gpc;
+    PlayerController gpc;
 
     private void Awake()
     {
@@ -64,7 +64,7 @@ public class EnemyAttack : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerHealth = player.GetComponent<PlayerHealth>();
-        gpc = player.GetComponent<GroundPlayerController>();
+        gpc = player.GetComponent<PlayerController>();
         tomExists = true;
     }
 }
