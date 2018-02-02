@@ -21,6 +21,7 @@ public class ShipPart : MonoBehaviour{
         if(other.gameObject.tag == "planet")
         {
             hasCollided = !hasCollided;
+            PlayerControls.isLanded = !PlayerControls.isLanded;
         }
     }
 

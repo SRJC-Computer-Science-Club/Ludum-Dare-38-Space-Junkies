@@ -90,6 +90,8 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
+            //Debug.Log("isLanded in true");
+
             Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
             rb.velocity = new Vector2(0.0f, 0.0f);
             //Debug.Log("This works, hurray!");
@@ -236,11 +238,5 @@ public class PlayerControls : MonoBehaviour
             currentRightWing.GetComponent<ShipPart>().destroyShipPart();
             currentRightWing = Instantiate(newPiece, this.transform);
         }
-    }
-
-
-    public void setTimeToSpawn(float newTimeToSpawn)
-    {
-        timeToSpawn = newTimeToSpawn;
     }
 }
