@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControls : MonoBehaviour
+public class ShipController : MonoBehaviour
 {
     public static GameObject landingSite;
     public static bool isLanded;
@@ -20,6 +20,7 @@ public class PlayerControls : MonoBehaviour
     public Texture2D fgImage;
     public Vector3 playerPosition;
 
+
     private Rigidbody2D ShipRigidbody;
     private const float halfPlayer = 0.84f;
     private float maxFuel = 100f;
@@ -27,6 +28,7 @@ public class PlayerControls : MonoBehaviour
     private float timeStart;
     private float timeToSpawn;
     private float lastDirection;
+
 
     private void Start()
     { 
@@ -40,7 +42,6 @@ public class PlayerControls : MonoBehaviour
 
         ShipRigidbody = this.GetComponent<Rigidbody2D>();
         ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
-
     }
 
 
@@ -50,7 +51,6 @@ public class PlayerControls : MonoBehaviour
         {
             forceX = ShipRigidbody.velocity.x;
             forceY = ShipRigidbody.velocity.y;
-            //Debug.Log ("Force X = " + forceX + "\nForce Y = " + forceY);
 
             Rotate();
             Thrust();
@@ -66,8 +66,8 @@ public class PlayerControls : MonoBehaviour
 
         if (Mathf.Sqrt (Mathf.Pow (0.0f - this.transform.position.x, 2) + Mathf.Pow (0.0f - this.transform.position.y, 2)) >= 80.0f)
         {
-            Debug.LogError("Die");
-            //Application.LoadLevel(3);
+            //Debug.LogError("Die");
+            Application.LoadLevel(3);
         }
 
         //Debug.Log("Ship velocity " + this.GetComponent<Rigidbody2D>().velocity);
@@ -149,7 +149,6 @@ public class PlayerControls : MonoBehaviour
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan(this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
-        //Debug.Log("angle " + (radius * Mathf.Sin (angle)));
 
         return Mathf.Abs(radius * Mathf.Sin(angle) + planet.transform.position.y);
     }
@@ -258,8 +257,6 @@ public class PlayerControls : MonoBehaviour
         float timeFromLanding = Time.time;
 
         ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
-        //Debug.Log("This works, hurray!");
-        //Debug.Log("Time of Landing: " + timeToSpawn + " Time from Landing " + timeFromLanding);
 
         if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !playerLeavesShip)
         {
@@ -293,9 +290,68 @@ public class PlayerControls : MonoBehaviour
         {
             timeStart = Time.time;
         }
-            else if (Time.time - timeStart >= 10 && fuel <= 0)
+        else if (Time.time - timeStart >= 10 && fuel <= 0)
         {
             //Application.LoadLevel(3);
-        }   
+        }
+    }
+        
+    public bool getMoveMan ()
+    {
+        return moveMan;
+    }
+
+
+    public void setMoveMan (bool check)
+    {
+        moveMan = check;
+    }
+
+
+    public GameObject getLandingSite ()
+    {
+        return landingSite;
+    }
+
+
+    public void setLandingSite (GameObject newSite)
+    {
+        landingSite = newSite;
+    }
+
+
+    public bool getIsLanded ()
+    {
+        return isLanded;
+    }
+
+
+    public void setIsLanded (bool check)
+    {
+        isLanded = check;
+    }
+
+
+    public int getLiftOff ()
+    {
+        return liftOff;
+    }
+
+
+    public void setLiftOff (int check)
+    {
+        liftOff = check;
+    }
+
+
+    public float getFuel ()
+    {
+        return fuel;
+    }
+
+
+    public void setFuel (float reFuel)
+    {
+        fuel = reFuel;
     }
 }

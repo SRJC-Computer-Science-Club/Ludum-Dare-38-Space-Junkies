@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GroundPlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     GravitationalForces gravForces;
     public float playerSpeed = 20f;
@@ -14,8 +15,11 @@ public class GroundPlayerController : MonoBehaviour
     public GameObject armRotationPoint;
     public GameObject projectilePrefab;
     public GameObject tomShip;
-    GameObject planet;
+    public GameObject planet;
+    public GameObject laserBlastPrefab;
+    public GameObject laserBeamPrefab;
 
+    
     private RaycastHit2D castMaster;
     private BoxCollider2D boxMaster;
     private Rigidbody2D tomRigidbody;
@@ -27,6 +31,13 @@ public class GroundPlayerController : MonoBehaviour
     private float landingX;
     private float landingY;
     private Quaternion setRotation;
+    private int weaponMode;
+    private bool laserStarted;
+    private GameObject laserBeam;
+    private GameObject laserBeamInitiated;
+    private GameObject laserBeamSegment;
+    private float blasterHeatLevel;
+
 
     void Start()
     {
@@ -36,18 +47,19 @@ public class GroundPlayerController : MonoBehaviour
         canJet = false;
         onGround = true;
         inSpace = false;
+        laserStarted = false;
         count = 0;
         landingX = tomRigidbody.transform.position.x;
         landingY = tomRigidbody.transform.position.y;
-
+        weaponMode = 1;
     }
 
 
     void Update()
     {
-        if (PlayerControls.playerLeavesShip)
+        if (ShipController.moveMan)
         {
-            planet = PlayerControls.landingSite;
+            planet = ShipController.landingSite;
 
             if (Input.GetKey(KeyCode.E))
             {
@@ -64,11 +76,30 @@ public class GroundPlayerController : MonoBehaviour
             }
 
             ArmRotation();
+            ChangeWeapon();
 
             if (Input.GetMouseButtonDown(0))
+            { 
+            // Fires weapon on mouse button push
+            if (Input.GetMouseButtonDown(0) && blasterHeatLevel < 100.0f)
             {
                 Fire();
             }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                Destroy(laserBeam);
+                laserBeam = null;
+            }
+            else if (laserBeam)
+            {
+                laserBeamUpdate();
+            }
+            else
+            {
+                blasterHeatLevel -= 5.0f;
+            }
+
+            Debug.Log("Blaster Heat Level: " + blasterHeatLevel);
         }
     }
 
@@ -98,6 +129,15 @@ public class GroundPlayerController : MonoBehaviour
             count = 0;
             Destroy(this.gameObject);
         }
+
+        ShipController.moveMan = false;
+        ShipController.liftOff = 1;
+        ShipController.isLanded = false;
+        PlanetaryPull.crashed = false;
+        // PlayerControls.playerStop = false;
+        // PlayerControls.stopSpawn = false;
+        count = 0;
+        Destroy(this.gameObject);
     }
 
     void MovementOnGround()
@@ -169,11 +209,75 @@ public class GroundPlayerController : MonoBehaviour
     }
 
 
-
     private void Fire()
     {
-        //Debug.Log("Tom has fired his weapon!");
         Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+
+        GameObject projectile = null;
+        Debug.Log("Tom has fired his weapon!");
+        
+        switch (weaponMode)
+        {
+
+            case 1:
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                blasterHeatLevel += 10.0f;
+                break;
+            case 2:
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta + 5.0f));
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta - 5.0f));
+                blasterHeatLevel += 20.0f;
+                break;
+            case 3:
+                laserBeam = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                laserBeamInitiated = Instantiate(laserBeamPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                break; 
+        }
+    }
+
+
+    private void ChangeWeapon()
+    {
+        Vector2 scrollWheeleDelta = Input.mouseScrollDelta;
+        Debug.Log("Scroll Wheele Delta: " + Input.mouseScrollDelta);
+
+        if (scrollWheeleDelta.y == -1.0f || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            weaponMode--;
+
+            if (weaponMode <= 0)
+            {
+                weaponMode = 3;
+            }
+        }
+        else if (scrollWheeleDelta.y == 1.0f || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            weaponMode++;
+
+            if (weaponMode >= 4)
+            {
+                weaponMode = 1;
+            }
+        }
+
+        Debug.Log("Weapon mode: " + weaponMode);
+    }
+
+
+    private void laserBeamUpdate ()
+    {
+        //laserBeamSegment = Instantiate()
+        laserBeam.transform.rotation = Quaternion.Euler(0, 0, armTheta);
+        laserBeam.transform.position = armRotationPoint.transform.position;
+        blasterHeatLevel += 3.0f * Time.deltaTime;
+        Debug.Log("Hey This laser beam is long");
+    }
+
+
+    private void findMousePosition ()
+    {
+
     }
 
 
