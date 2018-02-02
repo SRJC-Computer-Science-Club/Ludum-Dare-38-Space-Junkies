@@ -19,6 +19,7 @@ public class ShipController : MonoBehaviour
     public Texture2D bgImage;
     public Texture2D fgImage;
     public Vector3 playerPosition;
+    public bool moveMan;
 
 
     private Rigidbody2D ShipRigidbody;
