@@ -11,7 +11,7 @@ public class GalaxyBounds : MonoBehaviour
         if (col.gameObject.tag == "Ship")
         {
             //Debug.LogError("Die");
-            Application.LoadLevel(3);
+            //Application.LoadLevel(3);
         }
     }
 }

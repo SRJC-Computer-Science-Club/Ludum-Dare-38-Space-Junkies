@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
-    
     public static GameObject landingSite;
     public static bool isLanded;
-    public static bool moveMan;
+    public static bool playerLeavesShip;
     public static int liftOff;
     public static float fuel = 100f;
     public GameObject playerPrefab;
     public GameObject playerActual;
-    public GameObject spawnPoint;
     public float thrustForce;
     public float xSpawn;
     public float ySpawn;
@@ -20,6 +18,7 @@ public class PlayerControls : MonoBehaviour
     public float forceY;
     public Texture2D bgImage;
     public Texture2D fgImage;
+    public Vector3 playerPosition;
 
     private Rigidbody2D ShipRigidbody;
     private const float halfPlayer = 0.84f;
@@ -28,11 +27,11 @@ public class PlayerControls : MonoBehaviour
     private float timeStart;
     private float timeToSpawn;
     private float lastDirection;
-    
+
     private void Start()
     { 
         isLanded = false;
-        moveMan = false;
+        playerLeavesShip = false;
         liftOff = 0;
         timeStart = 0;
         timeToSpawn = 0;
@@ -51,22 +50,13 @@ public class PlayerControls : MonoBehaviour
         {
             forceX = ShipRigidbody.velocity.x;
             forceY = ShipRigidbody.velocity.y;
-            Debug.Log ("Force X = " + forceX + "\nForce Y = " + forceY);
+            //Debug.Log ("Force X = " + forceX + "\nForce Y = " + forceY);
 
             Rotate();
             Thrust();
             Fuel();
             LiftOff();
-
-            // Loss by lack of fuel
-            if (fuel <= 0 && timeStart == 0)
-            {
-                timeStart = Time.time;
-            }
-            else if (Time.time - timeStart >= 10 && fuel <= 0)
-            {
-                Application.LoadLevel(3);
-            }
+            OutOfFuel();
         }
         else
         {
@@ -77,7 +67,7 @@ public class PlayerControls : MonoBehaviour
         if (Mathf.Sqrt (Mathf.Pow (0.0f - this.transform.position.x, 2) + Mathf.Pow (0.0f - this.transform.position.y, 2)) >= 80.0f)
         {
             Debug.LogError("Die");
-            Application.LoadLevel(3);
+            //Application.LoadLevel(3);
         }
 
         //Debug.Log("Ship velocity " + this.GetComponent<Rigidbody2D>().velocity);
@@ -85,7 +75,7 @@ public class PlayerControls : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("This Object is a " + coll.tag);
+        //Debug.Log("This Object is a " + coll.tag);
 
         if (isLanded == false && coll.gameObject.tag == "planet")
         {
@@ -150,7 +140,7 @@ public class PlayerControls : MonoBehaviour
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan (this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
-        Debug.Log("angle " + (radius * Mathf.Cos(angle)));
+        //Debug.Log("angle " + (radius * Mathf.Cos(angle)));
 
         return (radius * Mathf.Cos(angle) + planet.transform.position.x);
     }
@@ -159,7 +149,7 @@ public class PlayerControls : MonoBehaviour
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan(this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
-        Debug.Log("angle " + (radius * Mathf.Sin (angle)));
+        //Debug.Log("angle " + (radius * Mathf.Sin (angle)));
 
         return Mathf.Abs(radius * Mathf.Sin(angle) + planet.transform.position.y);
     }
@@ -252,24 +242,60 @@ public class PlayerControls : MonoBehaviour
         {
             this.GetComponent<Rigidbody2D>().AddForce(transform.up * thrustForce * 75);
             liftOff = 0;
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                EnemyAttack enemyAttack;
+                enemyAttack = enemy.GetComponent<EnemyAttack>();
+                enemyAttack.tomExists = false;
+            }
         }
     }
 
     void ShipLands()
     {
+        float spawnPoint = 0.16f;
         float timeFromLanding = Time.time;
 
         ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
         //Debug.Log("This works, hurray!");
         //Debug.Log("Time of Landing: " + timeToSpawn + " Time from Landing " + timeFromLanding);
 
-        if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !moveMan)
+        if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !playerLeavesShip)
         {
             float angle = Mathf.Atan(ySpawn / xSpawn);
             Quaternion newRotation = new Quaternion(0.0f, 0.0f, angle * 180 / Mathf.PI, 0.0f);
 
-            playerActual = Instantiate(playerPrefab, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, -2.0f), this.transform.rotation);
-            moveMan = true;
+            playerPosition = new Vector3(this.transform.position.x, this.transform.position.y - spawnPoint, this.transform.position.z);
+
+            //playerActual = Instantiate(playerPrefab, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, -2.0f), this.transform.rotation);
+            //playerActual = Instantiate(playerPrefab, new Vector3(this.transform.position.x, this.transform.position.y - spawnPoint, this.transform.position.z), this.transform.rotation);
+            playerActual = Instantiate(playerPrefab, new Vector3(playerPosition.x, playerPosition.y, playerPosition.z), this.transform.rotation);
+            playerLeavesShip = true;
+
+
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                EnemyAttack enemyAttack;
+                enemyAttack = enemy.GetComponent<EnemyAttack>();
+                enemyAttack.TomExists();
+            }
         }
+    }
+
+
+    // Loss by lack of fuel
+    void OutOfFuel()
+    {
+        if (fuel <= 0 && timeStart == 0)
+        {
+            timeStart = Time.time;
+        }
+            else if (Time.time - timeStart >= 10 && fuel <= 0)
+        {
+            //Application.LoadLevel(3);
+        }   
     }
 }

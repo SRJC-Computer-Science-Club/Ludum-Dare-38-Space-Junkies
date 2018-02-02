@@ -8,7 +8,7 @@ public class ManController : MonoBehaviour {
     
 
     void Update () {
-        if (PlayerControls.moveMan == true)
+        if (PlayerControls.playerLeavesShip == true)
         {
             this.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -24,7 +24,7 @@ public class ManController : MonoBehaviour {
         if (Input.GetKey(KeyCode.E))
         {
             Destroy(this.gameObject);
-            PlayerControls.moveMan = false;
+            PlayerControls.playerLeavesShip = false;
             //PlayerControls.playerStop = false;
             //PlayerControls.stopSpawn = false;
         }

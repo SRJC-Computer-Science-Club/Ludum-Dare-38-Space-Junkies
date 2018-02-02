@@ -97,7 +97,7 @@ public class PlanetaryPull : MonoBehaviour
 
         if (homePlanet)
         {
-            Application.LoadLevel(2);
+            //Application.LoadLevel(2);
         }
     }
 }
