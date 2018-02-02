@@ -184,50 +184,7 @@ public class ShipController : MonoBehaviour
             {
                 GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
             }
-            //else
-            //{
-            //    if (forceX > 0)
-            //    {
-            //        forceX -= 1.0f * Time.deltaTime;
-
-            //        if (forceX < 0.25f)
-            //        {
-            //            forceX = 0;
-            //        }
-            //    }
-            //    else if (forceX < 0)
-            //    {
-            //        forceX += 1.0f * Time.deltaTime;
-
-            //        if (forceX > -1.0f)
-            //        {
-            //            forceX = 0;
-            //        }
-            //    }
-
-            //    if (forceY > 0)
-            //    {
-            //        forceY -= 1.0f * Time.deltaTime;
-
-            //        if (forceY < 1.0f)
-            //        {
-            //            forceY = 0;
-            //        }
-            //    }
-            //    else if (forceY < 0)
-            //    {
-            //        forceY += 1.0f * Time.deltaTime;
-
-            //        if (forceY > -1.0f)
-            //        {
-            //            forceY = 0;
-            //        }
-            //    }
-
-            //    rigidbody2D.velocity = new Vector2(forceX, forceY);
-            //}
-
-            //GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+            
         }
     }
 
