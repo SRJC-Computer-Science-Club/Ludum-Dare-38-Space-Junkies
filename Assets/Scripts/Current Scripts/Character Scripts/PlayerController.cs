@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public GameObject planet;
     public GameObject laserBlastPrefab;
     public GameObject laserBeamPrefab;
+    public bool testTom;
+    public GameObject laserSpawnPoint;
 
     
     private RaycastHit2D castMaster;
@@ -57,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (ShipController.moveMan)
+        if (ShipController.moveMan || testTom)
         {
             planet = ShipController.landingSite;
 
@@ -97,7 +99,7 @@ public class PlayerController : MonoBehaviour
                 blasterHeatLevel -= 5.0f;
             }
 
-            Debug.Log("Blaster Heat Level: " + blasterHeatLevel);
+            //Debug.Log("Blaster Heat Level: " + blasterHeatLevel);
         }
     }
 
@@ -166,7 +168,6 @@ public class PlayerController : MonoBehaviour
             tomRigidbody.velocity = new Vector3(0, 0, 0);
             //transform.rotation = setRotation;
             //Debug.Log("setRotation: " + setRotation + "\nRotation: " + transform.rotation);
-
         }
 
         setRotation = transform.rotation;
@@ -184,6 +185,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
         {
             tomRigidbody.transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            Debug.Log(tomRigidbody.rotation);
         }
 
         if (Input.GetKey(KeyCode.W))
@@ -203,28 +208,28 @@ public class PlayerController : MonoBehaviour
         armTheta = (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90.0f;
         //Debug.Log("Theta = " + armTheta);
 
-        armRotationPoint.transform.rotation = Quaternion.Euler(0, 0, armTheta);
+        armRotationPoint.transform.rotation = Quaternion.Euler(0, 0, armTheta + 90);
     }
 
 
     private void Fire()
     {
-        Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+        //Instantiate(projectilePrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
 
         GameObject projectile = null;
-        Debug.Log("Tom has fired his weapon!");
+        //Debug.Log("Tom has fired his weapon!");
         
         switch (weaponMode)
         {
 
             case 1:
-                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                projectile = Instantiate(laserBlastPrefab, laserSpawnPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
                 blasterHeatLevel += 10.0f;
                 break;
             case 2:
-                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta + 5.0f));
-                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
-                projectile = Instantiate(laserBlastPrefab, armRotationPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta - 5.0f));
+                projectile = Instantiate(laserBlastPrefab, laserSpawnPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta + 5.0f));
+                projectile = Instantiate(laserBlastPrefab, laserSpawnPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta));
+                projectile = Instantiate(laserBlastPrefab, laserSpawnPoint.transform.position, Quaternion.Euler(0.0f, 0.0f, armTheta - 5.0f));
                 blasterHeatLevel += 20.0f;
                 break;
             case 3:
@@ -238,7 +243,7 @@ public class PlayerController : MonoBehaviour
     private void ChangeWeapon()
     {
         Vector2 scrollWheeleDelta = Input.mouseScrollDelta;
-        Debug.Log("Scroll Wheele Delta: " + Input.mouseScrollDelta);
+        //Debug.Log("Scroll Wheele Delta: " + Input.mouseScrollDelta);
 
         if (scrollWheeleDelta.y == -1.0f || Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -259,7 +264,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        Debug.Log("Weapon mode: " + weaponMode);
+        //Debug.Log("Weapon mode: " + weaponMode);
     }
 
 
@@ -269,7 +274,7 @@ public class PlayerController : MonoBehaviour
         laserBeam.transform.rotation = Quaternion.Euler(0, 0, armTheta);
         laserBeam.transform.position = armRotationPoint.transform.position;
         blasterHeatLevel += 3.0f * Time.deltaTime;
-        Debug.Log("Hey This laser beam is long");
+        //Debug.Log("Hey This laser beam is long");
     }
 
 

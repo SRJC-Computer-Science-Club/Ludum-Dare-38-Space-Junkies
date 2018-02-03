@@ -6,6 +6,7 @@ public class CameraControls : MonoBehaviour
 {
     public GameObject targetShip;
     public GameObject targetTom;
+    public bool testingTom;
 
 
     private Vector3 offset;
@@ -28,7 +29,7 @@ public class CameraControls : MonoBehaviour
         {
             transform.position = targetShip.transform.position + offset;
         }
-        else
+        else if (ShipController.moveMan || testingTom)
         {
             //Debug.Log("player is cameras target player")    
             targetTom = GameObject.FindGameObjectWithTag("Player");
