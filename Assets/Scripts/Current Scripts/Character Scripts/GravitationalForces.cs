@@ -37,9 +37,9 @@ public class GravitationalForces : MonoBehaviour
     {
         Vector2 totalForce = new Vector2(0, 0);
 
-        if ((thisTag == "Ship" && !ShipController.moveMan) ||
-            (thisTag == "Player" && ShipController.moveMan))
-        {
+        //if ((thisTag == "Ship" && !ShipController.moveMan) ||
+        //    (thisTag == "Player" && ShipController.moveMan))
+        //{
             foreach (GameObject planet in GameObject.FindGameObjectsWithTag("planet"))
             {
                 PlanetInfo planetInfo = planet.GetComponent<PlanetInfo>();
@@ -66,54 +66,6 @@ public class GravitationalForces : MonoBehaviour
                 float angle = Mathf.Atan2(totalForce.y, totalForce.x) * Mathf.Rad2Deg;
                 this.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
             }
-        }
+        //}
     }
 }
-
-
-
-
-
-
-// Old Code
-
-    // From FixedUpdate ()
-    /*
-       foreach (GameObject planets in planetsInGalaxy)
-       {
-           float distance = Vector2.Distance(planets.transform.position, this.gameObject.transform.position);
-
-           if (distance <= MAX_DISTANCE && !planetsInRange.Contains (planets))
-           {
-               planetsInRange.Add(planets);
-               float radius = planets.GetComponent<CircleCollider2D>().radius + 1;
-
-               if (distance <= radius + 2.0f)
-               {
-                   strongestPlanet = planets;
-                   strongestPlanetDistance = radius + 2.0f;
-               }
-           }
-           else if (distance > MAX_DISTANCE && planetsInRange.Contains (planets))
-           {
-               planetsInRange.Remove(planets);
-               Debug.Log("I have left the field");
-           }
-       }
-       */
-
-        /*
-        if (strongestPlanet && Vector2.Distance (strongestPlanet.transform.position, this.transform.position) < strongestPlanetDistance)
-        {
-            this.transform.SetParent(strongestPlanet.transform);
-
-            Vector2 localPositions = this.transform.localPosition;
-            float angle = Mathf.Atan2(localPositions.y, localPositions.x) * Mathf.Rad2Deg;
-            this.transform.SetParent(null);
-
-            //Debug.Log("x: " + localPositions.x + " y: " + localPositions.x + " angle: " + (angle - 90));
-            this.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-        }
-        */
-
-
