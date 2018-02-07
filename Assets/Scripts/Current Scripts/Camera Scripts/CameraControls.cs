@@ -6,6 +6,7 @@ public class CameraControls : MonoBehaviour
 {
     public GameObject target;
     public GameObject dudeTarget;
+	public BackgroundLayer[] backgroundLayers;
 
     private Vector3 offset;
 
@@ -28,5 +29,13 @@ public class CameraControls : MonoBehaviour
 
             transform.position = new Vector3 (dudeTarget.transform.position.x, dudeTarget.transform.position.y, -10.0f);
         }
+
+		foreach(BackgroundLayer layer in backgroundLayers)
+		{
+			if(layer)
+			{
+				layer.CameraUpdate(transform.position);
+			}
+		}
     }
 }

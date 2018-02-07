@@ -39,7 +39,7 @@ public class SearchRing : MonoBehaviour {
             if (ring.activeSelf == false) ring.SetActive(true);
             ringAngle = setAngle(calcAngle(getClosestPlanet(planetTransforms)) * -1);
             ringTransform.rotation = Quaternion.Euler(ringAngle);
-            Debug.Log("Now my rotation should be" + ringAngle.z);
+            //Debug.Log("Now my rotation should be" + ringAngle.z);
         }
 		
 	}

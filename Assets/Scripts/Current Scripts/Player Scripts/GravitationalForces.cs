@@ -59,8 +59,8 @@ public class GravitationalForces : MonoBehaviour
             {
 
                 Vector2 force = planet.transform.position - this.transform.position;
-                float d = force.magnitude * 1;
-                float magnitude = gravConstant * (planetMass * thisRB.mass / (d * d));
+                float d = force.magnitude;
+                float magnitude = gravConstant * (planetMass * thisRB.mass / (d));
                 //float magnitude = 200.0f / (d * d);
 
                 force.Normalize();
@@ -69,13 +69,11 @@ public class GravitationalForces : MonoBehaviour
                 totalForce += force;
             }
 
-            Debug.Log(totalForce);
-
             thisRB.AddForce(totalForce);
             totalForceReferance = totalForce;
 
             //Debug.Log("Magnitude" + totalForce.magnitude);
-            if (totalForce.magnitude > 10.0f && PlayerControls.moveMan)
+            if (totalForce.magnitude > 0.01f && PlayerControls.moveMan)
             {
                 float angle = Mathf.Atan2(totalForce.y, totalForce.x) * Mathf.Rad2Deg;
                 this.transform.rotation = Quaternion.Euler(0, 0, angle + 90);

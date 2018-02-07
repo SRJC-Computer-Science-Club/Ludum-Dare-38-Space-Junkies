@@ -5,7 +5,8 @@ using UnityEngine;
 public class GroundPlayerController : MonoBehaviour
 {
     public float playerSpeed = 20f;
-    public float thrustForce = 20f;
+    public float jetpackGround = 20f;
+	public float jetpackSpace = 20f;
     public float rotationSpeed = 125f;
     public static bool grounded;
 
@@ -84,7 +85,7 @@ public class GroundPlayerController : MonoBehaviour
         if ((Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.UpArrow)) && !spaced)
         {
             grounded = false;
-            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * 130);
+            this.transform.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * jetpackGround);
         }
 
         if (GravitationalForces.totalForceReferance.magnitude < 10.0f)
@@ -116,7 +117,7 @@ public class GroundPlayerController : MonoBehaviour
 
         this.transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
         
-        this.GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
+        this.GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * jetpackSpace);
 
         //if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
         //{

@@ -106,7 +106,7 @@ public class PlayerControls : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("This Object is a " + coll.tag);
+		//Debug.Log("This Object is a " + coll.tag);
 
         if (isLanded == false && coll.gameObject.tag == "planet")
         {
@@ -176,7 +176,7 @@ public class PlayerControls : MonoBehaviour
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan (this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
-        Debug.Log("angle " + (radius * Mathf.Cos(angle)));
+        //Debug.Log("angle " + (radius * Mathf.Cos(angle)));
 
         return (radius * Mathf.Cos(angle) + planet.transform.position.x);
     }
@@ -187,7 +187,7 @@ public class PlayerControls : MonoBehaviour
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan(this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
-        Debug.Log("angle " + (radius * Mathf.Sin (angle)));
+        //Debug.Log("angle " + (radius * Mathf.Sin (angle)));
 
         return Mathf.Abs(radius * Mathf.Sin(angle) + planet.transform.position.y);
     }
