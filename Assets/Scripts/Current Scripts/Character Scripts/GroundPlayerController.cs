@@ -9,7 +9,6 @@ public class GroundPlayerController : MonoBehaviour
     public float rotationSpeed = 125f;
     public static bool grounded;
 
-
     private RaycastHit2D castMaster;
     private BoxCollider2D boxMaster;
     private GameObject planet;
@@ -38,10 +37,10 @@ public class GroundPlayerController : MonoBehaviour
         {
             planet = PlayerControls.landingSite;
 
-
             if (Input.GetKey(KeyCode.E))
             {
                 Destroy(this.gameObject);
+                //shipClass.positionShip();
                 PlayerControls.moveMan = false;
                 PlayerControls.liftOff = 1;
                 PlayerControls.isLanded = false;

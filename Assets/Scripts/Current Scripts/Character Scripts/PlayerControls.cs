@@ -90,7 +90,7 @@ public class PlayerControls : MonoBehaviour
         }
         else
         {
-            //Debug.Log("isLanded in true");
+            //Debug.Log("isLanded is true");
 
             Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
             rb.velocity = new Vector2(0.0f, 0.0f);
@@ -98,6 +98,8 @@ public class PlayerControls : MonoBehaviour
 
             float timeFromLanding = Time.time;
             //Debug.Log("Time of Landing: " + timeToSpawn + " Time from Landing " + timeFromLanding);
+
+            
 
             if (Mathf.Abs(timeToSpawn - timeFromLanding) >= 1.0f && !moveMan)
             {
@@ -126,6 +128,11 @@ public class PlayerControls : MonoBehaviour
             currentRightWing.GetComponent<ShipPart>().hasCollided = !currentRightWing.GetComponent<ShipPart>().hasCollided;
         }
         //Debug.Log("Ship velocity " + this.GetComponent<Rigidbody2D>().velocity);
+
+        if(moveMan && Input.GetKeyDown(KeyCode.E))
+        {
+            positionShip();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D coll)
@@ -134,8 +141,8 @@ public class PlayerControls : MonoBehaviour
 
         if (isLanded == false && coll.gameObject.tag == "planet")
         {
-            Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
-            rb.velocity = new Vector2(0.0f, 0.0f);
+            Rigidbody2D newShipRB = this.gameObject.GetComponent<Rigidbody2D>();
+            newShipRB.velocity = new Vector2(0.0f, 0.0f);
 
             float xCorr = coll.transform.position.x - this.transform.position.x;
             float yCorr = coll.transform.position.y - this.transform.position.y;
@@ -238,5 +245,33 @@ public class PlayerControls : MonoBehaviour
             currentRightWing.GetComponent<ShipPart>().destroyShipPart();
             currentRightWing = Instantiate(newPiece, this.transform);
         }
+    }
+
+    public void positionShip()
+    {
+        Rigidbody2D newShipRB = this.gameObject.GetComponent<Rigidbody2D>();
+        newShipRB.velocity = new Vector2(0.0f, 0.0f);
+
+        float xCorr = landingSite.transform.position.x - this.transform.position.x;
+        float yCorr = landingSite.transform.position.y - this.transform.position.y;
+        float landingAngle = Mathf.Atan(yCorr / xCorr);
+
+        landingAngle *= 180f / Mathf.PI; //to degree
+
+        if (xCorr < 0)
+            landingAngle += 180;
+
+        this.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+
+        this.transform.Rotate(new Vector3(0f, 0f, landingAngle + 90));
+
+        //xSpawn = findXSpawnPoint(landingSite.gameObject);
+        //ySpawn = findYSpawnPoint(landingSite.gameObject);
+
+        //If you want to work properly use spawnPosition.transfrom.position.x or .y respectively bellow
+        //timeToSpawn = Time.time;
+
+        //landingSite = coll.gameObject;
+        //isLanded = true;
     }
 }

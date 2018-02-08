@@ -22,6 +22,7 @@ public class ShipPart : MonoBehaviour{
         {
             hasCollided = !hasCollided;
             PlayerControls.isLanded = !PlayerControls.isLanded;
+            PlayerControls.landingSite = other.gameObject;
         }
     }
 
