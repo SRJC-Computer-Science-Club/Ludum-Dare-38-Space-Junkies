@@ -51,6 +51,11 @@ public class PlayerControls : MonoBehaviour
 
     void Update()
     {
+        if(playerActual)
+        {
+            Debug.Log(Vector3.Distance(playerActual.transform.position, transform.position));
+        }
+        
         if (isLanded == false)
         {
             // Rotate
@@ -129,9 +134,14 @@ public class PlayerControls : MonoBehaviour
         }
         //Debug.Log("Ship velocity " + this.GetComponent<Rigidbody2D>().velocity);
 
-        if(moveMan && Input.GetKeyDown(KeyCode.E))
+        if(moveMan && Input.GetKeyDown(KeyCode.E) && Vector3.Distance(playerActual.transform.position, transform.position) <= 2.5f)
         {
+            playerActual.GetComponent<GroundPlayerController>().removeDaMan();
             positionShip();
+            moveMan = false;
+            liftOff = 1;
+            isLanded = false;
+            PlanetaryPull.crashed = false;           
         }
     }
 

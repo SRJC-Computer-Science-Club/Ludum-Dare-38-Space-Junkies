@@ -37,10 +37,10 @@ public class GroundPlayerController : MonoBehaviour
         {
             planet = PlayerControls.landingSite;
 
+            /*
             if (Input.GetKey(KeyCode.E))
             {
                 Destroy(this.gameObject);
-                //shipClass.positionShip();
                 PlayerControls.moveMan = false;
                 PlayerControls.liftOff = 1;
                 PlayerControls.isLanded = false;
@@ -49,6 +49,7 @@ public class GroundPlayerController : MonoBehaviour
                 //PlayerControls.playerStop = false;
                 //PlayerControls.stopSpawn = false;
             }
+            */
 
             if (!spaced)
             {
@@ -128,6 +129,12 @@ public class GroundPlayerController : MonoBehaviour
     public void OnCollisionEnter2D (Collision2D col)
     {
         grounded = true;
+    }
+
+
+    public void removeDaMan()
+    {
+        Destroy(this.gameObject);
     }
 }
 
