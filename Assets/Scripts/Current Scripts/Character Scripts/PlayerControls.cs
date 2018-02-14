@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*
+ **********IMPORTANT************
+ * startingBody, startingLeftWing, and startingRightWing
+ * (lines 17, 19, 21) MUST be an item pannel with an 
+ * attached item!
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,13 +60,7 @@ public class PlayerControls : MonoBehaviour
 
     void Update()
     {
-        /*
-        if(playerActual)
-        {
-            Debug.Log(Vector3.Distance(playerActual.transform.position, transform.position));
-        }
-        */
-
+ 
         if (isLanded == false)
         {
             // Rotate
@@ -138,6 +139,9 @@ public class PlayerControls : MonoBehaviour
         }
         //Debug.Log("Ship velocity " + this.GetComponent<Rigidbody2D>().velocity);
 
+
+        //Checks to see if Major Tom is within 2.5 distance from the ship when the E key is pressed, if so, the ship will
+        //reposition itself and take off.
         if(moveMan && Input.GetKeyDown(KeyCode.E) && Vector3.Distance(playerActual.transform.position, transform.position) <= 2.5f)
         {
             playerActual.GetComponent<GroundPlayerController>().removeDaMan();
@@ -151,45 +155,6 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D coll)
-    {
-        //Debug.Log("This Object is a " + coll.tag);
-
-        if (isLanded == false && coll.gameObject.tag == "planet")
-        {
-            Rigidbody2D newShipRB = this.gameObject.GetComponent<Rigidbody2D>();
-            newShipRB.velocity = new Vector2(0.0f, 0.0f);
-
-            float xCorr = coll.transform.position.x - this.transform.position.x;
-            float yCorr = coll.transform.position.y - this.transform.position.y;
-            float landingAngle = Mathf.Atan(yCorr / xCorr);
-
-            landingAngle *= 180f / Mathf.PI; //to degree
-
-            if (xCorr < 0)
-                landingAngle += 180;
-
-            this.transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
-
-            this.transform.Rotate(new Vector3(0f, 0f, landingAngle + 90));
-
-            xSpawn = findXSpawnPoint(coll.gameObject);
-            ySpawn = findYSpawnPoint(coll.gameObject);
-
-            //If you want to work properly use spawnPosition.transfrom.position.x or .y respectively bellow
-            timeToSpawn = Time.time;
-
-            landingSite = coll.gameObject;
-            isLanded = true;
-        }
-        //else if (coll.gameObject.tag == "collectable")
-        //{
-        //    Destroy(coll.gameObject);
-
-        //    fuel += 10;
-
-        //}
-    }
 
     public Texture2D bgImage;
     public Texture2D fgImage;
