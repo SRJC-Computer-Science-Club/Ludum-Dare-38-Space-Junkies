@@ -9,6 +9,7 @@ public class BlockSpawner : MonoBehaviour {
     private  GameObject panel;
 
     private GameObject[] listOfPanels;
+
 	// Use this for initialization
 	void Start ()
     {

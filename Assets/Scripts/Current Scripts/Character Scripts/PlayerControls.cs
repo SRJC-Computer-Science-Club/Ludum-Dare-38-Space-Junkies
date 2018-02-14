@@ -41,9 +41,11 @@ public class PlayerControls : MonoBehaviour
 
         this.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
 
-        currentBody = Instantiate(startingBody, this.transform);
-        currentLeftWing = Instantiate(startingLeftWing, this.transform);
-        currentRightWing = Instantiate(startingRightWing, this.transform);
+        //Since the "starting" game objects are panels, and the "current" are ship parts, we need to get the ship parts
+        //out of the panels and the assign the current object to what ever that panel points to.
+        currentBody = Instantiate(startingBody.transform.GetChild(0).GetComponent<DragHandler>().isLinkedTo, this.transform);
+        currentLeftWing = Instantiate(startingLeftWing.transform.GetChild(0).GetComponent<DragHandler>().isLinkedTo, this.transform);
+        currentRightWing = Instantiate(startingRightWing.transform.GetChild(0).GetComponent<DragHandler>().isLinkedTo, this.transform);
 
         thrustForce = currentBody.GetComponent<ShipPart>().thrustForse;
     }
@@ -51,11 +53,13 @@ public class PlayerControls : MonoBehaviour
 
     void Update()
     {
+        /*
         if(playerActual)
         {
             Debug.Log(Vector3.Distance(playerActual.transform.position, transform.position));
         }
-        
+        */
+
         if (isLanded == false)
         {
             // Rotate
@@ -137,7 +141,9 @@ public class PlayerControls : MonoBehaviour
         if(moveMan && Input.GetKeyDown(KeyCode.E) && Vector3.Distance(playerActual.transform.position, transform.position) <= 2.5f)
         {
             playerActual.GetComponent<GroundPlayerController>().removeDaMan();
+
             positionShip();
+
             moveMan = false;
             liftOff = 1;
             isLanded = false;
