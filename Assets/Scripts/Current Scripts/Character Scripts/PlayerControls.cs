@@ -1,7 +1,7 @@
 ﻿/*
  **********IMPORTANT************
  * startingBody, startingLeftWing, and startingRightWing
- * (lines 17, 19, 21) MUST be an item pannel with an 
+ * (lines 18, 20, 22) MUST be an item pannel with an 
  * attached item!
  */
 
@@ -30,6 +30,7 @@ public class PlayerControls : MonoBehaviour
     public float ySpawn;
 
 
+    private bool hasHit = false;
     private float maxFuel = 100f;
     private float rotationSpeed = 100;
     private float timeStart;
@@ -60,7 +61,6 @@ public class PlayerControls : MonoBehaviour
 
     void Update()
     {
- 
         if (isLanded == false)
         {
             // Rotate
@@ -129,9 +129,10 @@ public class PlayerControls : MonoBehaviour
         }
 
         //This thing is ugly, but it checks to see if any of the ship componets have collided with the planet.
-        if(currentBody.GetComponent<ShipPart>().hasCollided || currentLeftWing.GetComponent<ShipPart>().hasCollided
-            || currentRightWing.GetComponent<ShipPart>().hasCollided)
+        if((currentBody.GetComponent<ShipPart>().hasCollided || currentLeftWing.GetComponent<ShipPart>().hasCollided
+            || currentRightWing.GetComponent<ShipPart>().hasCollided) /*&& !hasHit*/)
         {
+            //hasHit = true;
             GetComponent<Rigidbody2D>().angularVelocity = 0f;
             currentBody.GetComponent<ShipPart>().hasCollided = !currentBody.GetComponent<ShipPart>().hasCollided;
             currentLeftWing.GetComponent<ShipPart>().hasCollided = !currentLeftWing.GetComponent<ShipPart>().hasCollided;
@@ -151,7 +152,9 @@ public class PlayerControls : MonoBehaviour
             moveMan = false;
             liftOff = 1;
             isLanded = false;
-            PlanetaryPull.crashed = false;           
+            PlanetaryPull.crashed = false;
+            //Time.time;
+            //hasHit = false;
         }
     }
 

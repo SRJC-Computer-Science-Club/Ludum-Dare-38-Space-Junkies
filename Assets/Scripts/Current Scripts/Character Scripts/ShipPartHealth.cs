@@ -19,7 +19,7 @@ public class ShipPartHealth : MonoBehaviour {
     {
         if(!madeContact)
         {
-            currentHealth -= 5;
+            currentHealth -= 0;
             madeContact = true;
             if (currentHealth <= 0)
             {
