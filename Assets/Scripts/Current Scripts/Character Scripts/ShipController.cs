@@ -11,6 +11,7 @@ public class ShipController : MonoBehaviour
     public static float fuel = 100f;
     public GameObject playerPrefab;
     public GameObject playerActual;
+    public GameObject shipLaserPrefab;
     public float thrustForce;
     public float xSpawn;
     public float ySpawn;
@@ -20,6 +21,8 @@ public class ShipController : MonoBehaviour
     public Texture2D fgImage;
     public Vector3 playerPosition;
     public static bool moveMan;
+    public GameObject fireTubeOne;
+    public GameObject fireTubeTwo;
 
 
     private Rigidbody2D ShipRigidbody;
@@ -29,6 +32,9 @@ public class ShipController : MonoBehaviour
     private float timeStart;
     private float timeToSpawn;
     private float lastDirection;
+    private float shipTheta;
+    private float lastShipTheta;
+    private float delay;
 
 
     private void Start()
@@ -41,6 +47,7 @@ public class ShipController : MonoBehaviour
         timeToSpawn = 0;
         xSpawn = 0;
         ySpawn = 0;
+        shipTheta = 0;
 
         ShipRigidbody = this.GetComponent<Rigidbody2D>();
         ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
@@ -59,6 +66,7 @@ public class ShipController : MonoBehaviour
             Fuel();
             LiftOff();
             OutOfFuel();
+            Fire();
         }
         else
         {
@@ -68,8 +76,8 @@ public class ShipController : MonoBehaviour
 
         if (Mathf.Sqrt (Mathf.Pow (0.0f - this.transform.position.x, 2) + Mathf.Pow (0.0f - this.transform.position.y, 2)) >= 80.0f)
         {
-            //Debug.LogError("Die");
-            Application.LoadLevel(3);
+            Debug.LogError("Out of Bounds");
+            //Application.LoadLevel(3);
         }
 
         //Debug.Log("Ship velocity " + this.GetComponent<Rigidbody2D>().velocity);
@@ -155,27 +163,48 @@ public class ShipController : MonoBehaviour
         return Mathf.Abs(radius * Mathf.Sin(angle) + planet.transform.position.y);
     }
 
-    //private float findAngle (GameObject
+    private void Fire()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Instantiate(shipLaserPrefab, new Vector2(fireTubeOne.transform.position.x, fireTubeOne.transform.position.y), 
+                Quaternion.Euler(new Vector3 (0, 0, shipTheta)));
+            Instantiate(shipLaserPrefab, new Vector2(fireTubeTwo.transform.position.x, fireTubeTwo.transform.position.y), 
+                Quaternion.Euler(new Vector3(0, 0, shipTheta)));
+        }
+    }
 
     void Rotate()
     {
         if (fuel > 0)
         {
-            transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+            var originalTheta = shipTheta;
+            //transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos = new Vector3((mousePos.x - transform.position.x), (mousePos.y - transform.position.y), mousePos.z);
+            mousePos.Normalize();
+            mousePos.Set(mousePos.x * 10, mousePos.y * 10, mousePos.z * 10);
+            //Debug.Log("MousePos: " + mousePos);
+
+            shipTheta = (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90.0f;
+            //Debug.Log("Theta = " + armTheta);
+
+            transform.rotation = Quaternion.Slerp(Quaternion.Euler(new Vector3(0, 0, originalTheta)), 
+                Quaternion.Euler(new Vector3(0, 0, shipTheta)), Time.deltaTime * rotationSpeed);
         }
     }
     void Thrust()
     {
         if (fuel > 0)
         {
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetMouseButton(1))
+            {
+                GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * thrustForce);
+            }
+            /*else if (Input.GetKey(KeyCode.S))
             {
                 GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                GetComponent<Rigidbody2D>().AddForce(Input.GetAxis("Vertical") * transform.up * thrustForce);
-            }
+            }*/
             
         }
     }

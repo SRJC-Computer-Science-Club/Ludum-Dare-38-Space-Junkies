@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
                 GetInShip();
             }
 
-            if (!inSpace)
+            if (!inSpace && !testTom)
             {
                 MovementOnGround();
             }
@@ -275,6 +275,12 @@ public class PlayerController : MonoBehaviour
         laserBeam.transform.position = armRotationPoint.transform.position;
         blasterHeatLevel += 3.0f * Time.deltaTime;
         //Debug.Log("Hey This laser beam is long");
+    }
+
+
+    private void findOutIfPlayerIsSpaced ()
+    {
+
     }
 
 

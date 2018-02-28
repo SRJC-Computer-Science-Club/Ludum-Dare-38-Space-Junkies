@@ -25,7 +25,7 @@ public class CameraControls : MonoBehaviour
     void LateUpdate()
     {
         // Sets camera to follow Tom or the Ship. Update is called once per frame but the last in line compared to void Update()
-        if (!ShipController.moveMan)
+        if (!ShipController.moveMan && !testingTom)
         {
             transform.position = targetShip.transform.position + offset;
         }
