@@ -28,9 +28,9 @@ public class PlayerControls : MonoBehaviour
     public static float fuel = 100f;
     public float xSpawn;
     public float ySpawn;
+    public static bool hasHit = false;
 
 
-    private bool hasHit = false;
     private float maxFuel = 100f;
     private float rotationSpeed = 100;
     private float timeStart;
@@ -95,7 +95,7 @@ public class PlayerControls : MonoBehaviour
             }
             else if (Time.time - timeStart >= 10 && fuel <= 0)
             {
-                Application.LoadLevel(3);
+                //Application.LoadLevel(3);
             }
         }
         else
