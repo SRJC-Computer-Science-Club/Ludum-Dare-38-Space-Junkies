@@ -4,27 +4,29 @@ using UnityEngine;
 
 public class BlockSpawner : MonoBehaviour {
 
-    private ItemDataBase itemList;
+    private ItemDataBase itemListAll;
+    private ItemDataBase itemListCurrent;
+
     [SerializeField]
     private  GameObject panel;
 
     private GameObject[] listOfPanels;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
-        itemList = GetComponent<ItemDataBase>();
-        listOfPanels = new GameObject[itemList.shipPartList.Length];
+        itemListAll = GetComponent<ItemDataBase>();
+        itemListCurrent = itemListAll;
+        listOfPanels = new GameObject[itemListAll.shipPartList.Length];
 
-        // itemList.shipPartList[i].transform.parent =
-
-
-        for (int i = 0; i < itemList.shipPartList.Length; i++)
+        //Because the spawnAll function is setup to clear the list before spawning
+        //the peices, a stand alone for loop is ran for initialization.
+        for (int i = 0; i < itemListAll.shipPartList.Length; i++)
         {
             listOfPanels[i] = Instantiate(panel, this.transform);    
-            Instantiate(itemList.shipPartList[i], listOfPanels[i].transform);
+            Instantiate(itemListAll.shipPartList[i], listOfPanels[i].transform);
             listOfPanels[i].GetComponent<DropHandler>().targetItemType 
-                = itemList.shipPartList[i].GetComponent<DragHandler>().itemType;
+                = itemListAll.shipPartList[i].GetComponent<DragHandler>().itemType;
         }
 	}
 	
@@ -32,4 +34,65 @@ public class BlockSpawner : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void spawnAll()
+    {
+        clearList();
+
+        for (int i = 0; i < itemListAll.shipPartList.Length; i++)
+        {
+            listOfPanels[i] = Instantiate(panel, this.transform);
+            Instantiate(itemListAll.shipPartList[i], listOfPanels[i].transform);
+            listOfPanels[i].GetComponent<DropHandler>().targetItemType
+                = itemListAll.shipPartList[i].GetComponent<DragHandler>().itemType;
+        }
+    }
+
+
+    public void spawnBodies()
+    {
+        clearList();
+
+        for (int i = 0; i < itemListAll.shipPartList.Length; i++)
+        {
+            if (itemListAll.shipPartList[i].GetComponent<DragHandler>().itemType == DragHandler.SlotType.BODY) 
+            {
+                listOfPanels[i] = Instantiate(panel, this.transform);
+                Instantiate(itemListAll.shipPartList[i], listOfPanels[i].transform);
+                listOfPanels[i].GetComponent<DropHandler>().targetItemType
+                    = itemListAll.shipPartList[i].GetComponent<DragHandler>().itemType;
+            } 
+        }
+    }
+
+
+    public void spawnWings()
+    {
+        clearList();
+
+        for (int i = 0; i < itemListAll.shipPartList.Length; i++)
+        {
+            if (itemListAll.shipPartList[i].GetComponent<DragHandler>().itemType == DragHandler.SlotType.LEFTWING
+                || itemListAll.shipPartList[i].GetComponent<DragHandler>().itemType == DragHandler.SlotType.RIGHTWING)
+            {
+                listOfPanels[i] = Instantiate(panel, this.transform);
+                Instantiate(itemListAll.shipPartList[i], listOfPanels[i].transform);
+                listOfPanels[i].GetComponent<DropHandler>().targetItemType
+                    = itemListAll.shipPartList[i].GetComponent<DragHandler>().itemType;
+            }
+        }
+    }
+
+
+    private void clearList()
+    {
+        
+        if(listOfPanels.Length > 0)
+        {
+            for (int i = 0; i < listOfPanels.Length; i++)
+            {
+                Destroy(listOfPanels[i].gameObject);
+            }
+        }
+    }       
 }
