@@ -28,13 +28,14 @@ public class ShipController : MonoBehaviour
     private Rigidbody2D ShipRigidbody;
     private const float halfPlayer = 0.84f;
     private float maxFuel = 100f;
-    private float rotationSpeed = 100;
+    public float rotationSpeed;
     private float timeStart;
     private float timeToSpawn;
     private float lastDirection;
     private float shipTheta;
     private float lastShipTheta;
     private float delay;
+    private float originalTheta;
 
 
     private void Start()
@@ -80,7 +81,7 @@ public class ShipController : MonoBehaviour
             //Application.LoadLevel(3);
         }
 
-        //Debug.Log("Ship velocity " + this.GetComponent<Rigidbody2D>().velocity);
+        Debug.Log("Ship velocity: " + this.GetComponent<Rigidbody2D>().velocity.x + ", " + this.GetComponent<Rigidbody2D>().velocity.y);
     }
 
     void OnTriggerEnter2D(Collider2D coll)
@@ -176,21 +177,20 @@ public class ShipController : MonoBehaviour
 
     void Rotate()
     {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         if (fuel > 0)
         {
-            var originalTheta = shipTheta;
-            //transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos = new Vector3((mousePos.x - transform.position.x), (mousePos.y - transform.position.y), mousePos.z);
+            //transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
             mousePos.Normalize();
-            mousePos.Set(mousePos.x * 10, mousePos.y * 10, mousePos.z * 10);
             //Debug.Log("MousePos: " + mousePos);
 
-            shipTheta = (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90.0f;
-            //Debug.Log("Theta = " + armTheta);
-
-            transform.rotation = Quaternion.Slerp(Quaternion.Euler(new Vector3(0, 0, originalTheta)), 
-                Quaternion.Euler(new Vector3(0, 0, shipTheta)), Time.deltaTime * rotationSpeed);
+            var newTheta = (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90.0f;
+            
+            transform.rotation = Quaternion.Slerp(Quaternion.Euler(new Vector3(0, 0, (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90.0f)), 
+                Quaternion.Euler(new Vector3(0, 0, shipTheta)), Time.deltaTime * 0.01f);
+            shipTheta = newTheta;
         }
     }
     void Thrust()
