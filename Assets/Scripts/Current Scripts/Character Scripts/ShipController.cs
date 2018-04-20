@@ -32,10 +32,12 @@ public class ShipController : MonoBehaviour
     private float timeStart;
     private float timeToSpawn;
     private float lastDirection;
-    private float shipTheta;
+    private Quaternion shipTheta;
     private float lastShipTheta;
     private float delay;
+    private float incrimentalTheta;
     private float originalTheta;
+    private Vector3 lastMouseLocation;
 
 
     private void Start()
@@ -48,25 +50,24 @@ public class ShipController : MonoBehaviour
         timeToSpawn = 0;
         xSpawn = 0;
         ySpawn = 0;
-        shipTheta = 0;
+        lastMouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         ShipRigidbody = this.GetComponent<Rigidbody2D>();
         ShipRigidbody.velocity = new Vector2(0.0f, 0.0f);
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         if (!isLanded)
         {
             forceX = ShipRigidbody.velocity.x;
             forceY = ShipRigidbody.velocity.y;
 
-            Rotate();
             Thrust();
             Fuel();
             LiftOff();
-            OutOfFuel();
+            Rotate();
             Fire();
         }
         else
@@ -81,7 +82,15 @@ public class ShipController : MonoBehaviour
             //Application.LoadLevel(3);
         }
 
-        Debug.Log("Ship velocity: " + this.GetComponent<Rigidbody2D>().velocity.x + ", " + this.GetComponent<Rigidbody2D>().velocity.y);
+        //Debug.Log("Ship velocity: " + this.GetComponent<Rigidbody2D>().velocity.x + ", " + this.GetComponent<Rigidbody2D>().velocity.y);
+    }
+
+    void Update()
+    {
+        if (!isLanded)
+        {
+            OutOfFuel();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D coll)
@@ -151,7 +160,6 @@ public class ShipController : MonoBehaviour
     {
         float radius = planet.GetComponent<CircleCollider2D>().radius;
         float angle = Mathf.Atan (this.transform.localPosition.y / this.transform.localPosition.x) * 180 / Mathf.PI;
-        //Debug.Log("angle " + (radius * Mathf.Cos(angle)));
 
         return (radius * Mathf.Cos(angle) + planet.transform.position.x);
     }
@@ -166,33 +174,37 @@ public class ShipController : MonoBehaviour
 
     private void Fire()
     {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+
         if (Input.GetMouseButtonDown(0))
         {
             Instantiate(shipLaserPrefab, new Vector2(fireTubeOne.transform.position.x, fireTubeOne.transform.position.y), 
-                Quaternion.Euler(new Vector3 (0, 0, shipTheta)));
+                transform.rotation);
             Instantiate(shipLaserPrefab, new Vector2(fireTubeTwo.transform.position.x, fireTubeTwo.transform.position.y), 
-                Quaternion.Euler(new Vector3(0, 0, shipTheta)));
+                transform.rotation);
         }
     }
 
-    void Rotate()
+
+    private void Rotate()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         if (fuel > 0)
         {
             mousePos = new Vector3((mousePos.x - transform.position.x), (mousePos.y - transform.position.y), mousePos.z);
-            //transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
+            ////transform.Rotate(0, 0, -Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime);
             mousePos.Normalize();
-            //Debug.Log("MousePos: " + mousePos);
+            mousePos = new Vector3(mousePos.x * 10, mousePos.y * 10, mousePos.z * 10);
 
-            var newTheta = (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90.0f;
-            
-            transform.rotation = Quaternion.Slerp(Quaternion.Euler(new Vector3(0, 0, (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90.0f)), 
-                Quaternion.Euler(new Vector3(0, 0, shipTheta)), Time.deltaTime * 0.01f);
-            shipTheta = newTheta;
+            Quaternion newTheta = Quaternion.Euler(0.0f, 0.0f, (Mathf.Rad2Deg * Mathf.Atan2(mousePos.y, mousePos.x)) - 90);
+
+            transform.rotation = shipTheta = Quaternion.Lerp(this.transform.rotation, newTheta, Mathf.Pow(-rotationSpeed * Time.deltaTime, 2.0f));
         }
     }
+
+
     void Thrust()
     {
         if (fuel > 0)

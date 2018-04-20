@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public int projectileSpeed = 10;
+    public int projectileSpeed = 20;
     public float timerOne = 3.0f;
     public int bulletDamage = 3;
+    public GameObject playerShip;
 
     private Rigidbody2D shot;
 
@@ -14,8 +15,10 @@ public class Projectile : MonoBehaviour
 
 	void Start ()
     {
+        playerShip = GameObject.FindGameObjectWithTag("Ship");
         shot = this.GetComponent<Rigidbody2D>();
-        shot.AddRelativeForce(Vector2.up * projectileSpeed);
+        Debug.Log("Angle of Bullet: " + this.transform.rotation);
+        shot.AddRelativeForce(Vector2.up * projectileSpeed + playerShip.GetComponent<Rigidbody2D>().velocity);
     }
 
     private void Update()
